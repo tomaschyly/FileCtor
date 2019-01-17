@@ -12,7 +12,7 @@ The idea is to have something similar to other file system managers, e.g. [Total
 
 This app is intended to be crossplatform, currently developed and tested on Windows 10 and MacOS. Ubuntu will follow.
 
-App is using [Electron](https://electronjs.org/) and [React](https://reactjs.org/) as it was originally ment for me to improve my skill with Electron and React.
+App is using [Electron](https://electronjs.org/) and [React](https://reactjs.org/) as it was originally ment for me to improve my skill with Electron and learn properly React.
 
 ## How to Use
 
