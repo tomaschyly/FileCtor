@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 const {app, BrowserWindow} = require ('electron');
 const path = require ('path');
+const Api = require ('./main/Api');
 
 const singleAppLock = app.requestSingleInstanceLock ();
 
@@ -30,10 +31,7 @@ let Main = {
 					frame: false,
 					center: true,
 					show: false,
-					icon: path.join (__dirname, 'icon.png'),
-					webPreferences: {
-						nodeIntegration: false
-					}
+					icon: path.join (__dirname, 'icon.png')
 				});
 				break;
 			case 'darwin':
@@ -45,10 +43,7 @@ let Main = {
 					frame: false,
 					center: true,
 					show: false,
-					icon: path.join (__dirname, 'icon.icns'),
-					webPreferences: {
-						nodeIntegration: false
-					}
+					icon: path.join (__dirname, 'icon.icns')
 				});
 				break;
 			default:
@@ -60,10 +55,7 @@ let Main = {
 					frame: false,
 					center: true,
 					show: false,
-					icon: path.join (__dirname, 'icon.ico'),
-					webPreferences: {
-						nodeIntegration: false
-					}
+					icon: path.join (__dirname, 'icon.ico')
 				});
 		}
 
@@ -108,6 +100,8 @@ let Main = {
 };
 
 if (singleAppLock) {
+	Api.Init ();
+
 	app.on ('ready', () => {
 		Main.CreateWindow ();
 	});
