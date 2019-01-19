@@ -12,7 +12,7 @@ class FileInspector extends Component {
 	 * Render the component into html.
 	 */
 	render () {
-		return <p>Test</p>;
+		return <p>WIP - Tabs with files, bottom current directory path</p>;
 	}
 }
 

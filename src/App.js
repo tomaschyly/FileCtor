@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { HashRouter } from 'react-router-dom';
-import TitleBar from './Titlebar';
+import TitleBar from './component/Titlebar';
+import Navigation from './component/Navigation';
 import Router from './Router';
 
 const { ipcRenderer } = window.require ('electron');
@@ -46,6 +47,7 @@ class App extends Component {
 			return <HashRouter>
 				<div className={this.state.classes.join (' ')}>
 					<TitleBar />
+					<Navigation />
 					<Router />
 				</div>
 			</HashRouter>;

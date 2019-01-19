@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-
 import './titlebar.css';
-import { ReactComponent as Minimize } from './icon/minimize.svg';
-import { ReactComponent as MaximizeSquare } from './icon/maximize-square.svg';
-import { ReactComponent as MaximizeClone } from './icon/maximize-clone.svg';
-import { ReactComponent as Close } from './icon/close.svg';
+import { ReactComponent as Minimize } from '../icon/minimize.svg';
+import { ReactComponent as MaximizeSquare } from '../icon/maximize-square.svg';
+import { ReactComponent as MaximizeClone } from '../icon/maximize-clone.svg';
+import { ReactComponent as Close } from '../icon/close.svg';
+
+import React, { Component } from 'react';
 
 const { remote } = window.require ('electron');
 
