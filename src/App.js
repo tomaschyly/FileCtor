@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
+import { HashRouter } from 'react-router-dom';
 import TitleBar from './Titlebar';
+import Router from './Router';
 
 const { ipcRenderer } = window.require ('electron');
-
-window.mainParameters = undefined;
 
 class App extends Component {
 	/**
@@ -15,6 +15,8 @@ class App extends Component {
 		this.state = {
 			classes: []
 		};
+
+		window.TCH.mainParameters = undefined;
 	}
 
 	/**
@@ -22,9 +24,9 @@ class App extends Component {
 	 */
 	componentDidMount () {
 		ipcRenderer.on ('main-parameters', (event, message) => {
-			if (typeof (message.platform) !== 'undefined') {
-				window.mainParameters = message;
+			window.TCH.mainParameters = message;
 
+			if (typeof (message.platform) !== 'undefined') {
 				let classes = this.state.classes;
 				classes.push (message.platform);
 
@@ -38,13 +40,15 @@ class App extends Component {
 	 * Render the component into html.
 	 */
 	render () {
-		if (typeof (window.mainParameters) === 'undefined') {
+		if (typeof (window.TCH.mainParameters) === 'undefined') {
 			return <div></div>;
 		} else {
-			return <div className={this.state.classes.join (' ')}>
-				<TitleBar />
-				<p>WIP content</p>
-			</div>;
+			return <HashRouter>
+				<div className={this.state.classes.join (' ')}>
+					<TitleBar />
+					<Router />
+				</div>
+			</HashRouter>;
 		}
 	}
 }

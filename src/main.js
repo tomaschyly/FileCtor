@@ -16,7 +16,7 @@ let Main = {
 	/**
 	 * Create main app window.
 	 */
-	CreateWindow () {
+	async CreateWindow () {
 		if (this.port === null) {
 			this.port = process.env.FILECTOR_PORT;
 		}
@@ -64,23 +64,23 @@ let Main = {
 
 			const {default: installExtension, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS} = require ('electron-devtools-installer');
 
-			installExtension (REACT_DEVELOPER_TOOLS)
-				.then (name => {
-					console.log (`Added Extension: ${name}`);
-				})
-				.catch (error => {
-					console.error (error);
-				});
+			await installExtension (REACT_DEVELOPER_TOOLS);
+			/*.then (name => {
+				console.log (`Added Extension: ${name}`);
+			})
+			.catch (error => {
+				console.error (error);
+			});*/
 
-			installExtension (REDUX_DEVTOOLS)
-				.then (name => {
-					console.log (`Added Extension: ${name}`);
-				})
-				.catch (error => {
-					console.error (error);
-				});
+			await installExtension (REDUX_DEVTOOLS);
+			/*.then (name => {
+				console.log (`Added Extension: ${name}`);
+			})
+			.catch (error => {
+				console.error (error);
+			});*/
 		} else {
-			this.window.loadURL (`file://${path.join (__dirname, 'build/index.html')}`);
+			this.window.loadURL (`file://${path.join (__dirname, '../build/index.html')}`);
 		}
 
 		this.window.once ('ready-to-show', () => {

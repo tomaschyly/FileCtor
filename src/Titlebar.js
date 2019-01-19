@@ -24,6 +24,8 @@ class TitleBar extends Component {
 	 * First rendered to DOM.
 	 */
 	componentDidMount () {
+		window.TCH.Main.titleBar = this;
+
 		this.currentWindow = remote.getCurrentWindow ();
 
 		let maximize = document.getElementById ('titlebar-maximize');
@@ -35,12 +37,19 @@ class TitleBar extends Component {
 	}
 
 	/**
+	 * Will be removed from DOM.
+	 */
+	componentWillUnmount () {
+		window.TCH.Main.titleBar = null;
+	}
+
+	/**
 	 * Render the component into html.
 	 */
 	render () {
 		let elements;
 
-		switch (window.mainParameters.platform) {
+		switch (window.TCH.mainParameters.platform) {
 			case 'linux':
 				elements = <div id="titlebar">
 					<div id="title">{this.state.title}</div>
