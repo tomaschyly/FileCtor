@@ -27,12 +27,11 @@ class App extends Component {
 		ipcRenderer.on ('main-parameters', (event, message) => {
 			window.TCH.mainParameters = message;
 
+			let classes = this.state.classes;
 			if (typeof (message.platform) !== 'undefined') {
-				let classes = this.state.classes;
 				classes.push (message.platform);
-
-				this.setState ({classes: classes});
 			}
+			this.setState ({classes: classes});
 		});
 		ipcRenderer.send ('main-parameters');
 	}
@@ -45,10 +44,12 @@ class App extends Component {
 			return <div></div>;
 		} else {
 			return <HashRouter>
-				<div className={this.state.classes.join (' ')}>
+				<div id="app" className={this.state.classes.join (' ')}>
 					<TitleBar />
 					<Navigation />
-					<Router />
+					<div id="content">
+						<Router />
+					</div>
 				</div>
 			</HashRouter>;
 		}

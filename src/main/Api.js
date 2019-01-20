@@ -1,4 +1,4 @@
-const { ipcMain } = require ('electron');
+const { app, ipcMain } = require ('electron');
 
 class Api {
 	/**
@@ -13,7 +13,10 @@ class Api {
 	 */
 	static MainParameters (event, message) {
 		let parameters = {
-			platform: process.platform
+			platform: process.platform,
+			directory: {
+				documents: app.getPath ('documents')
+			}
 		};
 
 		switch (process.platform) {
