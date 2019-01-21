@@ -1,14 +1,42 @@
+/* eslint-disable no-whitespace-before-property */
 import './fileInspector.css';
 
 import React, { Component } from 'react';
 import Tabs from '../component/Tabs';
+import Files from '../component/fileInspector/Files';
+
+const { ipcRenderer } = window.require ('electron');
 
 class FileInspector extends Component {
+	/**
+	 * FileInspector initialization.
+	 */
+	constructor (props) {
+		super (props);
+
+		this.files = undefined;
+		this.selectedTabId = undefined;
+		this.selectedTabParams = undefined;
+	}
+
 	/**
 	 * First rendered to DOM.
 	 */
 	componentDidMount () {
 		window.TCH.Main.SetTitle ('Files');
+
+		this.directoryContentsListener = this.RenderFiles.bind (this);
+		ipcRenderer.on ('directory-contents', this.directoryContentsListener);
+	}
+
+	/**
+	 * Called before component is removed from DOM.
+	 */
+	componentWillUnmount () {
+		this.files = undefined;
+		
+		ipcRenderer.removeListener ('directory-contents', this.directoryContentsListener);
+		delete this.directoryContentsListener;
 	}
 
 	/**
@@ -52,15 +80,49 @@ class FileInspector extends Component {
 	 * Return content for Tab.
 	 */
 	TabContent (params) {
-		return <p>WIP - content for {params.title}</p>;
+		this.selectedTabId = params.id;
+		this.selectedTabParams = params;
+
+		setTimeout (() => {
+			ipcRenderer.send ('directory-contents', {
+				id: params.id,
+				directory: params.directory
+			});
+		}, 1);
+
+		this.files = React.createRef ();
+		return <div id={`file-inspector-files-${params.id}`}>
+			<Files ref={this.files} />
+		</div>;
+	}
+
+	/**
+	 * Receive contents of directory and render.
+	 */
+	RenderFiles (event, message) {
+		console.log ('RenderFiles'); //TODO remove
+		if (this.selectedTabId === message.id && typeof (this.files) !== 'undefined') {
+			if (typeof (message.contents) !== 'undefined' && Array.isArray (message.contents)) {
+				for (let index in message.contents) {
+					message.contents [index].reactId = encodeURIComponent (`${this.selectedTabParams.directory}-${message.contents [index].name}`);
+				}
+			}
+			
+			this.files.current.setState ({
+				contents: message.contents
+			});
+		}
 	}
 
 	/**
 	 * Callback for when Tab is selected.
 	 */
 	TabSelected (params) {
+		console.log ('TabSelected'); //TODO remove
 		if (typeof (params) !== 'undefined') {
-			document.getElementById ('current-directory').value = params.directory;
+			let input = document.getElementById ('current-directory');
+			input.value = params.directory;
+			input.dataset.value = encodeURIComponent (params.directory);
 		}
 	}
 }

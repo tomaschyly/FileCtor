@@ -1,3 +1,4 @@
+/* eslint-disable no-whitespace-before-property */
 import './tabs.css';
 import { ReactComponent as Plus } from '../icon/plus.svg';
 
@@ -77,7 +78,7 @@ class Tabs extends Component {
 		}
 
 		return <div className="panel no-white">
-			<div className="tabs-navigation">
+			<div className="tch-tabs-navigation">
 				{navigation}
 				<button type="button" className="button icon" onClick={this.AddTabNavigation.bind (this)}><Plus /></button>
 			</div>

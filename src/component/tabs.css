@@ -1,11 +1,11 @@
 /*** Tabs styles ***/
-.tabs-navigation { display: flex; overflow: hidden; }
-.tabs-navigation .button { border-width: 0; border-right-width: 2px; border-radius: 0; margin: 0; vertical-align: middle; text-align: center; }
-.tabs-navigation .button:last-child { border-right-width: 0; }
-.tabs-navigation .button svg { display: inline-block; border: 2px solid black; border-radius: 50%; vertical-align: middle; transition: border 0.4s linear; }
-.tabs-navigation .button:hover svg,
-.tabs-navigation .button:focus svg { border-color: white; }
-.tabs-navigation .button svg:hover,
-.tabs-navigation .button svg:focus { border-color: red; }
-.tabs-navigation .button.icon { border-width: 2px; border-radius: 50%; margin: 2px; }
-.tabs-navigation .button.icon svg { display: block; border: 0; border-radius: 0; }
+.tch-tabs-navigation { display: flex; overflow: hidden; }
+.tch-tabs-navigation .button { border-width: 0; border-right-width: 2px; border-radius: 0; margin: 0; vertical-align: middle; text-align: center; }
+.tch-tabs-navigation .button:last-child { border-right-width: 0; }
+.tch-tabs-navigation .button svg { display: inline-block; border: 2px solid black; border-radius: 50%; vertical-align: middle; transition: border 0.4s linear; }
+.tch-tabs-navigation .button:hover svg,
+.tch-tabs-navigation .button:focus svg { border-color: white; }
+.tch-tabs-navigation .button svg:hover,
+.tch-tabs-navigation .button svg:focus { border-color: red; }
+.tch-tabs-navigation .button.icon { border-width: 2px; border-radius: 50%; margin: 2px; }
+.tch-tabs-navigation .button.icon svg { display: block; border: 0; border-radius: 0; }

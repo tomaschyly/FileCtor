@@ -24,16 +24,27 @@ class App extends Component {
 	 * First rendered to DOM.
 	 */
 	componentDidMount () {
-		ipcRenderer.on ('main-parameters', (event, message) => {
+		this.mainParametersListener = (event, message) => {
 			window.TCH.mainParameters = message;
 
 			let classes = this.state.classes;
 			if (typeof (message.platform) !== 'undefined') {
 				classes.push (message.platform);
+
+				document.querySelector ('html').classList.add (message.platform);
 			}
 			this.setState ({classes: classes});
-		});
+		};
+		ipcRenderer.on ('main-parameters', this.mainParametersListener);
 		ipcRenderer.send ('main-parameters');
+	}
+
+	/**
+	 * Called before component is removed from DOM.
+	 */
+	componentWillUnmount () {
+		ipcRenderer.removeListener ('main-parameters', this.mainParametersListener);
+		delete this.mainParametersListener;
 	}
 
 	/**
