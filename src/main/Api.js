@@ -1,8 +1,10 @@
-const { app, ipcMain } = require ('electron');
+const { app, ipcMain, shell } = require ('electron');
 const { promisify } = require ('util');
 const fs = require ('fs');
+const path = require ('path');
 
 const readDirPromise = promisify (fs.readdir);
+const statPromise = promisify (fs.stat);
 
 class Api {
 	/**
@@ -12,6 +14,8 @@ class Api {
 		ipcMain.on ('main-parameters', Api.MainParameters);
 
 		ipcMain.on ('directory-contents', Api.ReadDirectory);
+
+		ipcMain.on ('file-open', Api.OpenFile);
 	}
 
 	/**
@@ -44,15 +48,28 @@ class Api {
 	 */
 	static async ReadDirectory (event, message) {
 		let contents = [];
+		let stats = typeof (message.statistics) !== 'undefined' && message.statistics ? true : false;
 
 		try {
 			let files = await readDirPromise (message.directory);
 			
 			if (Array.isArray (files) && files.length > 0) {
 				for (let index in files) {
-					contents.push ({
+					let file = {
 						name: files [index]
-					});
+					};
+
+					if (stats) {
+						let stat = await statPromise (path.join (message.directory, file.name));
+
+						file.isDirectory = stat.isDirectory ();
+						
+						if (stat.isFile ()) {
+							file.size = stat.size;
+						}
+					}
+
+					contents.push (file);
 				}
 			}
 		} catch (error) {
@@ -61,8 +78,31 @@ class Api {
 
 		event.sender.send ('directory-contents', {
 			id: message.id,
+			directory: message.directory,
 			contents: contents
 		});
+	}
+
+	/**
+	 * Open file using system default app.
+	 */
+	static async OpenFile (event, message) {
+		try {
+			let filePath = message.filePath;
+			if (typeof (filePath) === 'undefined' && typeof (message.directory) !== 'undefined' && typeof (message.file) !== 'undefined') {
+				filePath = path.join (message.directory, message.file);
+			}
+
+			if (typeof (filePath) !== 'undefined') {
+				let stat = await statPromise (filePath);
+
+				if (stat.isFile ()) {
+					shell.openItem (filePath);
+				}
+			}
+		} catch (error) {
+			console.error ('TCH_e API - OpenFile - ' + error.message);
+		}
 	}
 }
 

@@ -6,6 +6,8 @@
 .tch-tabs-navigation .button:hover svg,
 .tch-tabs-navigation .button:focus svg { border-color: white; }
 .tch-tabs-navigation .button svg:hover,
-.tch-tabs-navigation .button svg:focus { border-color: red; }
+.tch-tabs-navigation .button svg:focus { border-color: red; color: red; }
 .tch-tabs-navigation .button.icon { border-width: 2px; border-radius: 50%; margin: 2px; }
 .tch-tabs-navigation .button.icon svg { display: block; border: 0; border-radius: 0; }
+.tch-tabs-navigation .button.icon svg:hover,
+.tch-tabs-navigation .button.icon svg:focus { color: white; }

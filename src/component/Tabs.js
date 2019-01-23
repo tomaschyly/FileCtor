@@ -39,6 +39,8 @@ class Tabs extends Component {
 		if (typeof (this.props.onTabSelected) === 'function') {
 			this.props.onTabSelected (this.SelectedTabParams ());
 		}
+
+		this.UpdateActiveNavigation ();
 	}
 
 	/**
@@ -48,6 +50,8 @@ class Tabs extends Component {
 		if (typeof (this.props.onTabSelected) === 'function') {
 			this.props.onTabSelected (this.SelectedTabParams ());
 		}
+
+		this.UpdateActiveNavigation ();
 	}
 
 	/**
@@ -133,6 +137,11 @@ class Tabs extends Component {
 	RemoveTabNavigation (e) {
 		e.stopPropagation ();
 
+		let target = e.target;
+		if (target.tagName !== 'svg') {
+			target = window.TCH.Main.Utils.FindNearestParent (target, undefined, 'svg');
+		}
+
 		let id = e.target.dataset.id;
 
 		let newTabs = [];
@@ -156,6 +165,23 @@ class Tabs extends Component {
 		let id = typeof (e) !== 'undefined' ? e.target.dataset.id : undefined;
 
 		this.setState ({selectedTab: id});
+	}
+
+	/**
+	 * Update Tab Navigation to show correct active Tab.
+	 */
+	UpdateActiveNavigation () {
+		let items = document.querySelectorAll ('.tch-tabs-navigation-item');
+
+		for (let index in items) {
+			if (items.hasOwnProperty (index)) {
+				if (items [index].dataset.id === this.state.selectedTab) {
+					items [index].classList.add ('active');
+				} else {
+					items [index].classList.remove ('active');
+				}
+			}
+		}
 	}
 
 	/**

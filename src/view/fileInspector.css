@@ -2,7 +2,16 @@
 .file-inspector,
 .file-inspector > .container,
 .file-inspector > .container > .row,
-.file-inspector > .container > .row > .col-10 { display: flex; flex-direction: column; flex-grow: 1; }
-.file-inspector > .container.bottom { flex-grow: 0; }
-.file-inspector .tabs { display: flex; flex-direction: column; flex-grow: 1; }
-.file-inspector .tabs-panel { flex-grow: 1; width: calc(100% + 32px); border-width: 0; border-top-width: 2px; border-bottom-width: 2px; border-radius: 0; margin: 0 -16px 16px -16px; }
+.file-inspector > .container > .row > .col-10 { height: 100%; }
+.file-inspector > .container { height: calc(100% - 54px); }
+.file-inspector > .container.bottom,
+.file-inspector > .container.bottom > .row,
+.file-inspector > .container.bottom > .row > .col-10 { height: auto; }
+.file-inspector .tabs { display: block; height: calc(100% - 16px); }
+.file-inspector .tabs-panel { width: calc(100% + 32px); height: calc(100% - 54px); border-width: 0; border-top-width: 2px; border-bottom-width: 2px; border-radius: 0; margin: 0 -16px 16px -16px; overflow: hidden; overflow-y: auto; }
+.file-inspector .tch-grid-body { border-bottom: 0; }
+#current-directory { padding-right: 72px; }
+.file-inspector .current-directory-actions { display: block; position: relative; }
+.file-inspector .current-directory-actions-container { display: block; position: absolute; top: 5px; right: 6px; }
+.file-inspector .current-directory-actions-container .button { margin-right: 4px; }
+.file-inspector .current-directory-actions-container .button:last-of-type { margin-right: 0; }
