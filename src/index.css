@@ -89,7 +89,7 @@ button svg { display: block; width: 18px; height: 18px; padding: 2px; }
 ::-webkit-scrollbar-thumb { background: black; }
 ::-webkit-scrollbar-trac { background: white; }
 
-.panel { clear: both; width: 100%; padding: 16px 16px 0 16px; border: 2px solid black; border-radius: 8px; margin-bottom: 16px; }
+.panel { clear: both; overflow: hidden; width: 100%; padding: 16px 16px 0 16px; border: 2px solid black; border-radius: 8px; margin-bottom: 16px; }
 .panel.thin { padding: 8px 16px; }
 .panel.no-white { padding: 0; }
 .panel.empty { display: none; }

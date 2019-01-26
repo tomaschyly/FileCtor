@@ -2,6 +2,7 @@
 import './fileInspector.css';
 import { ReactComponent as Code } from '../icon/code.svg';
 import { ReactComponent as LevelUpAlt } from '../icon/level-up-alt.svg';
+import { ReactComponent as Ellipsis } from '../icon/ellipsis-v.svg';
 
 import React, { Component } from 'react';
 import Tabs from '../component/Tabs';
@@ -17,6 +18,7 @@ class FileInspector extends Component {
 	constructor (props) {
 		super (props);
 
+		this.tabs = undefined;
 		this.files = undefined;
 		this.selectedTabId = undefined;
 		this.selectedTabParams = undefined;
@@ -36,6 +38,7 @@ class FileInspector extends Component {
 	 * Called before component is removed from DOM.
 	 */
 	componentWillUnmount () {
+		this.tabs = undefined;
 		this.files = undefined;
 		this.selectedTabId = undefined;
 		this.selectedTabParams = undefined;
@@ -48,16 +51,19 @@ class FileInspector extends Component {
 	 * Render the component into html.
 	 */
 	render () {
+		this.tabs = React.createRef ();
+
 		return <div className="file-inspector">
-			<Tabs startWith="1" tabParameters={this.TabParameters.bind (this)} onTabSelected={this.TabSelected.bind (this)} />
+			<Tabs ref={this.tabs} startWith="1" tabParameters={this.TabParameters.bind (this)} onTabSelected={this.TabSelected.bind (this)} />
 			<div className="container bottom">
 				<div className="row">
 					<div className="col-10">
 						<div className="current-directory-actions">
 							<input id="current-directory" type="text" onChange={this.DirectoryChanged.bind (this)} />
 							<div className="current-directory-actions-container">
-								<button type="button" className="button icon"><Code /></button>
 								<button type="button" className="button icon" onClick={this.DirectoryToParent.bind (this)}><LevelUpAlt /></button>
+								<button type="button" className="button icon"><Code /></button>
+								<button type="button" className="button icon"><Ellipsis /></button>
 							</div>
 						</div>
 					</div>
@@ -108,7 +114,6 @@ class FileInspector extends Component {
 	 * Receive contents of directory and render.
 	 */
 	RenderFiles (event, message) {
-		console.log ('RenderFiles'); //TODO remove
 		if (this.selectedTabId === message.id && this.selectedTabParams.directory === message.directory && typeof (this.files) !== 'undefined') {
 			if (typeof (message.contents) !== 'undefined' && Array.isArray (message.contents)) {
 				for (let index in message.contents) {
@@ -126,7 +131,6 @@ class FileInspector extends Component {
 	 * Callback for when Tab is selected.
 	 */
 	TabSelected (params) {
-		console.log ('TabSelected'); //TODO remove
 		if (typeof (params) !== 'undefined') {
 			let input = document.getElementById ('current-directory');
 			input.value = params.directory;
@@ -182,11 +186,18 @@ class FileInspector extends Component {
 	 * Input changed directory, update files.
 	 */
 	DirectoryChanged () {
-		console.log ('TabSelected'); //TODO remove
 		let input = document.getElementById ('current-directory');
 
-		if (input.value !== input.dataset.value) {
+		if (encodeURIComponent (input.value) !== input.dataset.value) {
 			this.selectedTabParams.directory = input.value;
+			this.selectedTabParams.title = path.basename (this.selectedTabParams.directory);
+			if (this.selectedTabParams.title === '') {
+				this.selectedTabParams.title = path.sep;
+			}
+
+			this.tabs.current.setState ({
+				selectedTab: this.tabs.current.state.selectedTab
+			});
 
 			ipcRenderer.send ('directory-contents', {
 				id: this.selectedTabParams.id,

@@ -1,10 +1,12 @@
 /* eslint-disable no-whitespace-before-property */
 import './tabs.css';
 import { ReactComponent as Plus } from '../icon/plus.svg';
+import { ReactComponent as CaretDown } from '../icon/caret-down.svg';
 
 import React, { Component } from 'react';
 import Navigation from './tabs/Navigation';
 import Content from './tabs/Content';
+import ButtonSelect from './ButtonSelect';
 
 const uuidV4 = window.require ('uuid/v4');
 const extend = window.require ('extend');
@@ -15,6 +17,8 @@ class Tabs extends Component {
 	 */
 	constructor (props) {
 		super (props);
+
+		this.additionalTabsSelect = undefined;
 
 		let startWith = typeof (props.startWith) !== 'undefined' ? parseInt (props.startWith) : 0;
 		let tabs = [];
@@ -40,6 +44,9 @@ class Tabs extends Component {
 			this.props.onTabSelected (this.SelectedTabParams ());
 		}
 
+		this.NavigationAdditionalList ();
+		document.fonts.ready.then (this.NavigationAdditionalList.bind (this));
+
 		this.UpdateActiveNavigation ();
 	}
 
@@ -51,7 +58,16 @@ class Tabs extends Component {
 			this.props.onTabSelected (this.SelectedTabParams ());
 		}
 
+		this.NavigationAdditionalList ();
+
 		this.UpdateActiveNavigation ();
+	}
+
+	/**
+	 * Called before component is removed from DOM.
+	 */
+	componentWillUnmount () {
+		this.additionalTabsSelect = undefined;
 	}
 
 	/**
@@ -81,12 +97,77 @@ class Tabs extends Component {
 			navigation.push (<Navigation key={this.state.tabs [index].id} params={this.state.tabs [index]} selectCallback={this.SelectTabNavigation.bind (this)} removeCallback={this.RemoveTabNavigation.bind (this)} />);
 		}
 
+		this.additionalTabsSelect = React.createRef ();
+
 		return <div className="panel no-white">
 			<div className="tch-tabs-navigation">
 				{navigation}
-				<button type="button" className="button icon" onClick={this.AddTabNavigation.bind (this)}><Plus /></button>
+				<button type="button" className="button icon tch-tabs-navigation-add" onClick={this.AddTabNavigation.bind (this)}><Plus /></button>
+				<ButtonSelect ref={this.additionalTabsSelect} className="tch-tabs-navigation-additional" icon={<CaretDown />} onSelectItem={this.SelectTabAdditional.bind (this)} />
 			</div>
 		</div>;
+	}
+
+	/**
+	 * Check if should show button for additional tabs and move them to list.
+	 */
+	NavigationAdditionalList () {
+		let navigation = document.querySelector ('.tch-tabs-navigation');
+		navigation.classList.remove ('fill');
+		let navigationItems = document.querySelectorAll ('.tch-tabs-navigation-item');
+		navigationItems = Array.from (navigationItems);
+
+		let totalWidth = 0;
+		for (let i = 0; i < navigationItems.length; i++) {
+			navigationItems [i].style.display = '';
+			totalWidth += navigationItems [i].offsetWidth;
+		}
+
+		let maxWidth = document.querySelector ('.tch-tabs-navigation').offsetWidth;
+		maxWidth -= document.querySelector ('.tch-tabs-navigation-add').offsetWidth;
+
+		let additionalButton = document.querySelector ('.tch-tabs-navigation-additional');
+		additionalButton.style.display = '';
+		maxWidth -= additionalButton.offsetWidth;
+		
+		let additionalItems = [];
+		if (totalWidth > maxWidth) {
+			while (totalWidth > maxWidth) {
+				let lastItem = navigationItems.pop ();
+
+				totalWidth -= lastItem.offsetWidth;
+				lastItem.style.display = 'none';
+
+				additionalItems.push (lastItem);
+			}
+		}
+
+		if (additionalItems.length > 0) {
+			navigation.classList.add ('fill');
+			additionalButton.style.display = '';
+
+			let options = [];
+			for (let i = 0; i < additionalItems.length; i++) {
+				for (let index in this.state.tabs) {
+					if (this.state.tabs [index].id === additionalItems [i].dataset.id) {
+						let params = this.state.tabs [index];
+						
+						options.push ({
+							id: `tch-tabs-navigation-additional-${params.id}`,
+							value: params.id,
+							label: params.title
+						});
+						break;
+					}
+				}
+			}
+			
+			this.additionalTabsSelect.current.setState ({
+				options: options
+			});
+		} else {
+			additionalButton.style.display = 'none';
+		}
 	}
 
 	/**
@@ -163,6 +244,15 @@ class Tabs extends Component {
 	 */
 	SelectTabNavigation (e) {
 		let id = typeof (e) !== 'undefined' ? e.target.dataset.id : undefined;
+
+		this.setState ({selectedTab: id});
+	}
+
+	/**
+	 * Select Tab from additional tabs.
+	 */
+	SelectTabAdditional (e) {
+		let id = e.target.dataset.value;
 
 		this.setState ({selectedTab: id});
 	}

@@ -2,6 +2,7 @@
 import { ReactComponent as FolderOpen } from '../../icon/folder-open.svg';
 import { ReactComponent as Eye } from '../../icon/eye.svg';
 import { ReactComponent as Code } from '../../icon/code.svg';
+import { ReactComponent as Ellipsis } from '../../icon/ellipsis-v.svg';
 
 import React, { Component } from 'react';
 
@@ -45,6 +46,7 @@ class Files extends Component {
 						{openDirectory}
 						{execute}
 						<button type="button" className="tch-grid-action icon" onClick={this.FileAction.bind (this)} data-reactid={rowData.reactId} data-action="console"><Code /></button>
+						<button type="button" className="tch-grid-action icon" onClick={this.FileAction.bind (this)} data-reactid={rowData.reactId} data-action="options"><Ellipsis /></button>
 					</div>);
 				}
 
