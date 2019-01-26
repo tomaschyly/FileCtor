@@ -29,25 +29,43 @@ class Files extends Component {
 				let rowData = this.state.contents [index];
 				let row = [];
 
+				if (typeof (rowData.error) !== 'undefined') {
+					switch (rowData.error) {
+						case 'ENOENT':
+							rowData.name = 'No such directory found.';
+							break;
+						case 'NO_ITEMS':
+							rowData.name = 'No files found in directory.';
+							break;
+						default:
+							console.error (`Files - render - unsupported error: ${rowData.error}`);
+							break;
+					}
+				}
+
 				row.push (<div className="tch-grid-col" key={`${rowData.reactId}-${0}`}><span>{rowData.name}</span></div>);
 
 				if (typeof (this.props.onFileAction) !== 'undefined') {
-					let openDirectory = undefined;
-					if (rowData.isDirectory) {
-						openDirectory = <button type="button" className="tch-grid-action icon" onClick={this.FileAction.bind (this)} data-reactid={rowData.reactId} data-action="directory"><FolderOpen /></button>;
+					if (typeof (rowData.error) !== 'undefined') {
+						row.push (<div className="tch-grid-col actions right" key={`${rowData.reactId}-${1}`}></div>);
+					} else {
+						let openDirectory = undefined;
+						if (rowData.isDirectory) {
+							openDirectory = <button type="button" className="tch-grid-action icon" onClick={this.FileAction.bind (this)} data-reactid={rowData.reactId} data-action="directory"><FolderOpen /></button>;
+						}
+		
+						let execute = undefined;
+						if (!rowData.isDirectory) {
+							execute = <button type="button" className="tch-grid-action icon" onClick={this.FileAction.bind (this)} data-reactid={rowData.reactId} data-action="file"><Eye /></button>;
+						}
+						
+						row.push (<div className="tch-grid-col actions right" key={`${rowData.reactId}-${1}`}>
+							{openDirectory}
+							{execute}
+							<button type="button" className="tch-grid-action icon" onClick={this.FileAction.bind (this)} data-reactid={rowData.reactId} data-action="console"><Code /></button>
+							<button type="button" className="tch-grid-action icon" onClick={this.FileAction.bind (this)} data-reactid={rowData.reactId} data-action="options"><Ellipsis /></button>
+						</div>);
 					}
-	
-					let execute = undefined;
-					if (!rowData.isDirectory) {
-						execute = <button type="button" className="tch-grid-action icon" onClick={this.FileAction.bind (this)} data-reactid={rowData.reactId} data-action="file"><Eye /></button>;
-					}
-					
-					row.push (<div className="tch-grid-col actions right" key={`${rowData.reactId}-${1}`}>
-						{openDirectory}
-						{execute}
-						<button type="button" className="tch-grid-action icon" onClick={this.FileAction.bind (this)} data-reactid={rowData.reactId} data-action="console"><Code /></button>
-						<button type="button" className="tch-grid-action icon" onClick={this.FileAction.bind (this)} data-reactid={rowData.reactId} data-action="options"><Ellipsis /></button>
-					</div>);
 				}
 
 				contents.push (<div className="tch-grid-row" key={rowData.reactId}>{row}</div>);

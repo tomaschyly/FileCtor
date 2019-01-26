@@ -116,15 +116,45 @@ class FileInspector extends Component {
 	RenderFiles (event, message) {
 		if (this.selectedTabId === message.id && this.selectedTabParams.directory === message.directory && typeof (this.files) !== 'undefined') {
 			if (typeof (message.contents) !== 'undefined' && Array.isArray (message.contents)) {
+				if (message.contents.length === 0) {
+					message.contents.push (
+						{error: 'NO_ITEMS'}
+					);
+				}
+
 				for (let index in message.contents) {
 					message.contents [index].reactId = encodeURIComponent (`${this.selectedTabParams.directory}-${message.contents [index].name}`);
 				}
 			}
 			
 			this.files.current.setState ({
-				contents: message.contents
+				contents: this.SortFiles (message.contents)
 			});
 		}
+	}
+
+	/**
+	 * Sort files by type and name.
+	 */
+	SortFiles (contents) {
+		contents.sort ((a, b) => {
+			let aName = typeof (a.name) !== 'undefined' ? a.name : '';
+			let bName = typeof (b.name) !== 'undefined' ? b.name : '';
+
+			return aName.localeCompare (bName);
+		});
+
+		let directories = [];
+		let files = [];
+		for (let index in contents) {
+			if (typeof (contents [index].isDirectory) !== 'undefined' && contents [index].isDirectory) {
+				directories.push (contents [index]);
+			} else {
+				files.push (contents [index]);
+			}
+		}
+
+		return directories.concat (files);
 	}
 
 	/**
@@ -159,8 +189,8 @@ class FileInspector extends Component {
 					newDirectory.pop ();
 
 					newDirectory = newDirectory.join (path.sep);
-					if (newDirectory === '') {
-						newDirectory = path.sep;
+					if (newDirectory.indexOf (path.sep) < 0) {
+						newDirectory += path.sep;
 					}
 
 					let input = document.getElementById ('current-directory');
@@ -192,7 +222,15 @@ class FileInspector extends Component {
 			this.selectedTabParams.directory = input.value;
 			this.selectedTabParams.title = path.basename (this.selectedTabParams.directory);
 			if (this.selectedTabParams.title === '') {
-				this.selectedTabParams.title = path.sep;
+				let title = this.selectedTabParams.directory.split (path.sep);
+
+				this.selectedTabParams.title = title.pop ();
+
+				if (this.selectedTabParams.title === '' && title.length > 0) {
+					this.selectedTabParams.title = title.pop ();
+				} else {
+					this.selectedTabParams.title = path.sep;
+				}
 			}
 
 			this.tabs.current.setState ({

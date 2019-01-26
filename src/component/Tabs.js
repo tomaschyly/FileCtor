@@ -223,7 +223,7 @@ class Tabs extends Component {
 			target = window.TCH.Main.Utils.FindNearestParent (target, undefined, 'svg');
 		}
 
-		let id = e.target.dataset.id;
+		let id = target.dataset.id;
 
 		let newTabs = [];
 		for (let index in this.state.tabs) {

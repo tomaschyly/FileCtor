@@ -59,23 +59,37 @@ class Api {
 						name: files [index]
 					};
 
-					if (stats) {
-						let stat = await statPromise (path.join (message.directory, file.name));
-
-						file.isDirectory = stat.isDirectory ();
-						
-						if (stat.isFile ()) {
-							file.size = stat.size;
+					try {
+						if (stats) {
+							let stat = await statPromise (path.join (message.directory, file.name));
+	
+							file.isDirectory = stat.isDirectory ();
+							
+							if (stat.isFile ()) {
+								file.size = stat.size;
+							}
 						}
-					}
+					} catch (error) {
+						console.error ('TCH_e API - ReadDirectory - ' + error.message);
 
+						file.statFailed = true;
+					}
+	
 					contents.push (file);
 				}
 			}
 		} catch (error) {
 			console.error ('TCH_e API - ReadDirectory - ' + error.message);
-		}
 
+			if (error.code === 'ENOENT') {
+				contents = [
+					{
+						error: 'ENOENT'
+					}
+				];
+			}
+		}
+		
 		event.sender.send ('directory-contents', {
 			id: message.id,
 			directory: message.directory,
