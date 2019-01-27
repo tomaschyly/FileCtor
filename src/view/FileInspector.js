@@ -22,6 +22,7 @@ class FileInspector extends Component {
 		this.files = undefined;
 		this.selectedTabId = undefined;
 		this.selectedTabParams = undefined;
+		this.selectedRows = [];
 	}
 
 	/**
@@ -42,6 +43,7 @@ class FileInspector extends Component {
 		this.files = undefined;
 		this.selectedTabId = undefined;
 		this.selectedTabParams = undefined;
+		this.selectedRows = [];
 		
 		ipcRenderer.removeListener ('directory-contents', this.directoryContentsListener);
 		delete this.directoryContentsListener;
@@ -127,6 +129,7 @@ class FileInspector extends Component {
 				}
 			}
 			
+			this.selectedRows = [];
 			this.files.current.setState ({
 				contents: this.SortFiles (message.contents)
 			});
@@ -206,10 +209,34 @@ class FileInspector extends Component {
 					file: params.name
 				});
 				break;
+			case 'row':
+				this.FileRowAction (action, params);
+				break;
 			default:
 				console.error (`FileInspector - FileAction - unsupported action: ${action}`);
 				break;
 		}
+	}
+
+	/**
+	 * Handle actions on file rows.
+	 */
+	FileRowAction (action, params) {
+		if (typeof (params.selected) === 'undefined') {
+			params.selected = false;
+		}
+
+		params.selected = !params.selected;
+		let targetIndex = this.selectedRows.indexOf (params);
+		if (!params.selected && targetIndex >= 0) {
+			this.selectedRows.splice (targetIndex, 1);
+		} else if (params.selected && targetIndex < 0) {
+			this.selectedRows.push (params);
+		}
+
+		this.files.current.setState ({
+			contents: this.files.current.state.contents
+		});
 	}
 
 	/**

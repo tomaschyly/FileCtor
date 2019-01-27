@@ -51,24 +51,24 @@ class Files extends Component {
 					} else {
 						let openDirectory = undefined;
 						if (rowData.isDirectory) {
-							openDirectory = <button type="button" className="tch-grid-action icon" onClick={this.FileAction.bind (this)} data-reactid={rowData.reactId} data-action="directory"><FolderOpen /></button>;
+							openDirectory = <button type="button" className="tch-grid-action icon" data-reactid={rowData.reactId} data-action="directory"><FolderOpen /></button>;
 						}
 		
 						let execute = undefined;
 						if (!rowData.isDirectory) {
-							execute = <button type="button" className="tch-grid-action icon" onClick={this.FileAction.bind (this)} data-reactid={rowData.reactId} data-action="file"><Eye /></button>;
+							execute = <button type="button" className="tch-grid-action icon" data-reactid={rowData.reactId} data-action="file"><Eye /></button>;
 						}
 						
 						row.push (<div className="tch-grid-col actions right" key={`${rowData.reactId}-${1}`}>
 							{openDirectory}
 							{execute}
-							<button type="button" className="tch-grid-action icon" onClick={this.FileAction.bind (this)} data-reactid={rowData.reactId} data-action="console"><Code /></button>
-							<button type="button" className="tch-grid-action icon" onClick={this.FileAction.bind (this)} data-reactid={rowData.reactId} data-action="options"><Ellipsis /></button>
+							<button type="button" className="tch-grid-action icon" data-reactid={rowData.reactId} data-action="console"><Code /></button>
+							<button type="button" className="tch-grid-action icon" data-reactid={rowData.reactId} data-action="options"><Ellipsis /></button>
 						</div>);
 					}
 				}
 
-				contents.push (<div className="tch-grid-row" key={rowData.reactId}>{row}</div>);
+				contents.push (<div className={`tch-grid-row tch-grid-action-row${typeof (rowData.selected) && rowData.selected ? ' active' : ''}`} key={rowData.reactId} onClick={this.FileAction.bind (this)} data-reactid={rowData.reactId} data-action="row">{row}</div>);
 			}
 		}
 
@@ -83,9 +83,13 @@ class Files extends Component {
 	FileAction (e) {
 		if (typeof (this.props.onFileAction) !== 'undefined') {
 			let target = e.target;
-
+			
 			if (target.tagName !== 'BUTTON') {
 				target = window.TCH.Main.Utils.FindNearestParent (target, undefined, 'BUTTON');
+			}
+
+			if (target === null) {
+				target = window.TCH.Main.Utils.FindNearestParent (e.target, 'tch-grid-action-row');
 			}
 
 			if (target !== null) {

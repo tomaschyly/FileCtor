@@ -6,7 +6,9 @@ The idea is to have something similar to other file system managers, e.g. [Total
 
 ## Installation
 
-*Coming soon...*
+1. Download latest release from [here](https://github.com/tomaschyly/FileCtor/releases). Win32 is for Windows. Darwin is for MacOS.
+2. For Windows, unzip anywhere you want to have the app installed. For MacOS, unzip anywhere, then copy app to your Applications folder.
+3. Run the app, optionally create shortcut to use.
 
 ## Important Notes
 

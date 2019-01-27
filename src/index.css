@@ -112,13 +112,13 @@ button svg { display: block; width: 18px; height: 18px; padding: 2px; }
 .progress { display: block; width: 40px; height: 40px; margin-bottom: 16px; }
 
 /*** Grid styles ***/
-.tch-grid { clear: both; width: 100%; border: 2px solid black; border-radius: 8px; margin-bottom: 16px; }
+.tch-grid { clear: both; overflow: hidden; width: 100%; border: 2px solid black; border-radius: 8px; margin-bottom: 16px; }
 .tch-grid-header { border-bottom: 2px solid black; }
 .tch-grid-body { border-bottom: 2px solid black; }
 .tch-grid.empty .tch-grid-body { border-bottom: 0; }
 .tch-grid-row { display: flex; flex-wrap: wrap; min-height: 40px; }
 .tch-grid-body .tch-grid-row { border-top: 2px solid transparent; border-bottom: 2px solid transparent; transition: border 0.4s linear; }
-.tch-grid-body .tch-grid-row.active,
+.tch-grid-body .tch-grid-row.active { background: #666666; }
 .tch-grid-body .tch-grid-row:hover,
 .tch-grid-body .tch-grid-row:focus { border-top-color: black; border-bottom-color: black; }
 .tch-grid-body .tch-grid-row:first-of-type { border-top-width: 0; }

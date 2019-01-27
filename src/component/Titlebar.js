@@ -15,6 +15,8 @@ class TitleBar extends Component {
 	constructor (props) {
 		super (props);
 
+		this.onResizeListener = undefined;
+
 		this.state = {
 			title: document.title
 		};
@@ -28,12 +30,9 @@ class TitleBar extends Component {
 
 		this.currentWindow = remote.getCurrentWindow ();
 
-		let maximize = document.getElementById ('titlebar-maximize');
-		if (this.currentWindow.isMaximized ()) {
-			maximize.classList.add ('minimize');
-		} else {
-			maximize.classList.remove ('minimize');
-		}
+		this.IsMaximized ();
+		this.onResizeListener = this.IsMaximized.bind (this);
+		window.addEventListener ('resize', this.onResizeListener);
 	}
 
 	/**
@@ -41,6 +40,9 @@ class TitleBar extends Component {
 	 */
 	componentWillUnmount () {
 		window.TCH.Main.titleBar = null;
+
+		window.removeEventListener ('resize', this.onResizeListener);
+		this.onResizeListener = undefined;
 	}
 
 	/**
@@ -94,6 +96,18 @@ class TitleBar extends Component {
 		setTimeout (() => {
 			document.getElementById ('titlebar-minimize').blur ();
 		}, 1);
+	}
+
+	/**
+	 * Check is maximized and update button.
+	 */
+	IsMaximized () { 
+		let maximize = document.getElementById ('titlebar-maximize');
+		if (this.currentWindow.isMaximized ()) {
+			maximize.classList.add ('minimize');
+		} else {
+			maximize.classList.remove ('minimize');
+		}
 	}
 
 	/**

@@ -18,6 +18,7 @@ class ButtonSelect extends Component {
 		if (typeof (window.ButtonSelect_static.globalHideOptionsListener) === 'undefined') {
 			window.ButtonSelect_static.globalHideOptionsListener = ButtonSelect.GlobalHideAllOptions;
 			document.querySelector ('body').addEventListener ('click', window.ButtonSelect_static.globalHideOptionsListener);
+			window.addEventListener ('resize', window.ButtonSelect_static.globalHideOptionsListener);
 		}
 		window.ButtonSelect_static.buttonSelects.push (this);
 
@@ -84,8 +85,8 @@ class ButtonSelect extends Component {
 	 * Hide options of all ButtonSelects.
 	 */
 	static GlobalHideAllOptions (e) {
-		let current = e.target.classList.contains ('button-select-container') ? e.target : null;
-		if (current === null) {
+		let current = typeof (e.target) !== 'undefined' && typeof (e.target.classList) !== 'undefined' && e.target.classList.contains ('button-select-container') ? e.target : null;
+		if (current === null && typeof (e.target) !== 'undefined' && typeof (e.target.classList) !== 'undefined') {
 			current = window.TCH.Main.Utils.FindNearestParent (e.target, 'button-select-container');
 		}
 

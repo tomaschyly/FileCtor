@@ -18,6 +18,8 @@ class Tabs extends Component {
 	constructor (props) {
 		super (props);
 
+		this.onResizeListener = undefined;
+
 		this.additionalTabsSelect = undefined;
 
 		let startWith = typeof (props.startWith) !== 'undefined' ? parseInt (props.startWith) : 0;
@@ -46,6 +48,8 @@ class Tabs extends Component {
 
 		this.NavigationAdditionalList ();
 		document.fonts.ready.then (this.NavigationAdditionalList.bind (this));
+		this.onResizeListener = this.NavigationAdditionalList.bind (this);
+		window.addEventListener ('resize', this.onResizeListener);
 
 		this.UpdateActiveNavigation ();
 	}
@@ -67,6 +71,9 @@ class Tabs extends Component {
 	 * Called before component is removed from DOM.
 	 */
 	componentWillUnmount () {
+		window.removeEventListener ('resize', this.onResizeListener);
+		this.onResizeListener = undefined;
+
 		this.additionalTabsSelect = undefined;
 	}
 
