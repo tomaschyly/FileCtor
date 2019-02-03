@@ -9516,6 +9516,11 @@ symbol-tree@^3.2.2:
   resolved "https://registry.yarnpkg.com/symbol-tree/-/symbol-tree-3.2.2.tgz#ae27db38f660a7ae2e1c3b7d1bc290819b8519e6"
   integrity sha1-rifbOPZgp64uHDt9G8KQgZuFGeY=
 
+systeminformation@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-4.0.3.tgz#7a5b91bb8774060063c6ed90625495371c220426"
+  integrity sha512-k4+nB7MPk1xECzm4B+vQ1nSRkGKJs06m8Wml6uGWXlbhQo15/TLwywIk9IGPyRpciuCd6sm+OcqCzFjDLmKv7w==
+
 table@^4.0.3:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/table/-/table-4.0.3.tgz#00b5e2b602f1794b9acaf9ca908a76386a7813bc"

@@ -2,6 +2,7 @@ const { app, ipcMain, shell } = require ('electron');
 const { promisify } = require ('util');
 const fs = require ('fs');
 const path = require ('path');
+const systemInformation = require ('systeminformation');
 
 const readDirPromise = promisify (fs.readdir);
 const statPromise = promisify (fs.stat);
@@ -14,6 +15,8 @@ class Api {
 		ipcMain.on ('main-parameters', Api.MainParameters);
 
 		ipcMain.on ('directory-contents', Api.ReadDirectory);
+
+		ipcMain.on ('drives-list', Api.ListDrives);
 
 		ipcMain.on ('file-open', Api.OpenFile);
 	}
@@ -93,7 +96,32 @@ class Api {
 		event.sender.send ('directory-contents', {
 			id: message.id,
 			directory: message.directory,
-			contents: contents
+			contents
+		});
+	}
+
+	/**
+	 * Get list of drives.
+	 */
+	static async ListDrives (event, message) {
+		let drives = [];
+
+		try {
+			let devices = await systemInformation.blockDevices ();
+
+			if (Array.isArray (devices) && devices.length > 0) {
+				for (let index in devices) {
+					if (devices [index].physical === 'Local') {
+						drives.push (devices [index]);
+					}
+				}
+			}
+		} catch (error) {
+			console.error ('TCH_e API - ListDrives - ' + error.message);
+		}
+
+		event.sender.send ('drives-list', {
+			drives
 		});
 	}
 

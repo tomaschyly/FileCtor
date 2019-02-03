@@ -66,7 +66,7 @@ class ButtonSelect extends Component {
 
 		this.container = React.createRef ();
 
-		return <div ref={this.container} className={`button-select-container ${this.props.className}`}>
+		return <div ref={this.container} className={`button-select-container ${typeof (this.props.className) !== 'undefined' ? this.props.className : ''}`}>
 			<button className="button icon" type="button" onClick={this.ToggleOptions.bind (this)}>{this.props.icon}</button>
 			<div className={`button-select-list${this.state.optionsVisible ? ' visible' : ''}`}>{options}</div>
 		</div>;
@@ -116,17 +116,26 @@ class ButtonSelect extends Component {
 
 			list.style.width = '';
 			list.style.left = '0px';
+			list.style.top = '0px';
 			let listWidth = list.offsetWidth;
 
 			list.style.width = `${listWidth}px`;
 			list.style.left = `${containerLeft + (containerWidth / 2) - (list.offsetWidth / 2)}px`;
-			list.style.top = `${containerHeight + containerTop - 4}px`;
 			list.style.opacity = 1;
 
 			let overflowX = document.getElementById ('content').offsetWidth - list.offsetWidth - list.offsetLeft;
+
+			let viewportOffset = list.getBoundingClientRect ();
+			let overflowY = document.getElementById ('content').offsetHeight - list.offsetHeight - viewportOffset.top;
 			
 			if (overflowX < 0) {
 				list.style.left = `${containerLeft + (containerWidth / 2) - (list.offsetWidth / 2) - Math.abs (overflowX)}px`;
+			}
+
+			if (overflowY < 0) {
+				list.style.top = `${containerHeight + containerTop - 6 - Math.abs (overflowY)}px`;
+			} else {
+				list.style.top = `${containerHeight + containerTop - 4}px`;
 			}
 		}, 1);
 	}

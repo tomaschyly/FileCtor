@@ -12,7 +12,11 @@
 .file-inspector .tch-grid-body { border-bottom: 0; }
 .file-inspector .tch-grid-body .tch-grid-row { cursor: pointer; }
 #current-directory { padding-right: 106px; }
+#current-directory.drives { padding-right: 140px; }
 .file-inspector .current-directory-actions { display: block; position: relative; }
 .file-inspector .current-directory-actions-container { display: block; position: absolute; top: 5px; right: 6px; }
 .file-inspector .current-directory-actions-container .button { margin-right: 4px; }
-.file-inspector .current-directory-actions-container .button:last-of-type { margin-right: 0; }
+.file-inspector .current-directory-actions-container .button-select-container { display: inline-block; margin-right: 4px; }
+.file-inspector .current-directory-actions-container .button:last-child,
+.file-inspector .current-directory-actions-container .button-select-container:last-child { margin-right: 0; }
+.file-inspector .current-directory-actions-container .button-select-container .button { margin-right: 0; }

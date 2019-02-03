@@ -3,10 +3,12 @@ import './fileInspector.css';
 import { ReactComponent as Code } from '../icon/code.svg';
 import { ReactComponent as LevelUpAlt } from '../icon/level-up-alt.svg';
 import { ReactComponent as Ellipsis } from '../icon/ellipsis-v.svg';
+import { ReactComponent as Hdd } from '../icon/hdd.svg';
 
 import React, { Component } from 'react';
 import Tabs from '../component/Tabs';
 import Files from '../component/fileInspector/Files';
+import ButtonSelect from '../component/ButtonSelect';
 
 const { ipcRenderer } = window.require ('electron');
 const path = window.require ('path');
@@ -23,6 +25,10 @@ class FileInspector extends Component {
 		this.selectedTabId = undefined;
 		this.selectedTabParams = undefined;
 		this.selectedRows = [];
+
+		this.state = {
+			drives: []
+		};
 	}
 
 	/**
@@ -33,6 +39,13 @@ class FileInspector extends Component {
 
 		this.directoryContentsListener = this.RenderFiles.bind (this);
 		ipcRenderer.on ('directory-contents', this.directoryContentsListener);
+
+		this.drivesListListener = this.DrivesList.bind (this);
+		ipcRenderer.on ('drives-list', this.drivesListListener);
+
+		setTimeout (() => {
+			ipcRenderer.send ('drives-list');
+		}, 1);
 	}
 
 	/**
@@ -47,6 +60,9 @@ class FileInspector extends Component {
 		
 		ipcRenderer.removeListener ('directory-contents', this.directoryContentsListener);
 		delete this.directoryContentsListener;
+		
+		ipcRenderer.removeListener ('drives-list', this.drivesListListener);
+		delete this.drivesListListener;
 	}
 
 	/**
@@ -55,15 +71,29 @@ class FileInspector extends Component {
 	render () {
 		this.tabs = React.createRef ();
 
+		let changeDrive = undefined;
+		if (this.state.drives.length > 0) {
+			let drives = this.state.drives.map (element => {
+				return {
+					id: element.identifier,
+					value: element.mount,
+					label: `${element.label} (${element.name})`
+				};
+			});
+
+			changeDrive = <ButtonSelect icon={<Hdd />} options={drives} onSelectItem={this.DirectoryChangeDrive.bind (this)} />;
+		}
+
 		return <div className="file-inspector">
 			<Tabs ref={this.tabs} startWith="1" tabParameters={this.TabParameters.bind (this)} onTabSelected={this.TabSelected.bind (this)} />
 			<div className="container bottom">
 				<div className="row">
 					<div className="col-10">
 						<div className="current-directory-actions">
-							<input id="current-directory" type="text" onChange={this.DirectoryChanged.bind (this)} />
+							<input id="current-directory" className={(typeof (changeDrive) !== 'undefined' ? 'drives' : '')} type="text" onChange={this.DirectoryChanged.bind (this)} />
 							<div className="current-directory-actions-container">
 								<button type="button" className="button icon" onClick={this.DirectoryToParent.bind (this)}><LevelUpAlt /></button>
+								{changeDrive}
 								<button type="button" className="button icon"><Code /></button>
 								<button type="button" className="button icon"><Ellipsis /></button>
 							</div>
@@ -158,6 +188,15 @@ class FileInspector extends Component {
 		}
 
 		return directories.concat (files);
+	}
+
+	/**
+	 * Receive drives list and update state.
+	 */
+	DrivesList (event, message) {
+		if (typeof (message.drives) !== 'undefined' && Array.isArray (message.drives)) {
+			this.setState ({drives: message.drives});
+		}
 	}
 
 	/**
@@ -277,6 +316,22 @@ class FileInspector extends Component {
 	 */
 	DirectoryToParent () {
 		this.FileAction ('directory-parent', this.selectedTabParams);
+	}
+
+	/**
+	 * Change directory to different drive.
+	 */
+	DirectoryChangeDrive (e) {
+		let newDirectory = e.target.dataset.value;
+
+		if (newDirectory.indexOf (path.sep) < 0) {
+			newDirectory += path.sep;
+		}
+
+		let input = document.getElementById ('current-directory');
+		input.value = newDirectory;
+
+		this.DirectoryChanged ();
 	}
 }
 

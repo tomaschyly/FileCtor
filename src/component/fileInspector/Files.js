@@ -45,9 +45,11 @@ class Files extends Component {
 
 				row.push (<div className="tch-grid-col" key={`${rowData.reactId}-${0}`}><span>{rowData.name}</span></div>);
 
+				row.push (<div className="tch-grid-col no-grow" key={`${rowData.reactId}-${1}`}><span>{this.FileSize (rowData.size)}</span></div>);
+
 				if (typeof (this.props.onFileAction) !== 'undefined') {
 					if (typeof (rowData.error) !== 'undefined') {
-						row.push (<div className="tch-grid-col actions right" key={`${rowData.reactId}-${1}`}></div>);
+						row.push (<div className="tch-grid-col actions right" key={`${rowData.reactId}-${2}`}></div>);
 					} else {
 						let openDirectory = undefined;
 						if (rowData.isDirectory) {
@@ -59,7 +61,7 @@ class Files extends Component {
 							execute = <button type="button" className="tch-grid-action icon" data-reactid={rowData.reactId} data-action="file"><Eye /></button>;
 						}
 						
-						row.push (<div className="tch-grid-col actions right" key={`${rowData.reactId}-${1}`}>
+						row.push (<div className="tch-grid-col actions right" key={`${rowData.reactId}-${2}`}>
 							{openDirectory}
 							{execute}
 							<button type="button" className="tch-grid-action icon" data-reactid={rowData.reactId} data-action="console"><Code /></button>
@@ -75,6 +77,27 @@ class Files extends Component {
 		return <div className="tch-grid">
 			<div className="tch-grid-body">{contents}</div>
 		</div>;
+	}
+
+	/**
+	 * Output formated file size.
+	 */
+	FileSize (size) {
+		if (typeof (size) !== 'undefined') {
+			let bytes = parseInt (size);
+
+			if (bytes >= (1024 * 1024 * 1024)) {
+				return `${Math.round (bytes / (1024 * 1024 * 1024))} GB`;
+			} else if (bytes >= (1024 * 1024)) {
+				return `${Math.round (bytes / (1024 * 1024))} MB`;
+			} else if (bytes >= 1024) {
+				return `${Math.round (bytes / 1024)} KB`;
+			} else {
+				return `${bytes} B`;
+			}
+		}
+
+		return '';
 	}
 
 	/**
