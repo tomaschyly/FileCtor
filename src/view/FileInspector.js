@@ -94,7 +94,7 @@ class FileInspector extends Component {
 							<div className="current-directory-actions-container">
 								<button type="button" className="button icon" onClick={this.DirectoryToParent.bind (this)}><LevelUpAlt /></button>
 								{changeDrive}
-								<button type="button" className="button icon"><Code /></button>
+								<button type="button" className="button icon" onClick={this.DirectoryConsole.bind (this)}><Code /></button>
 								<button type="button" className="button icon"><Ellipsis /></button>
 							</div>
 						</div>
@@ -332,6 +332,16 @@ class FileInspector extends Component {
 		input.value = newDirectory;
 
 		this.DirectoryChanged ();
+	}
+
+	/**
+	 * Open console for current directory.
+	 */
+	DirectoryConsole () {
+		let params = {};
+		//TODO parameters
+
+		window.TCH.Main.OpenConsole (params);
 	}
 }
 

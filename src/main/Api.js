@@ -3,6 +3,7 @@ const { promisify } = require ('util');
 const fs = require ('fs');
 const path = require ('path');
 const systemInformation = require ('systeminformation');
+const consoleApi = require ('./api/Console');
 
 const readDirPromise = promisify (fs.readdir);
 const statPromise = promisify (fs.stat);
@@ -19,12 +20,14 @@ class Api {
 		ipcMain.on ('drives-list', Api.ListDrives);
 
 		ipcMain.on ('file-open', Api.OpenFile);
+
+		consoleApi.Init ();
 	}
 
 	/**
 	 * Send main process (Electron) parameters to renderer.
 	 */
-	static MainParameters (event, message) {
+	static MainParameters (event) {
 		let parameters = {
 			platform: process.platform,
 			directory: {
@@ -51,34 +54,36 @@ class Api {
 	 */
 	static async ReadDirectory (event, message) {
 		let contents = [];
-		let stats = typeof (message.statistics) !== 'undefined' && message.statistics ? true : false;
+		let stats = typeof (message.statistics) !== 'undefined' && message.statistics;
 
 		try {
 			let files = await readDirPromise (message.directory);
 			
 			if (Array.isArray (files) && files.length > 0) {
 				for (let index in files) {
-					let file = {
-						name: files [index]
-					};
+					if (files.hasOwnProperty (index)) {
+						let file = {
+							name: files [index]
+						};
 
-					try {
-						if (stats) {
-							let stat = await statPromise (path.join (message.directory, file.name));
-	
-							file.isDirectory = stat.isDirectory ();
-							
-							if (stat.isFile ()) {
-								file.size = stat.size;
+						try {
+							if (stats) {
+								let stat = await statPromise (path.join (message.directory, file.name));
+
+								file.isDirectory = stat.isDirectory ();
+
+								if (stat.isFile ()) {
+									file.size = stat.size;
+								}
 							}
-						}
-					} catch (error) {
-						console.error ('TCH_e API - ReadDirectory - ' + error.message);
+						} catch (error) {
+							console.error ('TCH_e API - ReadDirectory - ' + error.message);
 
-						file.statFailed = true;
+							file.statFailed = true;
+						}
+
+						contents.push (file);
 					}
-	
-					contents.push (file);
 				}
 			}
 		} catch (error) {
@@ -103,7 +108,7 @@ class Api {
 	/**
 	 * Get list of drives.
 	 */
-	static async ListDrives (event, message) {
+	static async ListDrives (event) {
 		let drives = [];
 
 		try {
@@ -117,14 +122,16 @@ class Api {
 
 					if (Array.isArray (files) && files.length > 0) {
 						for (let index in files) {
-							let stat = await statPromise (path.join ('/Volumes', files [index]));
+							if (files.hasOwnProperty (index)) {
+								let stat = await statPromise (path.join ('/Volumes', files [index]));
 
-							if (stat.isDirectory ()) {
-								drives.push ({
-									identifier: encodeURIComponent (path.join ('/Volumes', files [index])),
-									mount: path.join ('/Volumes', files [index]),
-									label: files [index]
-								});
+								if (stat.isDirectory ()) {
+									drives.push ({
+										identifier: encodeURIComponent (path.join ('/Volumes', files [index])),
+										mount: path.join ('/Volumes', files [index]),
+										label: files [index]
+									});
+								}
 							}
 						}
 					}

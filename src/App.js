@@ -52,7 +52,7 @@ class App extends Component {
 	 */
 	render () {
 		if (typeof (window.TCH.mainParameters) === 'undefined') {
-			return <div></div>;
+			return '';
 		} else {
 			return <HashRouter>
 				<div id="app" className={this.state.classes.join (' ')}>

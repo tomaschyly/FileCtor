@@ -1,3 +1,5 @@
+const { ipcRenderer } = window.require ('electron');
+
 if (typeof (window.TCH) === 'undefined') {
 	window.TCH = {};
 }
@@ -5,6 +7,14 @@ if (typeof (window.TCH) === 'undefined') {
 if (typeof (window.TCH.Main) === 'undefined') {
 	window.TCH.Main = {
 		titleBar: null,
+		navigation: null,
+
+		/**
+		 * Open console window with parameters.
+		 */
+		OpenConsole (params) {
+			ipcRenderer.send ('console-show', params);
+		},
 
 		/**
 		 * Set new document title.
@@ -23,11 +33,21 @@ if (typeof (window.TCH.Main) === 'undefined') {
 			}
 		},
 
+		/**
+		 * Hide navigation.
+		 */
+		HideNavigation () {
+			if (this.navigation !== null) {
+				this.navigation.Disable ();
+			}
+		},
+
 		Utils: {
 			/**
 			 * Find closest parent node with class or tag name for element.
 			 * @param {Element} element Element from which to search parent
 			 * @param {string} parentClass Class of searched for parent
+			 * @param {string} tagName Tag of searched for parent
 			 * @returns {null|Element}
 			 */
 			FindNearestParent (element, parentClass, tagName) {
