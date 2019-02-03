@@ -107,12 +107,38 @@ class Api {
 		let drives = [];
 
 		try {
-			let devices = await systemInformation.blockDevices ();
+			switch (process.platform) {
+				case 'linux': {
+					//TODO
+					break;
+				}
+				case 'darwin': {
+					let files = await readDirPromise ('/Volumes');
 
-			if (Array.isArray (devices) && devices.length > 0) {
-				for (let index in devices) {
-					if (devices [index].physical === 'Local') {
-						drives.push (devices [index]);
+					if (Array.isArray (files) && files.length > 0) {
+						for (let index in files) {
+							let stat = await statPromise (path.join ('/Volumes', files [index]));
+
+							if (stat.isDirectory ()) {
+								drives.push ({
+									identifier: encodeURIComponent (path.join ('/Volumes', files [index])),
+									mount: path.join ('/Volumes', files [index]),
+									label: files [index]
+								});
+							}
+						}
+					}
+					break;
+				} 
+				default: {
+					let devices = await systemInformation.blockDevices ();
+
+					if (Array.isArray (devices) && devices.length > 0) {
+						for (let index in devices) {
+							if (devices [index].physical === 'Local') {
+								drives.push (devices [index]);
+							}
+						}
 					}
 				}
 			}

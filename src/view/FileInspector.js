@@ -77,7 +77,7 @@ class FileInspector extends Component {
 				return {
 					id: element.identifier,
 					value: element.mount,
-					label: `${element.label} (${element.name})`
+					label: typeof (element.name) !== 'undefined' ? `${element.label} (${element.name})` : element.label
 				};
 			});
 
