@@ -12,7 +12,7 @@ class Api {
 	/**
 	 * Api initialization.
 	 */
-	static Init () {
+	static Init (main) {
 		ipcMain.on ('main-parameters', Api.MainParameters);
 
 		ipcMain.on ('directory-contents', Api.ReadDirectory);
@@ -21,7 +21,7 @@ class Api {
 
 		ipcMain.on ('file-open', Api.OpenFile);
 
-		consoleApi.Init ();
+		consoleApi.Init (main);
 	}
 
 	/**

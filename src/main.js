@@ -88,7 +88,7 @@ let Main = {
 };
 
 if (singleAppLock) {
-	Api.Init ();
+	Api.Init (Main);
 
 	app.on ('ready', () => {
 		Main.CreateWindow ();

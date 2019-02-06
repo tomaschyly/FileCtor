@@ -180,10 +180,12 @@ class FileInspector extends Component {
 		let directories = [];
 		let files = [];
 		for (let index in contents) {
-			if (typeof (contents [index].isDirectory) !== 'undefined' && contents [index].isDirectory) {
-				directories.push (contents [index]);
-			} else {
-				files.push (contents [index]);
+			if (contents.hasOwnProperty (index)) {
+				if (typeof (contents [index].isDirectory) !== 'undefined' && contents [index].isDirectory) {
+					directories.push (contents [index]);
+				} else {
+					files.push (contents [index]);
+				}
 			}
 		}
 
@@ -250,6 +252,9 @@ class FileInspector extends Component {
 				break;
 			case 'row':
 				this.FileRowAction (action, params);
+				break;
+			case 'console':
+				this.DirectoryConsole (params);
 				break;
 			default:
 				console.error (`FileInspector - FileAction - unsupported action: ${action}`);
@@ -337,9 +342,14 @@ class FileInspector extends Component {
 	/**
 	 * Open console for current directory.
 	 */
-	DirectoryConsole () {
-		let params = {};
-		//TODO parameters
+	DirectoryConsole (actionParams = null) {
+		let params = {
+			directory: this.selectedTabParams.directory
+		};
+
+		if (actionParams !== null && !actionParams.isDirectory) {
+			params.file = actionParams.name;
+		}
 
 		window.TCH.Main.OpenConsole (params);
 	}

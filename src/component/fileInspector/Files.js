@@ -26,6 +26,10 @@ class Files extends Component {
 
 		if (typeof (this.state.contents) !== 'undefined' && Array.isArray (this.state.contents)) {
 			for (let index in this.state.contents) {
+				if (!this.state.contents.hasOwnProperty (index)) {
+					continue;
+				}
+
 				let rowData = this.state.contents [index];
 				let row = [];
 
@@ -119,11 +123,13 @@ class Files extends Component {
 				let params = undefined;
 
 				for (let index in this.state.contents) {
-					let rowData = this.state.contents [index];
+					if (this.state.contents.hasOwnProperty (index)) {
+						let rowData = this.state.contents [index];
 
-					if (rowData.reactId === target.dataset.reactid) {
-						params = rowData;
-						break;
+						if (rowData.reactId === target.dataset.reactid) {
+							params = rowData;
+							break;
+						}
 					}
 				}
 

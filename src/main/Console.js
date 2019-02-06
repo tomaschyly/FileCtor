@@ -10,7 +10,7 @@ class Console {
 	/**
 	 * Create console window.
 	 */
-	static CreateWindow () {
+	static CreateWindow (parentWindow) {
 		if (Console_static.port === null) {
 			Console_static.port = process.env.FILECTOR_PORT;
 		}
@@ -25,7 +25,8 @@ class Console {
 					frame: false,
 					center: true,
 					show: false,
-					icon: path.join (__dirname, 'icon.png')
+					icon: path.join (__dirname, 'icon.png'),
+					parent: parentWindow
 				});
 				break;
 			case 'darwin':
@@ -37,7 +38,8 @@ class Console {
 					frame: false,
 					center: true,
 					show: false,
-					icon: path.join (__dirname, 'icon.icns')
+					icon: path.join (__dirname, 'icon.icns'),
+					parent: parentWindow
 				});
 				break;
 			default:
@@ -49,7 +51,8 @@ class Console {
 					frame: false,
 					center: true,
 					show: false,
-					icon: path.join (__dirname, 'icon.ico')
+					icon: path.join (__dirname, 'icon.ico'),
+					parent: parentWindow
 				});
 		}
 
@@ -77,9 +80,9 @@ class Console {
 	/**
 	 * Open console, create if not exists.
 	 */
-	static Open () {
+	static Open (parentWindow) {
 		if (Console_static.window === null) {
-			Console.CreateWindow ();
+			Console.CreateWindow (parentWindow);
 		}
 
 		Console_static.window.focus ();

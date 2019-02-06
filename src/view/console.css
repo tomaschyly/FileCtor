@@ -1,0 +1,11 @@
+/*** Console styles ***/
+.console,
+.console > .container,
+.console > .container > .row,
+.console > .container > .row > .col-10 { height: 100%; }
+.console { padding-top: 16px; }
+.console .current-script-container { height: calc(100% - 144px); padding: 0; margin-bottom: 16px; }
+#current-script { height: 100%; margin-bottom: 0; }
+.console .current-console-log-container { padding: 0; }
+#current-console-log { min-height: 36px; padding: 8px; }
+.current-script-container {  }
