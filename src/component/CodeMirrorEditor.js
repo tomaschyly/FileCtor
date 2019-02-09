@@ -1,7 +1,6 @@
-//import 'codemirror/theme/dracula.css';
 import 'codemirror/lib/codemirror.css';
 //import 'codemirror/theme/blackboard.css';
-//import 'codemirror/theme/darcula.css';
+import 'codemirror/theme/darcula.css';
 import 'codemirror/addon/hint/show-hint.css';
 import './codeMirrorEditor.css';
 
@@ -30,25 +29,26 @@ class CodeMirrorEditor extends Component {
 		this.editor = CodeMirror (this.node.current, {
 			value: '',
 			mode: 'javascript',
-			//theme: 'darcula',
+			theme: 'darcula',
 			lineNumbers: true,
 			lineWrapping: true,
 			extraKeys: {
 				'Ctrl-Space': 'autocomplete'
 			}
 		});
+
+		if (typeof (this.props.onChange) === 'function') {
+			this.editor.on ('change', editor => {
+				this.props.onChange (editor.getValue ());
+			});
+		}
 	}
 
 	/**
 	 * Called before component is removed from DOM.
 	 */
 	componentWillUnmount () {
-		if (typeof (this.editor) !== 'undefined') {
-			/*this.editor.destroy (); //TODO
-			this.container.remove ();*/
-
-			this.editor = undefined;
-		}
+		this.editor = undefined;
 	}
 
 	/**

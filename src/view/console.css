@@ -4,8 +4,38 @@
 .console > .container > .row,
 .console > .container > .row > .col-10 { height: 100%; }
 .console { padding-top: 16px; }
-.console .current-script-container { height: calc(100% - 144px); padding: 0; margin-bottom: 16px; }
+.console .current-script-container { height: calc(100% - 144px); padding: 0; margin-bottom: 32px; transition: height 0.4s linear; }
+.current-console-log-enlarge .current-script-container,
+.current-console-info-enlarge .current-script-container { height: 80px; }
 #current-script { height: 100%; margin-bottom: 0; }
-.console .current-console-log-container { padding: 0; }
-#current-console-log { min-height: 36px; padding: 8px; }
-.current-script-container {  }
+.console .current-script-actions-top-container { display: flex; position: absolute; left: 15px; top: -16px; right: 15px; z-index: 2; margin: 0; justify-content: center; align-items: center; }
+.console .current-script-actions-top-container .enlarge { display: none; }
+.current-console-log-enlarge .current-script-actions-top-container .enlarge,
+.current-console-info-enlarge .current-script-actions-top-container .enlarge { display: block; }
+.console .current-script-actions-top-container .button { margin: 0; background: white; }
+.console .current-script-actions-top-container .button:hover,
+.console .current-script-actions-top-container .button:focus { background: black; }
+.console .current-script-actions-container { display: flex; position: absolute; left: 15px; right: 15px; margin: -52px 0 0 0; justify-content: center; align-items: center; }
+.console .current-script-actions-container .panel { width: auto; margin: 0; background: white; }
+.console .current-script-actions-container .button { border-width: 0; border-right-width: 2px; border-radius: 0; margin: 0; text-align: center; vertical-align: middle; }
+.console .current-script-actions-container .button:last-child { border-right-width: 0; }
+.console .current-script-actions-container .button svg { width: 24px; height: 24px; }
+.console .current-console-log-container { position: relative; overflow: visible; padding: 0; height: 40px; transition: height 0.4s linear; }
+.current-console-log-enlarge .current-console-log-container { height: calc(100% - 184px); }
+#current-console-log { display: flex; flex-direction: column; overflow: hidden; overflow-y: auto; height: 100%; padding: 8px; }
+#current-console-log.error { color: red; }
+#current-console-log p { margin: 0 0 8px 0; }
+#current-console-log p:last-child { margin-bottom: 0; }
+.console .current-console-log-actions-container { display: flex; position: absolute; left: 15px; top: -16px; right: 15px; margin: 0; justify-content: center; align-items: center; }
+.current-console-log-enlarge .current-console-log-actions-container .enlarge { display: none; }
+.console .current-console-log-actions-container .button { margin: 0; background: white; }
+.console .current-console-log-actions-container .button:hover,
+.console .current-console-log-actions-container .button:focus { background: black; }
+.console .current-console-info-actions-container { display: flex; position: absolute; left: 15px; right: 15px; margin: -70px 0 0 0; justify-content: center; align-items: center; }
+.console .current-console-info-actions-container .button { margin: 0; background: white; }
+.console .current-console-info-actions-container .button:hover,
+.console .current-console-info-actions-container .button:focus { background: black; }
+.console .current-console-info-container { overflow: hidden; overflow-y: auto; height: 56px; transition: height 0.4s linear; }
+.current-console-info-enlarge .current-console-info-container { height: calc(100% - 168px); }
+.console #current-directory { padding-right: 8px; }
+.current-console-info-enlarge .current-console-info-actions-container .enlarge { display: none; }

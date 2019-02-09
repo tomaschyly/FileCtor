@@ -59,7 +59,7 @@ class Console {
 		if (typeof (process.env.FILECTOR_DEV) !== 'undefined' && process.env.FILECTOR_DEV === 'true') {
 			Console_static.window.loadURL (`http://127.0.0.1:${Console_static.port}/#/console`);
 		} else {
-			Console_static.window.loadURL (`file://${path.join (__dirname, '../build/index.html/#/console')}`);
+			Console_static.window.loadURL (`file://${path.join (__dirname, '../../build/index.html')}#/console`);
 		}
 
 		Console_static.window.once ('ready-to-show', () => {
