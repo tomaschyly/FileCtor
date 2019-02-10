@@ -35,7 +35,8 @@
 .console .current-console-info-actions-container .button { margin: 0; background: white; }
 .console .current-console-info-actions-container .button:hover,
 .console .current-console-info-actions-container .button:focus { background: black; }
-.console .current-console-info-container { overflow: hidden; overflow-y: auto; height: 56px; transition: height 0.4s linear; }
+.console .current-console-info-container { overflow: hidden; /*overflow-y: auto;*/ height: 56px; transition: height 0.4s linear; }
 .current-console-info-enlarge .current-console-info-container { height: calc(100% - 168px); }
 .console #current-directory { padding-right: 8px; }
+#current-console-info p { margin: 0 0 8px 0; }
 .current-console-info-enlarge .current-console-info-actions-container .enlarge { display: none; }

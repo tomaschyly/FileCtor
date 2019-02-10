@@ -54,6 +54,10 @@ class Console extends Component {
 				directory: message.directory,
 				files: files
 			});
+
+			this.UpdateCurrentInfo ({
+				files: files
+			});
 		};
 		ipcRenderer.on ('payload-last', this.parametersListener);
 		ipcRenderer.send ('payload-last');
@@ -71,6 +75,13 @@ class Console extends Component {
 
 		ipcRenderer.removeListener ('script-execute', this.executionResultListener);
 		delete this.executionResultListener;
+	}
+
+	/**
+	 * Called when component state is updated.
+	 */
+	componentDidUpdate (prevProps, prevState) {
+		this.UpdateCurrentInfo ({}, prevState);
 	}
 
 	/**
@@ -108,10 +119,10 @@ class Console extends Component {
 							</div>
 							<div className="current-console-info-container">
 								<input id="current-directory" type="text" value={this.state.directory} onChange={this.DirectoryChanged.bind (this)} />
-								<div id="current-console-info">{this.state.currentInfo}</div>
 								<div className="current-console-info-actions-container">
 									<button type="button" className="button icon enlarge" onClick={this.Enlarge.bind (this)} data-value="2"><ExpandArrows/></button>
 								</div>
+								<div id="current-console-info" dangerouslySetInnerHTML={{__html: this.state.currentInfo}}/>
 							</div>
 						</div>
 					</div>
@@ -189,7 +200,7 @@ class Console extends Component {
 	 * Show API reference.
 	 */
 	ShowApi () {
-		//TODO show API of parameters, functions, result from VM
+		ipcRenderer.send ('console-reference');
 	}
 
 	/**
@@ -200,6 +211,30 @@ class Console extends Component {
 
 		if (input.value !== this.state.directory) {
 			this.setState ({directory: input.value});
+		}
+	}
+
+	/**
+	 * Update current info based on console state.
+	 */
+	UpdateCurrentInfo (parameters = {}, prevState = null) {
+		let info = [];
+
+		let files = this.state.files;
+		if (typeof (parameters.files) !== 'undefined') {
+			files = parameters.files;
+		}
+
+		info.push (`<p>${files.length} selected files</p>`);
+
+		info.push ('<p>Snippet is wip</p>');
+
+		info = info.join ('');
+
+		if (prevState === null || info !== prevState.currentInfo) {
+			this.setState ({
+				currentInfo: info
+			});
 		}
 	}
 

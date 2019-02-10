@@ -4,6 +4,7 @@ import FileInspector from './view/FileInspector';
 import Snippet from './view/Snippet';
 import About from './view/About';
 import Console from './view/Console';
+import Reference from './view/Reference';
 
 class Router extends Component {
 	/**
@@ -15,6 +16,7 @@ class Router extends Component {
 			<Route path="/snippet" component={Snippet} />
 			<Route path="/about" component={About} />
 			<Route path="/console" component={Console} />
+			<Route path="/reference" component={Reference} />
 		</Switch>;
 	}
 }

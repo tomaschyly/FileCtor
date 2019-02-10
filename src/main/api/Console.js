@@ -2,6 +2,7 @@ const { ipcMain } = require ('electron');
 const vm = require ('vm');
 const extend = require ('extend');
 const ConsoleWindow = require ('../Console');
+const ReferenceWindow = require ('../Reference');
 
 let Main = undefined;
 
@@ -21,6 +22,8 @@ class Console {
 		ipcMain.on ('payload-last', Console.LastPayload);
 
 		ipcMain.on ('script-execute', Console.ExecuteScript);
+
+		ipcMain.on ('console-reference', Console.OpenConsoleReference);
 	}
 
 	/**
@@ -45,6 +48,7 @@ class Console {
 	static ExecuteScript (event, message) {
 		let sandbox = {
 			log: ''
+			//require: require //TODO this works, but do not give full access, only functions that are needed
 		};
 
 		sandbox = extend (sandbox, message.parameters);
@@ -78,6 +82,13 @@ class Console {
 		};
 
 		event.sender.send ('script-execute', response);
+	}
+
+	/**
+	 * Open console reference window.
+	 */
+	static OpenConsoleReference () {
+		ReferenceWindow.Open (Main.window);
 	}
 }
 

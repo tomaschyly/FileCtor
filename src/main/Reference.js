@@ -1,23 +1,23 @@
 const {BrowserWindow} = require ('electron');
 const path = require ('path');
 
-const Console_static = {
+const Reference_static = {
 	window: null,
 	port: null
 };
 
-class Console {
+class Reference {
 	/**
-	 * Create console window.
+	 * Create reference window.
 	 */
 	static CreateWindow (parentWindow) {
-		if (Console_static.port === null) {
-			Console_static.port = process.env.FILECTOR_PORT;
+		if (Reference_static.port === null) {
+			Reference_static.port = process.env.FILECTOR_PORT;
 		}
 
 		switch (process.platform) {
 			case 'linux':
-				Console_static.window = new BrowserWindow ({
+				Reference_static.window = new BrowserWindow ({
 					width: 640,
 					minWidth: 640,
 					height: 480,
@@ -31,7 +31,7 @@ class Console {
 				});
 				break;
 			case 'darwin':
-				Console_static.window = new BrowserWindow ({
+				Reference_static.window = new BrowserWindow ({
 					width: 640,
 					minWidth: 640,
 					height: 480,
@@ -45,7 +45,7 @@ class Console {
 				});
 				break;
 			default:
-				Console_static.window = new BrowserWindow ({
+				Reference_static.window = new BrowserWindow ({
 					width: 640,
 					minWidth: 640,
 					height: 480,
@@ -60,36 +60,36 @@ class Console {
 		}
 
 		if (typeof (process.env.FILECTOR_DEV) !== 'undefined' && process.env.FILECTOR_DEV === 'true') {
-			Console_static.window.loadURL (`http://127.0.0.1:${Console_static.port}/#/console`);
+			Reference_static.window.loadURL (`http://127.0.0.1:${Reference_static.port}/#/reference`);
 		} else {
-			Console_static.window.loadURL (`file://${path.join (__dirname, '../../build/index.html')}#/console`);
+			Reference_static.window.loadURL (`file://${path.join (__dirname, '../../build/index.html')}#/reference`);
 		}
 
-		Console_static.window.once ('ready-to-show', () => {
-			Console_static.window.setMenu (null);
+		Reference_static.window.once ('ready-to-show', () => {
+			Reference_static.window.setMenu (null);
 
-			Console_static.window.show ();
+			Reference_static.window.show ();
 
 			if (typeof (process.env.FILECTOR_DEV) !== 'undefined' && process.env.FILECTOR_DEV === 'true') {
-				Console_static.window.webContents.openDevTools ();
+				Reference_static.window.webContents.openDevTools ();
 			}
 		});
 
-		Console_static.window.on ('closed', () => {
-			Console_static.window = null;
+		Reference_static.window.on ('closed', () => {
+			Reference_static.window = null;
 		});
 	}
 
 	/**
-	 * Open console, create if not exists.
+	 * Open reference, create if not exists.
 	 */
 	static Open (parentWindow) {
-		if (Console_static.window === null) {
-			Console.CreateWindow (parentWindow);
+		if (Reference_static.window === null) {
+			Reference.CreateWindow (parentWindow);
 		}
 
-		Console_static.window.focus ();
+		Reference_static.window.focus ();
 	}
 }
 
-module.exports = Console;
+module.exports = Reference;
