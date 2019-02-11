@@ -25,9 +25,8 @@ class Console {
 					frame: false,
 					center: true,
 					show: false,
-					icon: path.join (__dirname, 'icon.png'),
-					parent: parentWindow,
-					modal: true
+					icon: path.join (__dirname, 'icon.png')/*,
+					parent: parentWindow*/
 				});
 				break;
 			case 'darwin':
@@ -39,9 +38,8 @@ class Console {
 					frame: false,
 					center: true,
 					show: false,
-					icon: path.join (__dirname, 'icon.icns'),
-					parent: parentWindow,
-					modal: true
+					icon: path.join (__dirname, 'icon.icns')/*,
+					parent: parentWindow*/
 				});
 				break;
 			default:
@@ -53,9 +51,8 @@ class Console {
 					frame: false,
 					center: true,
 					show: false,
-					icon: path.join (__dirname, 'icon.ico'),
-					parent: parentWindow,
-					modal: true
+					icon: path.join (__dirname, 'icon.ico')/*,
+					parent: parentWindow*/
 				});
 		}
 
@@ -83,12 +80,19 @@ class Console {
 	/**
 	 * Open console, create if not exists.
 	 */
-	static Open (parentWindow) {
+	static Open (parentWindow, lastPayloadCallback) {
+		let alreadyInitialized = true;
 		if (Console_static.window === null) {
 			Console.CreateWindow (parentWindow);
+
+			alreadyInitialized = false;
 		}
 
 		Console_static.window.focus ();
+
+		if (alreadyInitialized) {
+			lastPayloadCallback (undefined, Console_static.window);
+		}
 	}
 }
 

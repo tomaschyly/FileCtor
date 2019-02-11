@@ -30,16 +30,18 @@ class Console {
 	 * Open console window and pass parameters.
 	 */
 	static OpenConsole (event, message) {
-		ConsoleWindow.Open (Main.window);
-
 		Console_static.lastPayload = message;
+
+		ConsoleWindow.Open (Main.window, Console.LastPayload);
 	}
 
 	/**
 	 * Get last payload from Main.
 	 */
-	static LastPayload (event) {
-		event.sender.send ('payload-last', Console_static.lastPayload);
+	static LastPayload (event, window = null) {
+		let sender = window !== null ? window : event.sender;
+
+		sender.send ('payload-last', Console_static.lastPayload);
 	}
 
 	/**

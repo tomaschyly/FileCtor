@@ -15,7 +15,7 @@
 .console .current-script-actions-top-container .button { margin: 0; background: white; }
 .console .current-script-actions-top-container .button:hover,
 .console .current-script-actions-top-container .button:focus { background: black; }
-.console .current-script-actions-container { display: flex; position: absolute; left: 15px; right: 15px; margin: -52px 0 0 0; justify-content: center; align-items: center; }
+.console .current-script-actions-container { display: flex; position: absolute; left: 15px; right: 15px; z-index: 2; margin: -52px 0 0 0; justify-content: center; align-items: center; }
 .console .current-script-actions-container .panel { width: auto; margin: 0; background: white; }
 .console .current-script-actions-container .button { border-width: 0; border-right-width: 2px; border-radius: 0; margin: 0; text-align: center; vertical-align: middle; }
 .console .current-script-actions-container .button:last-child { border-right-width: 0; }

@@ -25,9 +25,8 @@ class Reference {
 					frame: false,
 					center: true,
 					show: false,
-					icon: path.join (__dirname, 'icon.png'),
-					parent: parentWindow,
-					modal: true
+					icon: path.join (__dirname, 'icon.png')/*,
+					parent: parentWindow*/
 				});
 				break;
 			case 'darwin':
@@ -39,9 +38,8 @@ class Reference {
 					frame: false,
 					center: true,
 					show: false,
-					icon: path.join (__dirname, 'icon.icns'),
-					parent: parentWindow,
-					modal: true
+					icon: path.join (__dirname, 'icon.icns')/*,
+					parent: parentWindow*/
 				});
 				break;
 			default:
@@ -53,9 +51,8 @@ class Reference {
 					frame: false,
 					center: true,
 					show: false,
-					icon: path.join (__dirname, 'icon.ico'),
-					parent: parentWindow,
-					modal: true
+					icon: path.join (__dirname, 'icon.ico')/*,
+					parent: parentWindow*/
 				});
 		}
 
