@@ -34,6 +34,20 @@ if (typeof (window.TCH.Main) === 'undefined') {
 		},
 
 		/**
+		 * Show button for opening main window.
+		 */
+		ShowMainButton () {
+			document.getElementById ('titlebar').classList.add ('main-visible');
+		},
+
+		/**
+		 * Hide button for opening main window.
+		 */
+		HideMainButton () {
+			document.getElementById ('titlebar').classList.remove ('main-visible');
+		},
+
+		/**
 		 * Hide navigation.
 		 */
 		HideNavigation () {

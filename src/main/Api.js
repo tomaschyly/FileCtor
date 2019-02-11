@@ -4,9 +4,13 @@ const fs = require ('fs');
 const path = require ('path');
 const systemInformation = require ('systeminformation');
 const consoleApi = require ('./api/Console');
+const ConsoleWindow_static = require ('./Console').Console_static;
+const ReferenceWindow_static = require ('./Reference').Reference_static;
 
 const readDirPromise = promisify (fs.readdir);
 const statPromise = promisify (fs.stat);
+
+let Main = undefined;
 
 class Api {
 	/**
@@ -21,6 +25,9 @@ class Api {
 
 		ipcMain.on ('file-open', Api.OpenFile);
 
+		ipcMain.on ('main-open', Api.OpenMain);
+
+		Main = main;
 		consoleApi.Init (main);
 	}
 
@@ -177,6 +184,36 @@ class Api {
 			}
 		} catch (error) {
 			console.error ('TCH_e API - OpenFile - ' + error.message);
+		}
+	}
+
+	/**
+	 * Tell other windows the main window was closed.
+	 */
+	static ClosedMain () {
+		if (ConsoleWindow_static.window !== null) {
+			ConsoleWindow_static.window.send ('main-closed');
+		}
+
+		if (ReferenceWindow_static.window !== null) {
+			ReferenceWindow_static.window.send ('main-closed');
+		}
+	}
+
+	/**
+	 * Open main window if it was closed.
+	 */
+	static OpenMain () {
+		if (Main.window === null) {
+			Main.CreateWindow ();
+
+			if (ConsoleWindow_static.window !== null) {
+				ConsoleWindow_static.window.send ('main-opened');
+			}
+
+			if (ReferenceWindow_static.window !== null) {
+				ReferenceWindow_static.window.send ('main-opened');
+			}
 		}
 	}
 }

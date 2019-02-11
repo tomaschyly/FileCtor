@@ -1,8 +1,8 @@
 const { ipcMain } = require ('electron');
 const vm = require ('vm');
 const extend = require ('extend');
-const ConsoleWindow = require ('../Console');
-const ReferenceWindow = require ('../Reference');
+const ConsoleWindow = require ('../Console').Console;
+const ReferenceWindow = require ('../Reference').Reference;
 
 let Main = undefined;
 

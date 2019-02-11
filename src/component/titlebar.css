@@ -1,6 +1,7 @@
 /*** Frame titlebar styles ***/
 #titlebar { display: flex; background: black; -webkit-user-select: none; -webkit-app-region: drag; }
 #title { display: inline-block; flex-grow: 1; padding: 8px 8px 8px 138px; color: white; font-size: 14px; text-align: center; }
+#titlebar.main-visible #title { padding-left: 184px; }
 .darwin #title { padding: 8px 138px 8px 8px; }
 #titlebar-actions { display: flex; }
 #titlebar-actions button { display: block; width: 46px; border: 0; border-bottom: 2px solid black; border-radius: 0; margin: 0; color: white; font-size: 14px; background: transparent; -webkit-app-region: no-drag; }
@@ -10,3 +11,5 @@
 #titlebar-maximize .clone { display: none; }
 #titlebar-maximize.minimize .square { display: none; }
 #titlebar-maximize.minimize .clone { display: block; }
+#titlebar-actions #titlebar-main { display: none; }
+#titlebar.main-visible #titlebar-actions #titlebar-main { display: block; }

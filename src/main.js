@@ -83,6 +83,8 @@ let Main = {
 
 		this.window.on ('closed', () => {
 			this.window = null;
+
+			Api.ClosedMain ();
 		});
 	}
 };

@@ -96,4 +96,7 @@ class Console {
 	}
 }
 
-module.exports = Console;
+module.exports = {
+	Console,
+	Console_static
+};

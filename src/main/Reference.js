@@ -89,4 +89,7 @@ class Reference {
 	}
 }
 
-module.exports = Reference;
+module.exports = {
+	Reference,
+	Reference_static
+};

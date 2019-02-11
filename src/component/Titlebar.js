@@ -3,10 +3,11 @@ import { ReactComponent as Minimize } from '../icon/minimize.svg';
 import { ReactComponent as MaximizeSquare } from '../icon/maximize-square.svg';
 import { ReactComponent as MaximizeClone } from '../icon/maximize-clone.svg';
 import { ReactComponent as Close } from '../icon/close.svg';
+import { ReactComponent as Home } from '../icon/home.svg';
 
 import React, { Component } from 'react';
 
-const { remote } = window.require ('electron');
+const { remote, ipcRenderer } = window.require ('electron');
 
 class TitleBar extends Component {
 	/**
@@ -33,6 +34,16 @@ class TitleBar extends Component {
 		this.IsMaximized ();
 		this.onResizeListener = this.IsMaximized.bind (this);
 		window.addEventListener ('resize', this.onResizeListener);
+
+		this.mainClosedListener = () => {
+			window.TCH.Main.ShowMainButton ();
+		};
+		ipcRenderer.on ('main-closed', this.mainClosedListener);
+
+		this.mainOpenedListener = () => {
+			window.TCH.Main.HideMainButton ();
+		};
+		ipcRenderer.on ('main-opened', this.mainOpenedListener);
 	}
 
 	/**
@@ -43,6 +54,12 @@ class TitleBar extends Component {
 
 		window.removeEventListener ('resize', this.onResizeListener);
 		this.onResizeListener = undefined;
+
+		ipcRenderer.removeListener ('main-closed', this.mainClosedListener);
+		delete this.mainClosedListener;
+
+		ipcRenderer.removeListener ('main-opened', this.mainOpenedListener);
+		delete this.mainOpenedListener;
 	}
 
 	/**
@@ -56,9 +73,10 @@ class TitleBar extends Component {
 				elements = <div id="titlebar">
 					<div id="title">{this.state.title}</div>
 					<div id="titlebar-actions">
+						<button type="button" id="titlebar-home" onClick={this.Main.bind (this)}><Home /></button>
 						<button type="button" id="titlebar-minimize" onClick={this.Minimize.bind (this)}><Minimize /></button>
 						<button type="button" id="titlebar-maximize" onClick={this.Maximize.bind (this)}><MaximizeSquare /><MaximizeClone /></button>
-						<button type="button" id="titlebar-close" onClick={this.Close.bind (this)}><Close /></button>
+						<button type="button" id="titlebar-main" onClick={this.Main.bind (this)}><Home /></button>
 					</div>
 				</div>;
 				break;
@@ -68,6 +86,7 @@ class TitleBar extends Component {
 						<button type="button" id="titlebar-close" onClick={this.Close.bind (this)}><Close /></button>
 						<button type="button" id="titlebar-minimize" onClick={this.Minimize.bind (this)}><Minimize /></button>
 						<button type="button" id="titlebar-maximize" onClick={this.Maximize.bind (this)}><MaximizeSquare /><MaximizeClone /></button>
+						<button type="button" id="titlebar-main" onClick={this.Main.bind (this)}><Home /></button>
 					</div>
 					<div id="title">{this.state.title}</div>
 				</div>;
@@ -76,6 +95,7 @@ class TitleBar extends Component {
 				elements = <div id="titlebar">
 					<div id="title">{this.state.title}</div>
 					<div id="titlebar-actions">
+						<button type="button" id="titlebar-main" onClick={this.Main.bind (this)}><Home /></button>
 						<button type="button" id="titlebar-minimize" onClick={this.Minimize.bind (this)}><Minimize /></button>
 						<button type="button" id="titlebar-maximize" onClick={this.Maximize.bind (this)}><MaximizeSquare /><MaximizeClone /></button>
 						<button type="button" id="titlebar-close" onClick={this.Close.bind (this)}><Close /></button>
@@ -138,6 +158,13 @@ class TitleBar extends Component {
 		setTimeout (() => {
 			document.getElementById ('titlebar-close').blur ();
 		}, 1);
+	}
+
+	/**
+	 * Open main window.
+	 */
+	Main () {
+		ipcRenderer.send ('main-open');
 	}
 }
 
