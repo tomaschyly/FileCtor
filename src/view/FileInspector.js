@@ -27,6 +27,7 @@ class FileInspector extends Component {
 		this.selectedRows = [];
 
 		this.state = {
+			startTabs: undefined,
 			drives: []
 		};
 	}
@@ -42,6 +43,16 @@ class FileInspector extends Component {
 
 		this.drivesListListener = this.DrivesList.bind (this);
 		ipcRenderer.on ('drives-list', this.drivesListListener);
+
+		this.startTabsListener = (event, message) => {
+			if (message.key === 'file-inspector-tabs') {
+				this.setState ({startTabs: message.value});
+			}
+		};
+		ipcRenderer.on ('config-get', this.startTabsListener);
+		setTimeout (() => {
+			ipcRenderer.send ('config-get', {key: 'file-inspector-tabs'});
+		}, 1);
 
 		setTimeout (() => {
 			ipcRenderer.send ('drives-list');
@@ -60,6 +71,9 @@ class FileInspector extends Component {
 		
 		ipcRenderer.removeListener ('directory-contents', this.directoryContentsListener);
 		delete this.directoryContentsListener;
+
+		ipcRenderer.removeListener ('config-get', this.startTabsListener);
+		delete this.startTabsListener;
 		
 		ipcRenderer.removeListener ('drives-list', this.drivesListListener);
 		delete this.drivesListListener;
@@ -69,6 +83,10 @@ class FileInspector extends Component {
 	 * Render the component into html.
 	 */
 	render () {
+		if (typeof (this.state.startTabs) === 'undefined') {
+			return '';
+		}
+
 		this.tabs = React.createRef ();
 
 		let changeDrive = undefined;
@@ -85,7 +103,7 @@ class FileInspector extends Component {
 		}
 
 		return <div className="file-inspector">
-			<Tabs ref={this.tabs} startWith="1" tabParameters={this.TabParameters.bind (this)} onTabSelected={this.TabSelected.bind (this)} />
+			<Tabs ref={this.tabs} startTabs={this.state.startTabs} startWith="1" tabsSave={this.TabsSave.bind (this)} tabParameters={this.TabParameters.bind (this)} onTabSelected={this.TabSelected.bind (this)} />
 			<div className="container bottom">
 				<div className="row">
 					<div className="col-10">
@@ -105,6 +123,13 @@ class FileInspector extends Component {
 	}
 
 	/**
+	 * Save Tabs to config.
+	 */
+	TabsSave (tabs) {
+		ipcRenderer.send ('config-set', {key: 'file-inspector-tabs', value: tabs});
+	}
+
+	/**
 	 * Return parameters for Tab.
 	 */
 	TabParameters (params) {
@@ -114,7 +139,9 @@ class FileInspector extends Component {
 			params.directory = window.TCH.mainParameters.directory.documents;
 		}
 
-		params.title = path.basename (params.directory);
+		if (typeof (params.title) === 'undefined') {
+			params.title = path.basename (params.directory);
+		}
 
 		params.content = this.TabContent.bind (this);
 

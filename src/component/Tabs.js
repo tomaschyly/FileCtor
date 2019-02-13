@@ -22,11 +22,18 @@ class Tabs extends Component {
 
 		this.additionalTabsSelect = undefined;
 
-		let startWith = typeof (props.startWith) !== 'undefined' ? parseInt (props.startWith) : 0;
 		let tabs = [];
-		if (tabs.length < startWith) {
-			for (let i = 0; i < startWith; i++) {
-				tabs.push (this.AddTab ());
+
+		if (typeof (this.props.startTabs) !== 'undefined' && this.props.startTabs !== null && Array.isArray (this.props.startTabs)) {
+			for (let i = 0; i < this.props.startTabs.length; i++) {
+				tabs.push (this.AddTab (this.props.startTabs [i]));
+			}
+		} else {
+			let startWith = typeof (props.startWith) !== 'undefined' ? parseInt (props.startWith) : 0;
+			if (tabs.length < startWith) {
+				for (let i = 0; i < startWith; i++) {
+					tabs.push (this.AddTab ());
+				}
 			}
 		}
 
@@ -65,6 +72,10 @@ class Tabs extends Component {
 		this.NavigationAdditionalList ();
 
 		this.UpdateActiveNavigation ();
+
+		if (typeof (this.props.tabsSave) === 'function') {
+			this.props.tabsSave (this.state.tabs);
+		}
 	}
 
 	/**
@@ -191,11 +202,11 @@ class Tabs extends Component {
 	/**
 	 * Add new Tab.
 	 */
-	AddTab () {
-		let params = {
+	AddTab (startParams = null) {
+		let params = startParams !== null ? startParams : {
 			id: uuidV4 (),
 			tag: undefined,
-			title: 'Tab',
+			title: undefined,
 			content: undefined
 		};
 

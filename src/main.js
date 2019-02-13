@@ -2,6 +2,7 @@
 const {app, BrowserWindow} = require ('electron');
 const path = require ('path');
 const Api = require ('./main/Api');
+const Config = require ('./main/Config');
 
 const singleAppLock = app.requestSingleInstanceLock ();
 
@@ -10,8 +11,13 @@ if (typeof (process.env.FILECTOR_DEV) !== 'undefined' && process.env.FILECTOR_DE
 }
 
 let Main = {
+	default: {
+		width: 800,
+		height: 600
+	},
 	window: null,
 	port: null,
+	config: null,
 
 	/**
 	 * Create main app window.
@@ -21,12 +27,19 @@ let Main = {
 			this.port = process.env.FILECTOR_PORT;
 		}
 
+		this.config = new Config ();
+		await this.config.Load ();
+
+		let windowParameters = this.LoadWindow ('main');
+		let width = windowParameters !== null && typeof (windowParameters.size) !== 'undefined' ? windowParameters.size.width : this.default.width;
+		let height = windowParameters !== null && typeof (windowParameters.size) !== 'undefined' ? windowParameters.size.height : this.default.height;
+
 		switch (process.platform) {
 			case 'linux':
 				this.window = new BrowserWindow ({
-					width: 800,
+					width: width,
 					minWidth: 640,
-					height: 600,
+					height: height,
 					minHeight: 480,
 					frame: false,
 					center: true,
@@ -36,9 +49,9 @@ let Main = {
 				break;
 			case 'darwin':
 				this.window = new BrowserWindow ({
-					width: 800,
+					width: width,
 					minWidth: 640,
-					height: 600,
+					height: height,
 					minHeight: 480,
 					frame: false,
 					center: true,
@@ -48,9 +61,9 @@ let Main = {
 				break;
 			default:
 				this.window = new BrowserWindow ({
-					width: 800,
+					width: width,
 					minWidth: 640,
-					height: 600,
+					height: height,
 					minHeight: 480,
 					frame: false,
 					center: true,
@@ -74,10 +87,22 @@ let Main = {
 		this.window.once ('ready-to-show', () => {
 			this.window.setMenu (null);
 
+			if (windowParameters !== null && typeof (windowParameters.maximized) !== 'undefined' && windowParameters.maximized) {
+				this.window.maximize ();
+			}
+
 			this.window.show ();
 
 			if (typeof (process.env.FILECTOR_DEV) !== 'undefined' && process.env.FILECTOR_DEV === 'true') {
 				this.window.webContents.openDevTools ();
+			}
+
+			let size = this.window.getSize ();
+
+			if (size [0] !== this.default.width || size [1] !== this.default.height) {
+				this.window.send ('reset-show', {window: 'main'});
+			} else {
+				this.window.send ('reset-hide');
 			}
 		});
 
@@ -86,6 +111,60 @@ let Main = {
 
 			Api.ClosedMain ();
 		});
+
+		this.window.on ('maximize', () => {
+			this.SaveWindow ('main', 'maximized', true);
+		});
+		this.window.on ('unmaximize', () => {
+			this.SaveWindow ('main', 'maximized', false);
+		});
+
+		this.window.on ('resize', () => {
+			let size = this.window.getSize ();
+
+			this.SaveWindow ('main', 'size', {
+				width: size [0],
+				height: size [1]
+			});
+
+			if (size [0] !== this.default.width || size [1] !== this.default.height) {
+				this.window.send ('reset-show', {window: 'main'});
+			} else {
+				this.window.send ('reset-hide');
+			}
+		});
+	},
+
+	/**
+	 * Load BrowserWindow parameters.
+	 * @param {string} which Identifier for window
+	 * @return {Object|null}
+	 */
+	LoadWindow (which) {
+		let windows = this.config.Get ('windows');
+		if (windows !== null && typeof (windows [which]) !== 'undefined') {
+			return windows [which];
+		}
+
+		return null;
+	},
+
+	/**
+	 * Save BrowserWindow parameters.
+	 */
+	SaveWindow (which, key, value) {
+		let windows = this.config.Get ('windows');
+		if (windows === null) {
+			windows = {};
+		}
+
+		if (typeof (windows [which]) === 'undefined') {
+			windows [which] = {};
+		}
+
+		windows [which] [key] = value;
+
+		this.config.Set ('windows', windows);
 	}
 };
 

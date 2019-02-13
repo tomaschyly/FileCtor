@@ -32,7 +32,7 @@ class Console {
 	static OpenConsole (event, message) {
 		Console_static.lastPayload = message;
 
-		ConsoleWindow.Open (Main.window, Console.LastPayload);
+		ConsoleWindow.Open (Main, Console.LastPayload);
 	}
 
 	/**
@@ -90,7 +90,7 @@ class Console {
 	 * Open console reference window.
 	 */
 	static OpenConsoleReference () {
-		ReferenceWindow.Open (Main.window);
+		ReferenceWindow.Open (Main);
 	}
 }
 

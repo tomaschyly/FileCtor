@@ -4,6 +4,7 @@ import { ReactComponent as MaximizeSquare } from '../icon/maximize-square.svg';
 import { ReactComponent as MaximizeClone } from '../icon/maximize-clone.svg';
 import { ReactComponent as Close } from '../icon/close.svg';
 import { ReactComponent as Home } from '../icon/home.svg';
+import { ReactComponent as ExpandArrowsAlt } from '../icon/expand-arrows-alt.svg';
 
 import React, { Component } from 'react';
 
@@ -44,6 +45,18 @@ class TitleBar extends Component {
 			window.TCH.Main.HideMainButton ();
 		};
 		ipcRenderer.on ('main-opened', this.mainOpenedListener);
+
+		this.resetShowListener = (event, message) => {
+			window.TCH.Main.ShowResetButton ();
+
+			this.whichWindow = message.window;
+		};
+		ipcRenderer.on ('reset-show', this.resetShowListener);
+
+		this.resetHideListener = () => {
+			window.TCH.Main.HideResetButton ();
+		};
+		ipcRenderer.on ('reset-hide', this.resetHideListener);
 	}
 
 	/**
@@ -60,6 +73,12 @@ class TitleBar extends Component {
 
 		ipcRenderer.removeListener ('main-opened', this.mainOpenedListener);
 		delete this.mainOpenedListener;
+
+		ipcRenderer.removeListener ('reset-show', this.resetShowListener);
+		delete this.resetShowListener;
+
+		ipcRenderer.removeListener ('reset-hide', this.resetHideListener);
+		delete this.resetHideListener;
 	}
 
 	/**
@@ -71,6 +90,10 @@ class TitleBar extends Component {
 		switch (window.TCH.mainParameters.platform) {
 			case 'linux':
 				elements = <div id="titlebar">
+					<div id="titlebar-actions-other">
+						<button type="button" id="titlebar-reset" onClick={this.Reset.bind (this)}><ExpandArrowsAlt /></button>
+						<button type="button" id="titlebar-main" onClick={this.Main.bind (this)}><Home /></button>
+					</div>
 					<div id="title">{this.state.title}</div>
 					<div id="titlebar-actions">
 						<button type="button" id="titlebar-home" onClick={this.Main.bind (this)}><Home /></button>
@@ -89,13 +112,20 @@ class TitleBar extends Component {
 						<button type="button" id="titlebar-main" onClick={this.Main.bind (this)}><Home /></button>
 					</div>
 					<div id="title">{this.state.title}</div>
+					<div id="titlebar-actions-other">
+						<button type="button" id="titlebar-main" onClick={this.Main.bind (this)}><Home /></button>
+						<button type="button" id="titlebar-reset" onClick={this.Reset.bind (this)}><ExpandArrowsAlt /></button>
+					</div>
 				</div>;
 				break;
 			default:
 				elements = <div id="titlebar">
+					<div id="titlebar-actions-other">
+						<button type="button" id="titlebar-reset" onClick={this.Reset.bind (this)}><ExpandArrowsAlt /></button>
+						<button type="button" id="titlebar-main" onClick={this.Main.bind (this)}><Home /></button>
+					</div>
 					<div id="title">{this.state.title}</div>
 					<div id="titlebar-actions">
-						<button type="button" id="titlebar-main" onClick={this.Main.bind (this)}><Home /></button>
 						<button type="button" id="titlebar-minimize" onClick={this.Minimize.bind (this)}><Minimize /></button>
 						<button type="button" id="titlebar-maximize" onClick={this.Maximize.bind (this)}><MaximizeSquare /><MaximizeClone /></button>
 						<button type="button" id="titlebar-close" onClick={this.Close.bind (this)}><Close /></button>
@@ -165,6 +195,13 @@ class TitleBar extends Component {
 	 */
 	Main () {
 		ipcRenderer.send ('main-open');
+	}
+
+	/**
+	 * Reset window to default.
+	 */
+	Reset () {
+		ipcRenderer.send ('window-reset', {window: this.whichWindow});
 	}
 }
 

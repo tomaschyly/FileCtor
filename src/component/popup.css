@@ -1,0 +1,12 @@
+/*** General popup styles ***/
+.general-popup-container { display: none; position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: 100; align-items: center; justify-content: center; background: rgba(0, 0, 0, 0.6); }
+.general-popup-container.visible,
+.general-popup-container.animating { display: flex; }
+.general-popup { display: flex; width: 90%; max-width: 480px; height: 90%; max-height: 320px; flex-direction: column; padding: 0; border: 2px solid black; border-radius: 8px; background: white; }
+.general-popup.auto { height: auto; }
+.general-popup-header { display: block; width: 100%; height: auto; padding: 8px 16px; margin: 0; text-align: center; background: black; }
+.general-popup-header h2 { margin: 0; color: white; text-transform: uppercase; }
+.general-popup-content { display: block; flex-grow: 1; width: 100%; height: auto; overflow: hidden; overflow-y: auto; padding: 16px 16px 0 16px; }
+.general-popup-content p { text-align: justify; }
+.general-popup-footer { display: block; width: 100%; height: auto; padding: 8px 16px; border-top: 2px solid black; margin: 0; background: transparent; }
+.general-popup-footer button { margin-bottom: 0; }

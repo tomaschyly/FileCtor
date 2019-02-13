@@ -27,6 +27,12 @@ class Api {
 
 		ipcMain.on ('main-open', Api.OpenMain);
 
+		ipcMain.on ('window-reset', Api.ResetWindow);
+
+		ipcMain.on ('config-get', Api.GetConfig);
+
+		ipcMain.on ('config-set', Api.SetConfig);
+
 		Main = main;
 		consoleApi.Init (main);
 	}
@@ -214,6 +220,64 @@ class Api {
 			if (ReferenceWindow_static.window !== null) {
 				ReferenceWindow_static.window.send ('main-opened');
 			}
+		}
+	}
+
+	/**
+	 * Reset window do default.
+	 */
+	static ResetWindow (event, message) {
+		switch (message.window) {
+			case 'main':
+				if (Main.window !== null) {
+					Main.window.setSize (Main.default.width, Main.default.height);
+					Main.window.center ();
+				}
+				break;
+			case 'console':
+				if (ConsoleWindow_static.window !== null) {
+					ConsoleWindow_static.window.setSize (ConsoleWindow_static.default.width, ConsoleWindow_static.default.height);
+					ConsoleWindow_static.window.center ();
+				}
+				break;
+			case 'reference':
+				if (ReferenceWindow_static.window !== null) {
+					ReferenceWindow_static.window.setSize (ReferenceWindow_static.default.width, ReferenceWindow_static.default.height);
+					ReferenceWindow_static.window.center ();
+				}
+				break;
+			default:
+				//do nothing
+				break;
+		}
+	}
+
+	/**
+	 * Get all or some value from config.
+	 */
+	static GetConfig (event, message) {
+		if (typeof (message.key) !== 'undefined') {
+			let value = Main.config.Get (message.key);
+
+			event.sender.send ('config-get', {
+				key: message.key,
+				value: value
+			});
+		} else {
+			let data = Main.config.Get ();
+
+			event.sender.send ('config-get', {
+				data: data
+			});
+		}
+	}
+
+	/**
+	 * Set value to config.
+	 */
+	static SetConfig (event, message) {
+		if (typeof (message.key) !== 'undefined' && typeof (message.value) !== 'undefined') {
+			Main.config.Set (message.key, message.value);
 		}
 	}
 }

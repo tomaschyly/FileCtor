@@ -56,6 +56,20 @@ if (typeof (window.TCH.Main) === 'undefined') {
 			}
 		},
 
+		/**
+		 * Show button for resetting the window.
+		 */
+		ShowResetButton () {
+			document.getElementById ('titlebar').classList.add ('reset-visible');
+		},
+
+		/**
+		 * Hide button for resetting the window.
+		 */
+		HideResetButton () {
+			document.getElementById ('titlebar').classList.remove ('reset-visible');
+		},
+
 		Utils: {
 			/**
 			 * Find closest parent node with class or tag name for element.

@@ -7,8 +7,9 @@ import { ReactComponent as ExpandArrows } from '../icon/expand-arrows.svg';
 
 import React, { Component } from 'react';
 import CodeMirrorEditor from '../component/CodeMirrorEditor';
+import Popup from '../component/Popup';
 
-const { ipcRenderer } = window.require ('electron');
+const { ipcRenderer, remote } = window.require ('electron');
 
 window.Console_static = {
 	parameters: undefined
@@ -28,7 +29,8 @@ class Console extends Component {
 			script: '',
 			log: '',
 			logIsError: false,
-			currentInfo: ''
+			currentInfo: '',
+			warning: false
 		};
 
 		window.Console_static.parameters = undefined;
@@ -64,6 +66,18 @@ class Console extends Component {
 
 		this.executionResultListener = this.ExecutionResult.bind (this);
 		ipcRenderer.on ('script-execute', this.executionResultListener);
+
+		this.configGetListener = (event, message) => {
+			if (message.key === 'console-warning') {
+				if (message.value === null || !message.value) {
+					this.setState ({warning: true});
+				}
+			}
+		};
+		ipcRenderer.on ('config-get', this.configGetListener);
+		setTimeout (() => {
+			ipcRenderer.send ('config-get', {key: 'console-warning'});
+		}, 1);
 	}
 
 	/**
@@ -75,6 +89,9 @@ class Console extends Component {
 
 		ipcRenderer.removeListener ('script-execute', this.executionResultListener);
 		delete this.executionResultListener;
+
+		ipcRenderer.removeListener ('config-get', this.configGetListener);
+		delete this.configGetListener;
 	}
 
 	/**
@@ -127,6 +144,13 @@ class Console extends Component {
 						</div>
 					</div>
 				</div>
+
+				<Popup visible={this.state.warning} headline="Security Warning" content={
+					<div>
+						<p>Please, do not run untrusted code. You may cause harm to your computer.</p>
+						<p>Especially be wary of copy pasting code from internet that you do not understand.</p>
+					</div>
+				} close="Back" onClose={this.WarningClose.bind (this)} accept="I Understand" acceptVisible={true} onAccept={this.WarningAccept.bind (this)}/>
 			</div>;
 		}
 	}
@@ -262,6 +286,24 @@ class Console extends Component {
 				this.setState ({mainClasses: ''});
 				break;
 		}
+	}
+
+	/**
+	 * On warning close, close window.
+	 */
+	WarningClose () {
+		remote.getCurrentWindow ().close ();
+	}
+
+	/**
+	 * On warning accept, hide popup and save config.
+	 */
+	WarningAccept (callback) {
+		callback ();
+
+		ipcRenderer.send ('config-set', {key: 'console-warning', value: true});
+
+		this.setState ({warning: false});
 	}
 }
 

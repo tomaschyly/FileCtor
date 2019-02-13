@@ -1,15 +1,31 @@
 /*** Frame titlebar styles ***/
 #titlebar { display: flex; background: black; -webkit-user-select: none; -webkit-app-region: drag; }
 #title { display: inline-block; flex-grow: 1; padding: 8px 8px 8px 138px; color: white; font-size: 14px; text-align: center; }
-#titlebar.main-visible #title { padding-left: 184px; }
+#titlebar.main-visible #title,
+#titlebar.reset-visible #title { padding-left: 92px; }
+#titlebar.main-visible.reset-visible #title { padding-left: 46px; }
 .darwin #title { padding: 8px 138px 8px 8px; }
-#titlebar-actions { display: flex; }
-#titlebar-actions button { display: block; width: 46px; border: 0; border-bottom: 2px solid black; border-radius: 0; margin: 0; color: white; font-size: 14px; background: transparent; -webkit-app-region: no-drag; }
+.darwin #titlebar.main-visible #title,
+.darwin #titlebar.reset-visible #title { padding-right: 92px; }
+.darwin #titlebar.main-visible.reset-visible #title { padding-right: 46px; }
+#titlebar-actions,
+#titlebar-actions-other { display: flex; }
+#titlebar-actions button,
+#titlebar-actions-other button { display: block; width: 46px; border: 0; border-bottom: 2px solid black; border-radius: 0; margin: 0; color: white; font-size: 14px; background: transparent; -webkit-app-region: no-drag; }
 #titlebar-actions button:hover,
-#titlebar-actions button:focus { color: black; background: white; }
-#titlebar-actions button svg { display: block; margin: 0 auto; }
+#titlebar-actions button:focus,
+#titlebar-actions-other button:hover,
+#titlebar-actions-other button:focus { color: black; background: white; }
+#titlebar-actions button svg,
+#titlebar-actions-other button svg { display: block; margin: 0 auto; }
 #titlebar-maximize .clone { display: none; }
 #titlebar-maximize.minimize .square { display: none; }
 #titlebar-maximize.minimize .clone { display: block; }
-#titlebar-actions #titlebar-main { display: none; }
-#titlebar.main-visible #titlebar-actions #titlebar-main { display: block; }
+#titlebar-actions #titlebar-main,
+#titlebar-actions-other #titlebar-main { display: none; }
+#titlebar.main-visible #titlebar-actions #titlebar-main,
+#titlebar.main-visible #titlebar-actions-other #titlebar-main { display: block; }
+#titlebar-actions #titlebar-reset,
+#titlebar-actions-other #titlebar-reset { display: none; }
+#titlebar.reset-visible #titlebar-actions #titlebar-reset,
+#titlebar.reset-visible #titlebar-actions-other #titlebar-reset { display: block; }

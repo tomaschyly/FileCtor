@@ -1,7 +1,7 @@
 {
 	"name": "tch-filector",
 	"productName": "FileCtor",
-	"version": "0.3.2",
+	"version": "0.4.0",
 	"author": "Tomas Chyly <chyly@tomas-chyly.com> (https://tomas-chyly.com/en/)",
 	"license": "GPL v3",
 	"description": "File inspector with interactive console.",
@@ -32,6 +32,7 @@
 	"dependencies": {
 		"codemirror": "^5.43.0",
 		"extend": "^3.0.2",
+		"fs-extra": "^7.0.1",
 		"systeminformation": "^4.0.3",
 		"uuid": "^3.3.2",
 		"write-file-atomic": "^2.4.2"
