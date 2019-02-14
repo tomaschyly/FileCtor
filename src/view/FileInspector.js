@@ -28,6 +28,7 @@ class FileInspector extends Component {
 
 		this.state = {
 			startTabs: undefined,
+			startSelectedTab: undefined,
 			drives: []
 		};
 	}
@@ -47,11 +48,14 @@ class FileInspector extends Component {
 		this.startTabsListener = (event, message) => {
 			if (message.key === 'file-inspector-tabs') {
 				this.setState ({startTabs: message.value});
+			} else if (message.key === 'file-inspector-tab-selected') {
+				this.setState ({startSelectedTab: message.value});
 			}
 		};
 		ipcRenderer.on ('config-get', this.startTabsListener);
 		setTimeout (() => {
 			ipcRenderer.send ('config-get', {key: 'file-inspector-tabs'});
+			ipcRenderer.send ('config-get', {key: 'file-inspector-tab-selected'});
 		}, 1);
 
 		setTimeout (() => {
@@ -83,7 +87,7 @@ class FileInspector extends Component {
 	 * Render the component into html.
 	 */
 	render () {
-		if (typeof (this.state.startTabs) === 'undefined') {
+		if (typeof (this.state.startTabs) === 'undefined' || typeof (this.state.startSelectedTab) === 'undefined') {
 			return '';
 		}
 
@@ -103,7 +107,7 @@ class FileInspector extends Component {
 		}
 
 		return <div className="file-inspector">
-			<Tabs ref={this.tabs} startTabs={this.state.startTabs} startWith="1" tabsSave={this.TabsSave.bind (this)} tabParameters={this.TabParameters.bind (this)} onTabSelected={this.TabSelected.bind (this)} />
+			<Tabs ref={this.tabs} startTabs={this.state.startTabs} startSelectedTab={this.state.startSelectedTab} startWith="1" tabsSave={this.TabsSave.bind (this)} tabParameters={this.TabParameters.bind (this)} onTabSelected={this.TabSelected.bind (this)} />
 			<div className="container bottom">
 				<div className="row">
 					<div className="col-10">
@@ -125,8 +129,9 @@ class FileInspector extends Component {
 	/**
 	 * Save Tabs to config.
 	 */
-	TabsSave (tabs) {
+	TabsSave (tabs, selectedTab) {
 		ipcRenderer.send ('config-set', {key: 'file-inspector-tabs', value: tabs});
+		ipcRenderer.send ('config-set', {key: 'file-inspector-tab-selected', value: selectedTab});
 	}
 
 	/**

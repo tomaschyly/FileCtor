@@ -6,8 +6,8 @@
 #titlebar.main-visible.reset-visible #title { padding-left: 46px; }
 .darwin #title { padding: 8px 138px 8px 8px; }
 .darwin #titlebar.main-visible #title,
-.darwin #titlebar.reset-visible #title { padding-right: 92px; }
-.darwin #titlebar.main-visible.reset-visible #title { padding-right: 46px; }
+.darwin #titlebar.reset-visible #title { padding-left: 8px; padding-right: 92px; }
+.darwin #titlebar.main-visible.reset-visible #title { padding-left: 8px; padding-right: 46px; }
 #titlebar-actions,
 #titlebar-actions-other { display: flex; }
 #titlebar-actions button,

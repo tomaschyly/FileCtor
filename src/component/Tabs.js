@@ -23,10 +23,15 @@ class Tabs extends Component {
 		this.additionalTabsSelect = undefined;
 
 		let tabs = [];
+		let selectedTab = undefined;
 
 		if (typeof (this.props.startTabs) !== 'undefined' && this.props.startTabs !== null && Array.isArray (this.props.startTabs)) {
 			for (let i = 0; i < this.props.startTabs.length; i++) {
 				tabs.push (this.AddTab (this.props.startTabs [i]));
+
+				if (typeof (this.props.startSelectedTab) !== 'undefined' && this.props.startTabs [i].id === this.props.startSelectedTab) {
+					selectedTab = this.props.startSelectedTab;
+				}
 			}
 		} else {
 			let startWith = typeof (props.startWith) !== 'undefined' ? parseInt (props.startWith) : 0;
@@ -37,7 +42,9 @@ class Tabs extends Component {
 			}
 		}
 
-		let selectedTab = tabs.length > 0 ? tabs [0].id : undefined;
+		if (typeof (selectedTab) === 'undefined') {
+			selectedTab = tabs.length > 0 ? tabs [0].id : undefined;
+		}
 
 		this.state = {
 			tabs: tabs,
@@ -74,7 +81,7 @@ class Tabs extends Component {
 		this.UpdateActiveNavigation ();
 
 		if (typeof (this.props.tabsSave) === 'function') {
-			this.props.tabsSave (this.state.tabs);
+			this.props.tabsSave (this.state.tabs, this.state.selectedTab);
 		}
 	}
 

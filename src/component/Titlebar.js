@@ -99,7 +99,6 @@ class TitleBar extends Component {
 						<button type="button" id="titlebar-home" onClick={this.Main.bind (this)}><Home /></button>
 						<button type="button" id="titlebar-minimize" onClick={this.Minimize.bind (this)}><Minimize /></button>
 						<button type="button" id="titlebar-maximize" onClick={this.Maximize.bind (this)}><MaximizeSquare /><MaximizeClone /></button>
-						<button type="button" id="titlebar-main" onClick={this.Main.bind (this)}><Home /></button>
 					</div>
 				</div>;
 				break;
@@ -109,7 +108,6 @@ class TitleBar extends Component {
 						<button type="button" id="titlebar-close" onClick={this.Close.bind (this)}><Close /></button>
 						<button type="button" id="titlebar-minimize" onClick={this.Minimize.bind (this)}><Minimize /></button>
 						<button type="button" id="titlebar-maximize" onClick={this.Maximize.bind (this)}><MaximizeSquare /><MaximizeClone /></button>
-						<button type="button" id="titlebar-main" onClick={this.Main.bind (this)}><Home /></button>
 					</div>
 					<div id="title">{this.state.title}</div>
 					<div id="titlebar-actions-other">
