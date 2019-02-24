@@ -1,3 +1,5 @@
+import './snippet.css';
+
 import React, { Component } from 'react';
 import Grid from '../component/Grid';
 
@@ -92,12 +94,14 @@ class Snippet extends Component {
 
 		this.grid = React.createRef ();
 
-		return <div className="container">
-			<div className="row">
-				<div className="col-10">
-					<button type="button" className="button f-right" onClick={this.NewSnippet.bind (this)}>New Snippet</button>
+		return <div className="snippet">
+			<div className="container">
+				<div className="row">
+					<div className="col-10">
+						<button type="button" className="button f-right" onClick={this.NewSnippet.bind (this)}>New Snippet</button>
 
-					<Grid ref={this.grid} modelName="Snippet" columns={columns} actions={actions}/>
+						<Grid ref={this.grid} modelName="Snippet" columns={columns} actions={actions}/>
+					</div>
 				</div>
 			</div>
 		</div>;

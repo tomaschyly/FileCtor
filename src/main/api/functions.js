@@ -16,6 +16,33 @@ function Init () {
 	};
 }
 
+async function ReadDirectory (directory, filter = null) {
+	let files = await readDirPromise (directory);
+
+	if (filter !== null) {
+		files = files.filter (file => {
+			return filter.test (file);
+		});
+	}
+
+	return files;
+}
+
+async function RenameFiles (directory, files, newName) {
+	for (let i = 0; i < files.length; i++) {
+		let extension = files [i].split ('.');
+		extension = extension.length > 1 ? `.${extension.pop ()}` : '';
+
+		let fileNewName = `${newName}${i > 0 ? i : ''}${extension}`;
+
+		await renameFilePromise (path.join (directory, files [i]), path.join (directory, fileNewName));
+	}
+
+	return files.length;
+}
+
 module.exports = {
-	Init
+	Init,
+	ReadDirectory,
+	RenameFiles
 };

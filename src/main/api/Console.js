@@ -1,5 +1,8 @@
 const { ipcMain } = require ('electron');
 const vm = require ('vm');
+const path = require ('path');
+const {promisify} = require ('util');
+const fs = require ('fs');
 const extend = require ('extend');
 const ConsoleWindow = require ('../Console').Console;
 const ReferenceWindow = require ('../Reference').Reference;
@@ -57,10 +60,14 @@ class Console {
 	/**
 	 * Execute script inside VM with custom sandbox.
 	 */
-	static ExecuteScript (event, message) {
+	static async ExecuteScript (event, message) {
 		let sandbox = {
-			log: ''
-			//require: require //TODO this works, but do not give full access, only functions that are needed
+			log: '',
+			path: {
+				join: path.join
+			},
+			readDirPromise: promisify (fs.readdir),
+			renameFilePromise: promisify (fs.rename)
 		};
 
 		sandbox = extend (sandbox, message.parameters);
@@ -79,7 +86,7 @@ class Console {
 			functionsScript += 'Init ();\n\n';
 			functionsScript += '/*** VM API FUNCTIONS END ***/\n\n';
 
-			vm.runInContext (`${functionsScript}(function () {
+			await vm.runInContext (`${functionsScript}(async function () {
 	${message.script}
 })();`, sandbox);
 		} catch (e) {

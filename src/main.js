@@ -3,12 +3,15 @@ const {app, BrowserWindow} = require ('electron');
 const path = require ('path');
 const Api = require ('./main/Api');
 const Config = require ('./main/Config');
+const installSnippet = require ('./main/install/snippet');
 
 const singleAppLock = app.requestSingleInstanceLock ();
 
 if (typeof (process.env.FILECTOR_DEV) !== 'undefined' && process.env.FILECTOR_DEV === 'true') {
 	process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = true;
 }
+
+const config = new Config ();
 
 let Main = {
 	default: {
@@ -27,7 +30,7 @@ let Main = {
 			this.port = process.env.FILECTOR_PORT;
 		}
 
-		this.config = new Config ();
+		this.config = config;
 		await this.config.Load ();
 
 		let windowParameters = this.LoadWindow ('main');
@@ -170,6 +173,7 @@ let Main = {
 
 if (singleAppLock) {
 	Api.Init (Main);
+	installSnippet (config);
 
 	app.on ('ready', () => {
 		Main.CreateWindow ();

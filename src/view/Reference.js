@@ -39,6 +39,18 @@ class Reference extends Component {
 						'console-log': {
 							label: 'console.log ()',
 							description: 'Parameters: any[, ...]\nUse this function like you would standard console.log (). Value/s will be shown as output after script is done executing.'
+						},
+						'path-join': {
+							label: 'path.join ()',
+							description: 'Parameters: string[, ...]\nUse this function like you would join Nodes path.join ().'
+						},
+						'ReadDirectory': {
+							label: 'ReadDirectory ()',
+							description: 'async\nParameters: string[, RegExp]\nFirst parameter is directory path, second is optional filter. Can be awaited. Lists files inside directory.'
+						},
+						'RenameFiles': {
+							label: 'RenameFiles ()',
+							description: 'async\nParameters: string, array, string\nFirst parameter is directory containing the files, second is array of file names, third is new name. Can be awaited. Renames files to a new name with number if more than one file.'
 						}
 					}
 				}
