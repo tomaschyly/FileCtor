@@ -3,7 +3,8 @@
 .general-popup-container.visible,
 .general-popup-container.animating { display: flex; }
 .general-popup { display: flex; width: 90%; max-width: 480px; height: 90%; max-height: 320px; flex-direction: column; padding: 0; border: 2px solid black; border-radius: 8px; background: white; }
-.general-popup.auto { height: auto; }
+.general-popup.auto,
+.auto .general-popup { height: auto; }
 .general-popup-header { display: block; width: 100%; height: auto; padding: 8px 16px; margin: 0; text-align: center; background: black; }
 .general-popup-header h2 { margin: 0; color: white; text-transform: uppercase; }
 .general-popup-content { display: block; flex-grow: 1; width: 100%; height: auto; overflow: hidden; overflow-y: auto; padding: 16px 16px 0 16px; }

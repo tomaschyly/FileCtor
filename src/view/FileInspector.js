@@ -372,7 +372,7 @@ class FileInspector extends Component {
 	}
 
 	/**
-	 * Open console for current directory.
+	 * Open Console for current directory.
 	 */
 	DirectoryConsole (actionParams = null) {
 		let params = {

@@ -4,6 +4,7 @@ const fs = require ('fs');
 const path = require ('path');
 const systemInformation = require ('systeminformation');
 const consoleApi = require ('./api/Console');
+const gridApi = require ('./api/Grid');
 const ConsoleWindow_static = require ('./Console').Console_static;
 const ReferenceWindow_static = require ('./Reference').Reference_static;
 
@@ -35,6 +36,7 @@ class Api {
 
 		Main = main;
 		consoleApi.Init (main);
+		gridApi.Init ();
 	}
 
 	/**

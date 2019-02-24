@@ -27,6 +27,7 @@
             "error",
             "always"
 		],
-		"no-whitespace-before-property": "off"
+		"no-whitespace-before-property": "off",
+        "array-callback-return": "off"
     }
 }

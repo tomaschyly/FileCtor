@@ -8,6 +8,16 @@ if (typeof (window.TCH.Main) === 'undefined') {
 	window.TCH.Main = {
 		titleBar: null,
 		navigation: null,
+		popups: null,
+
+		/**
+		 * Show popup to ask user for action confirmation.
+		 */
+		ConfirmAction (action) {
+			if (typeof (this.popups) !== 'undefined') {
+				this.popups.ConfirmAction (action);
+			}
+		},
 
 		/**
 		 * Open console window with parameters.
@@ -92,6 +102,23 @@ if (typeof (window.TCH.Main) === 'undefined') {
 				} while (parent !== null);
 
 				return null;
+			},
+
+			Object: {
+				/**
+				 * Check if object is empty (no elements).
+				 * @param {object} object Object to check is empty
+				 * @returns {boolean}
+				 */
+				IsEmpty (object) {
+					for (let index in object) {
+						if (object.hasOwnProperty (index)) {
+							return false;
+						}
+					}
+
+					return true;
+				}
 			}
 		}
 	};

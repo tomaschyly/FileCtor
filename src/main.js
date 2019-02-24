@@ -75,11 +75,11 @@ let Main = {
 		if (typeof (process.env.FILECTOR_DEV) !== 'undefined' && process.env.FILECTOR_DEV === 'true') {
 			this.window.loadURL (`http://127.0.0.1:${this.port}/`);
 
-			const {default: installExtension, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS} = require ('electron-devtools-installer');
+			const {default: installExtension, REACT_DEVELOPER_TOOLS/*, REDUX_DEVTOOLS*/} = require ('electron-devtools-installer');
 
 			await installExtension (REACT_DEVELOPER_TOOLS);
 
-			await installExtension (REDUX_DEVTOOLS);
+			/*await installExtension (REDUX_DEVTOOLS);*/
 		} else {
 			this.window.loadURL (`file://${path.join (__dirname, '../build/index.html')}`);
 		}

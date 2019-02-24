@@ -22,15 +22,24 @@ class Console extends Component {
 	constructor (props) {
 		super (props);
 
+		this.editor = undefined;
+
 		this.state = {
 			mainClasses: '',
 			directory: undefined,
 			files: [],
+			snippet: undefined,
+			loadEnabled: true,
+			loadSnippetName: '',
+			snippetsByName: [],
+			selectedSnippetId: null,
 			script: '',
 			log: '',
 			logIsError: false,
 			currentInfo: '',
-			warning: false
+			warning: false,
+			loadPopup: false,
+			savePopup: false
 		};
 
 		window.Console_static.parameters = undefined;
@@ -54,7 +63,10 @@ class Console extends Component {
 
 			this.setState ({
 				directory: message.directory,
-				files: files
+				files: files,
+				snippet: message.snippet,
+				loadEnabled: !(typeof (message.loadEnabled) !== 'undefined' && !message.loadEnabled),
+				script: typeof (message.snippet) !== 'undefined' && typeof (message.snippet.script) !== 'undefined' ? message.snippet.script : ''
 			});
 
 			this.UpdateCurrentInfo ({
@@ -78,12 +90,31 @@ class Console extends Component {
 		setTimeout (() => {
 			ipcRenderer.send ('config-get', {key: 'console-warning'});
 		}, 1);
+
+		this.snippetByNameListener = (event, message) => {
+			this.setState ({snippetsByName: message.list});
+		};
+		ipcRenderer.on ('snippet-list-name', this.snippetByNameListener);
+
+		this.snippetLoadListener = (event, message) => {
+			if (typeof (message.error) === 'undefined') {
+				this.editor.current.ChangeScript (message.script);
+
+				this.setState ({
+					snippet: message,
+					script: message.script
+				});
+			}
+		};
+		ipcRenderer.on ('snippet-load', this.snippetLoadListener);
 	}
 
 	/**
 	 * Called before component is removed from DOM.
 	 */
 	componentWillUnmount () {
+		this.editor = undefined;
+
 		ipcRenderer.removeListener ('payload-last', this.parametersListener);
 		delete this.parametersListener;
 
@@ -92,6 +123,12 @@ class Console extends Component {
 
 		ipcRenderer.removeListener ('config-get', this.configGetListener);
 		delete this.configGetListener;
+
+		ipcRenderer.removeListener ('snippet-list-name', this.snippetByNameListener);
+		delete this.snippetByNameListener;
+
+		ipcRenderer.removeListener ('snippet-load', this.snippetLoadListener);
+		delete this.snippetLoadListener;
 	}
 
 	/**
@@ -108,13 +145,15 @@ class Console extends Component {
 		if (typeof (window.Console_static.parameters) === 'undefined') {
 			return '';
 		} else {
+			this.editor = React.createRef ();
+
 			return <div className={`console ${this.state.mainClasses}`}>
 				<div className="container">
 					<div className="row">
 						<div className="col-10">
 							<div className="panel current-script-container">
 								<div id="current-script">
-									<CodeMirrorEditor onChange={this.ScriptChanged.bind (this)}/>
+									<CodeMirrorEditor ref={this.editor} script={this.state.script} onChange={this.ScriptChanged.bind (this)}/>
 								</div>
 								<div className="current-script-actions-top-container">
 									<button type="button" className="button icon enlarge" onClick={this.Enlarge.bind (this)} data-value="0"><ExpandArrows/></button>
@@ -123,7 +162,7 @@ class Console extends Component {
 							<div className="current-script-actions-container">
 								<div className="panel no-white">
 									<button type="button" className="button" onClick={this.Execute.bind (this)}>Execute</button>
-									<button type="button" className="button icon" onClick={this.LoadSnippet.bind (this)}><FolderOpen/></button>
+									<button type="button" className={`button icon${this.state.loadEnabled ? '' : ' hidden'}`} onClick={this.LoadSnippet.bind (this)}><FolderOpen/></button>
 									<button type="button" className="button icon" onClick={this.SaveSnippet.bind (this)}><Save/></button>
 									<button type="button" className="button icon" onClick={this.ShowApi.bind (this)}><Question/></button>
 								</div>
@@ -151,8 +190,44 @@ class Console extends Component {
 						<p>Especially be wary of copy pasting code from internet that you do not understand.</p>
 					</div>
 				} close="Back" onClose={this.WarningClose.bind (this)} accept="I Understand" acceptVisible={true} onAccept={this.WarningAccept.bind (this)}/>
+
+				<Popup visible={this.state.loadPopup} headline="Load a Snippet" content={this.RenderLoadPopup ()} onClose={this.LoadSnippetClose.bind (this)} acceptVisible={true} accept="Load" onAccept={this.LoadSnippetAccept.bind (this)} />
+
+				<Popup visible={this.state.savePopup} headline="Save as Snippet" content={
+					<div>
+						<label className="smaller" htmlFor="snippet-name">Name</label>
+						<input type="text" value={(typeof (this.state.snippet) === 'object' ? this.state.snippet.name : '')} name="snippet-name" id="snippet-name" placeholder="Snippet name" onChange={e => { this.UpdateSnippet ('name', e.target.value); }} />
+						<label className="smaller" htmlFor="snippet-description">Description</label>
+						<input type="text" value={(typeof (this.state.snippet) === 'object' ? this.state.snippet.description : '')} name="snippet-description" id="snippet-description" placeholder="Snippet description" onChange={e => { this.UpdateSnippet ('description', e.target.value); }} />
+					</div>
+				} onClose={this.SavePopupClose.bind (this)} accept="Save & Close" acceptVisible={true} onAccept={this.SavePopupAccept.bind (this)}/>
 			</div>;
 		}
+	}
+
+	/**
+	 * Render Load a Snippet Popup content.
+	 */
+	RenderLoadPopup () {
+		const {loadSnippetName, snippetsByName, selectedSnippetId} = this.state;
+
+		let items = undefined;
+		if (snippetsByName.length > 0) {
+			let rows = [];
+
+			for (let i = 0; i < snippetsByName.length; i++) {
+				(snippet => {
+					rows.push (<button key={`snippet-load-button-${snippet.id}`} type="button" className={`snippet-load-button${snippet.id === selectedSnippetId ? ' active' : ''}`} onClick={() => { this.setState ({selectedSnippetId: snippet.id}); }}>{snippet.name}</button>);
+				}) (snippetsByName [i]);
+			}
+
+			items = <div className="panel no-white">{rows}</div>;
+		}
+
+		return <div>
+			<input type="text" value={loadSnippetName} name="snippet-load-name" id="snippet-load-name" placeholder="Snippet name" onChange={e => this.SnippetsByName (e.target.value)}/>
+			{items}
+		</div>;
 	}
 
 	/**
@@ -210,14 +285,92 @@ class Console extends Component {
 	 * Show list of snippets to open one.
 	 */
 	LoadSnippet () {
-		//TODO
+		this.setState ({loadPopup: true});
+
+		ipcRenderer.send ('snippet-list-name', {
+			name: this.state.loadSnippetName,
+			limit: 10
+		});
+	}
+
+	/**
+	 * Close load Snippet popup.
+	 */
+	LoadSnippetClose () {
+		this.setState ({loadPopup: false});
+	}
+
+	/**
+	 * Load selected Snippet.
+	 */
+	LoadSnippetAccept () {
+		if (this.state.selectedSnippetId !== null) {
+			this.setState ({loadPopup: false});
+
+			ipcRenderer.send ('snippet-load', {
+				id: this.state.selectedSnippetId
+			});
+		}
+	}
+
+	/**
+	 * Load a Snippet popup, list Snippets by name.
+	 */
+	SnippetsByName (value) {
+		this.setState ({loadSnippetName: value, selectedSnippetId: null});
+
+		ipcRenderer.send ('snippet-list-name', {
+			name: value,
+			limit: 10
+		});
 	}
 
 	/**
 	 * Save script as snippet.
 	 */
 	SaveSnippet () {
-		//TODO
+		this.setState ({savePopup: true});
+	}
+
+	/**
+	 * Update Snippet parameter.
+	 */
+	UpdateSnippet (parameter, value) {
+		let snippet = this.state.snippet;
+
+		if (typeof (snippet) !== 'object') {
+			snippet = {
+				id: null,
+				name: '',
+				description: ''
+			};
+		}
+
+		snippet [parameter] = value;
+
+		this.setState ({snippet: snippet});
+	}
+
+	/**
+	 * Close save Snippet popup.
+	 */
+	SavePopupClose () {
+		this.setState ({savePopup: false});
+	}
+
+	/**
+	 * Save current script as Snippet.
+	 */
+	SavePopupAccept () {
+		let parameters = {
+			id: this.state.snippet.id,
+			name: this.state.snippet.name,
+			description: this.state.snippet.description,
+			script: this.state.script
+		};
+		ipcRenderer.send ('script-save', parameters);
+
+		remote.getCurrentWindow ().close ();
 	}
 
 	/**
@@ -249,9 +402,23 @@ class Console extends Component {
 			files = parameters.files;
 		}
 
-		info.push (`<p>${files.length} selected files</p>`);
+		info.push (`<p>${files.length} selected files (not yet implemented)</p>`);
 
-		info.push ('<p>Snippet is wip</p>');
+		if (typeof (this.state.snippet) === 'object') {
+			if (this.state.snippet.id !== null) {
+				info.push (`<p>Snippet: ${this.state.snippet.name} is open</p>`);
+
+				if (typeof (this.state.snippet.description) !== 'undefined') {
+					info.push (`<p>${this.state.snippet.description}</p>`);
+				}
+
+				//TODO compare content to know ich unsaved progress? num of lines of code?
+			} else {
+				info.push ('<p>Snippet: you are coding a new Snippet</p>');
+			}
+		} else {
+			info.push ('<p>Snippet: none is open</p>');
+		}
 
 		info = info.join ('');
 
@@ -298,9 +465,7 @@ class Console extends Component {
 	/**
 	 * On warning accept, hide popup and save config.
 	 */
-	WarningAccept (callback) {
-		callback ();
-
+	WarningAccept () {
 		ipcRenderer.send ('config-set', {key: 'console-warning', value: true});
 
 		this.setState ({warning: false});

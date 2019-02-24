@@ -27,7 +27,7 @@ class CodeMirrorEditor extends Component {
 	 */
 	componentDidMount () {
 		this.editor = CodeMirror (this.node.current, {
-			value: '',
+			value: typeof (this.props.script) !== 'undefined' ? this.props.script : '',
 			mode: 'javascript',
 			theme: 'darcula',
 			lineNumbers: true,
@@ -58,6 +58,13 @@ class CodeMirrorEditor extends Component {
 		this.node = React.createRef ();
 
 		return <div ref={this.node} className="code-mirror-editor-container" />;
+	}
+
+	/**
+	 * Change script of the editor.
+	 */
+	ChangeScript (value) {
+		this.editor.getDoc ().setValue (value);
 	}
 }
 

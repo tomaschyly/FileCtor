@@ -11,6 +11,7 @@
 .file-inspector .tabs-panel { width: calc(100% + 32px); height: calc(100% - 54px); border-width: 0; border-top-width: 2px; border-bottom-width: 2px; border-radius: 0; margin: 0 -16px 16px -16px; overflow: hidden; overflow-y: auto; }
 .file-inspector .tch-grid-body { border-bottom: 0; }
 .file-inspector .tch-grid-body .tch-grid-row { cursor: pointer; }
+.file-inspector .tch-grid-col { flex-basis: auto; }
 #current-directory { padding-right: 106px; }
 #current-directory.drives { padding-right: 140px; }
 .file-inspector .current-directory-actions { display: block; position: relative; }

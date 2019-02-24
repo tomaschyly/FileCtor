@@ -40,3 +40,5 @@
 .console #current-directory { padding-right: 8px; }
 #current-console-info p { margin: 0 0 8px 0; }
 .current-console-info-enlarge .current-console-info-actions-container .enlarge { display: none; }
+.snippet-load-button { width: 100%; border: 0; border-bottom: 2px solid black; border-radius: 0; margin: 0; }
+.snippet-load-button:last-child { border-bottom: 0; }

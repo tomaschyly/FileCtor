@@ -3,6 +3,7 @@ import { HashRouter } from 'react-router-dom';
 import TitleBar from './component/Titlebar';
 import Navigation from './component/Navigation';
 import Router from './Router';
+import Popups from './component/Popups';
 
 const { ipcRenderer } = window.require ('electron');
 
@@ -61,6 +62,7 @@ class App extends Component {
 					<div id="content">
 						<Router />
 					</div>
+					<Popups/>
 				</div>
 			</HashRouter>;
 		}

@@ -25,7 +25,6 @@ class ButtonSelect extends Component {
 		this.container = undefined;
 
 		this.state = {
-			options: props.options,
 			optionsVisible: false
 		};
 	}
@@ -56,18 +55,22 @@ class ButtonSelect extends Component {
 	 */
 	render () {
 		let options = [];
-		if (typeof (this.state.options) !== 'undefined' && Array.isArray (this.state.options)) {
-			for (let index in this.state.options) {
-				let rowData = this.state.options [index];
+		if (typeof (this.props.options) !== 'undefined' && Array.isArray (this.props.options)) {
+			for (let index in this.props.options) {
+				if (this.props.options.hasOwnProperty (index)) {
+					let rowData = this.props.options [index];
 
-				options.push (<button type="button" key={rowData.id} data-value={rowData.value} onClick={this.SelectOption.bind (this)}>{rowData.label}</button>);
+					options.push (<button type="button" key={rowData.id} data-value={rowData.value} onClick={this.SelectOption.bind (this)}>{rowData.label}</button>);
+				}
 			}
 		}
+
+		let current = typeof (this.props.icon) !== 'undefined' ? this.props.icon : this.props.value;
 
 		this.container = React.createRef ();
 
 		return <div ref={this.container} className={`button-select-container ${typeof (this.props.className) !== 'undefined' ? this.props.className : ''}`}>
-			<button className="button icon" type="button" onClick={this.ToggleOptions.bind (this)}>{this.props.icon}</button>
+			<button className="button icon" type="button" onClick={this.ToggleOptions.bind (this)}>{current}</button>
 			<div className={`button-select-list${this.state.optionsVisible ? ' visible' : ''}`}>{options}</div>
 		</div>;
 	}

@@ -2,4 +2,13 @@
 .header-panel { width: calc(100% + 32px); border-width: 0; border-bottom-width: 2px; border-radius: 0; margin: 0 -16px 16px -16px; }
 .header-panel nav { display: flex; }
 .header-panel nav a.button { flex-grow: 1; border-width: 0; border-right-width: 2px; border-radius: 0; margin: 0; text-align: center; }
-.header-panel nav a.button:last-child { border-right-width: 0; }
+.header-panel nav a.button:last-of-type { border-right-width: 0; }
+.header-panel nav .dummy { display: none; flex-grow: 1; }
+
+/*** Responsive styles ***/
+@media (min-width: 992px) {
+	.header-panel nav a.button { flex-grow: 0; min-width: 250px; }
+	.header-panel nav a.button:first-of-type {  border-left-width: 2px; }
+	.header-panel nav a.button:last-of-type { border-right-width: 2px; }
+	.header-panel nav .dummy { display: block; }
+}

@@ -41,9 +41,11 @@ class Navigation extends Component {
 					<div className="col-10">
 						<div className="panel no-white header-panel">
 							<nav>
+								<div className="dummy" />
 								<NavLink exact to="/" className="button">Files</NavLink>
 								<NavLink to="/snippet" className="button">Snippets</NavLink>
 								<NavLink to="/about" className="button">About</NavLink>
+								<div className="dummy" />
 							</nav>
 						</div>
 					</div>
