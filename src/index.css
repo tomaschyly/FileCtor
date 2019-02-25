@@ -36,10 +36,10 @@ h4 { margin: 0 0 16px 0; }
 h1 { font-size: 24px; }
 h2 { font-size: 20px; }
 h3 { font-size: 18px; }
-p { margin: 0 0 16px 0; }
+p { margin: 0 0 16px 0; line-height: 1.5; }
 
 .container { width: 100%; padding-left: 16px; padding-right: 16px; margin-left: auto; margin-right: auto; }
-.row { display: flex; flex-wrap: wrap; margin-left: -16px; margin-right: -16px; }
+.row { display: flex; flex-wrap: wrap; justify-content: center; margin-left: -16px; margin-right: -16px; }
 .col-1,
 .col-2,
 .col-3,
@@ -89,6 +89,8 @@ button:focus,
 input[type=submit]:focus { color: white; background: black; }
 button.icon { padding: 4px; }
 button svg { display: block; width: 18px; height: 18px; padding: 2px; }
+
+img { max-width: 100%; }
 
 ::-webkit-scrollbar { width: 16px; border: 2px solid black; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; }
 ::-webkit-scrollbar-thumb { background: black; }

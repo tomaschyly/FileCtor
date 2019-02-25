@@ -11,6 +11,15 @@ if (typeof (window.TCH.Main) === 'undefined') {
 		popups: null,
 
 		/**
+		 * Show beta popup.
+		 */
+		Beta () {
+			if (typeof (this.popups) !== 'undefined') {
+				this.popups.Beta ();
+			}
+		},
+
+		/**
 		 * Show popup to ask user for action confirmation.
 		 */
 		ConfirmAction (action) {

@@ -1,0 +1,9 @@
+/*** About styles ***/
+.about { overflow: hidden; overflow-y: auto; height: calc(100% + 16px); padding-top: 16px; margin-top: -16px; }
+.about-content { max-width: 636px; }
+.about .logo { display: block; max-width: 200px; margin: 0 auto 16px auto; }
+.about .version { text-align: center; }
+.about .actions { display: flex; flex-wrap: wrap; padding: 16px 0; }
+.about .actions button { flex-grow: 1; margin-right: 8px; }
+.about .actions button:last-child { margin-right: 0; }
+.about .contact-form .general-popup { max-height: 640px; }

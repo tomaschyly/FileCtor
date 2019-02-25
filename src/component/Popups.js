@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import Popup from './Popup';
 
+const {ipcRenderer} = window.require ('electron');
+
 class Popups extends Component {
 	/**
 	 * Popups initialization.
@@ -11,6 +13,7 @@ class Popups extends Component {
 		this.confirmAction = undefined;
 
 		this.state = {
+			beta: false,
 			confirm: false
 		};
 	}
@@ -34,10 +37,33 @@ class Popups extends Component {
 	 */
 	render () {
 		return <div className="general-popups">
+			<Popup visible={this.state.beta} headline="Beta" content={
+				<div>
+					<p>Please be aware that this is a beta App currently under development.</p>
+					<p>There may be bugs and there are missing features.</p>
+				</div>
+			} onClose={this.BetaClosed.bind (this)}/>
+
 			<Popup className="auto" visible={this.state.confirm} headline="Confirm Action" content={
 				<p>Are you sure you want to do it?</p>
 			} onClose={this.ConfirmClosed.bind (this)} acceptVisible={true} accept="Confirm" onAccept={this.ConfirmAccepted.bind (this)}/>
 		</div>;
+	}
+
+	/**
+	 * Show beta popup.
+	 */
+	Beta () {
+		this.setState ({beta: true});
+	}
+
+	/**
+	 * Close beta popup.
+	 */
+	BetaClosed () {
+		ipcRenderer.send ('config-set', {key: 'app-beta', value: true});
+
+		this.setState ({beta: false});
 	}
 
 	/**

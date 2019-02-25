@@ -1,0 +1,4 @@
+/*** Link styles ***/
+.link { display: inline-block; border-bottom: 2px solid transparent; margin-bottom: -2px; color: #ffd700; text-decoration: none; transition: border 0.4s linear, color 0.4s linear, background 0.4s linear; cursor: pointer; }
+.link:hover,
+.link:focus { border-bottom: 2px solid #ffd700; color: #ffd700; text-decoration: none; }

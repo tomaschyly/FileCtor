@@ -46,7 +46,11 @@ class FileInspector extends Component {
 		ipcRenderer.on ('drives-list', this.drivesListListener);
 
 		this.startTabsListener = (event, message) => {
-			if (message.key === 'file-inspector-tabs') {
+			if (message.key === 'app-beta') {
+				if (message.value === null || !message.value) {
+					window.TCH.Main.Beta ();
+				}
+			} else if (message.key === 'file-inspector-tabs') {
 				this.setState ({startTabs: message.value});
 			} else if (message.key === 'file-inspector-tab-selected') {
 				this.setState ({startSelectedTab: message.value});
@@ -54,6 +58,7 @@ class FileInspector extends Component {
 		};
 		ipcRenderer.on ('config-get', this.startTabsListener);
 		setTimeout (() => {
+			ipcRenderer.send ('config-get', {key: 'app-beta'});
 			ipcRenderer.send ('config-get', {key: 'file-inspector-tabs'});
 			ipcRenderer.send ('config-get', {key: 'file-inspector-tab-selected'});
 		}, 1);

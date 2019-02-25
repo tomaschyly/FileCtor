@@ -11,8 +11,6 @@ if (typeof (process.env.FILECTOR_DEV) !== 'undefined' && process.env.FILECTOR_DE
 	process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = true;
 }
 
-const config = new Config ();
-
 let Main = {
 	default: {
 		width: 800,
@@ -30,8 +28,10 @@ let Main = {
 			this.port = process.env.FILECTOR_PORT;
 		}
 
-		this.config = config;
+		this.config = new Config ();
 		await this.config.Load ();
+
+		await installSnippet (this.config);
 
 		let windowParameters = this.LoadWindow ('main');
 		let width = windowParameters !== null && typeof (windowParameters.size) !== 'undefined' ? windowParameters.size.width : this.default.width;
@@ -173,7 +173,6 @@ let Main = {
 
 if (singleAppLock) {
 	Api.Init (Main);
-	installSnippet (config);
 
 	app.on ('ready', () => {
 		Main.CreateWindow ();

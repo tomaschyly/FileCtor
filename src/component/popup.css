@@ -2,7 +2,7 @@
 .general-popup-container { display: none; position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: 100; align-items: center; justify-content: center; background: rgba(0, 0, 0, 0.6); }
 .general-popup-container.visible,
 .general-popup-container.animating { display: flex; }
-.general-popup { display: flex; width: 90%; max-width: 480px; height: 90%; max-height: 320px; flex-direction: column; padding: 0; border: 2px solid black; border-radius: 8px; background: white; }
+.general-popup { display: flex; width: 90%; max-width: 480px; height: calc(90% - 32px); max-height: 320px; flex-direction: column; padding: 0; border: 2px solid black; border-radius: 8px; background: white; }
 .general-popup.auto,
 .auto .general-popup { height: auto; }
 .general-popup-header { display: block; width: 100%; height: auto; padding: 8px 16px; margin: 0; text-align: center; background: black; }

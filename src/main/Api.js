@@ -7,6 +7,7 @@ const consoleApi = require ('./api/Console');
 const gridApi = require ('./api/Grid');
 const ConsoleWindow_static = require ('./Console').Console_static;
 const ReferenceWindow_static = require ('./Reference').Reference_static;
+const opn = require ('opn');
 
 const readDirPromise = promisify (fs.readdir);
 const statPromise = promisify (fs.stat);
@@ -34,6 +35,8 @@ class Api {
 
 		ipcMain.on ('config-set', Api.SetConfig);
 
+		ipcMain.on ('url-open', Api.OpenUrl);
+
 		Main = main;
 		consoleApi.Init (main);
 		gridApi.Init ();
@@ -43,11 +46,15 @@ class Api {
 	 * Send main process (Electron) parameters to renderer.
 	 */
 	static MainParameters (event) {
+		const appPackage = require ('../../package');
+
 		let parameters = {
-			platform: process.platform,
 			directory: {
 				documents: app.getPath ('documents')
-			}
+			},
+			platform: process.platform,
+			name: appPackage.productName,
+			version: appPackage.version
 		};
 
 		switch (process.platform) {
@@ -280,6 +287,15 @@ class Api {
 	static SetConfig (event, message) {
 		if (typeof (message.key) !== 'undefined' && typeof (message.value) !== 'undefined') {
 			Main.config.Set (message.key, message.value);
+		}
+	}
+
+	/**
+	 * Open url in default browser.
+	 */
+	static OpenUrl (event, message) {
+		if (typeof (message.url) !== 'undefined') {
+			opn (message.url);
 		}
 	}
 }

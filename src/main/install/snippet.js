@@ -1,6 +1,6 @@
 const Snippet = require ('../model/Snippet');
 
-module.exports = function (config) {
+module.exports = async function (config) {
 	const installed = config.Get ('install-snippet');
 
 	if (installed === null || !installed) {
@@ -13,7 +13,7 @@ let variable = 2 * 3;
 console.log ('2 * 3 equals ' + variable);`
 		};
 
-		new Snippet ().LoadFromData (simpleExampleSnippet).Save ();
+		await new Snippet ().LoadFromData (simpleExampleSnippet).Save ();
 
 		const renameExampleSnippet = {
 			name: 'Rename Files',
@@ -23,7 +23,7 @@ let files = await ReadDirectory (directory);
 result = await RenameFiles (directory, files, newName);`
 		};
 
-		new Snippet ().LoadFromData (renameExampleSnippet).Save ();
+		await new Snippet ().LoadFromData (renameExampleSnippet).Save ();
 
 		config.Set ('install-snippet', true);
 	}
