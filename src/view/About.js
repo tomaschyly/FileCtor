@@ -4,6 +4,7 @@ import logo from '../image/tomas-chyly.png';
 import React, { Component } from 'react';
 import Link from '../component/Link';
 import Popup from '../component/Popup';
+import Form from '../component/Form';
 
 const {ipcRenderer} = window.require ('electron');
 
@@ -13,6 +14,8 @@ class About extends Component {
 	 */
 	constructor (props) {
 		super (props);
+
+		this.contactForm = undefined;
 
 		this.state = {
 			contact: false
@@ -24,6 +27,19 @@ class About extends Component {
 	 */
 	componentDidMount () {
 		window.TCH.Main.SetTitle ('About');
+
+		this.onMessageResultListener = this.SendMessageResult.bind (this);
+		ipcRenderer.on ('contact-message-send', this.onMessageResultListener);
+	}
+
+	/**
+	 * Called before component is removed from DOM.
+	 */
+	componentWillUnmount () {
+		this.contactForm = undefined;
+
+		ipcRenderer.removeListener ('contact-message-send', this.onMessageResultListener);
+		delete this.onMessageResultListener;
 	}
 
 	/**
@@ -31,6 +47,8 @@ class About extends Component {
 	 */
 	render () {
 		const {name, version} = window.TCH.mainParameters;
+
+		this.contactForm = React.createRef ();
 
 		return <div className="about">
 			<div className="container">
@@ -54,8 +72,37 @@ class About extends Component {
 			</div>
 
 			<Popup className="contact-form" visible={this.state.contact} headline="Contact" content={
-				<p>WIP - this will be contact form</p>
-			} onClose={this.ContactClosed.bind (this)}/>
+				<Form ref={this.contactForm} inputs={{
+					name: {
+						label: 'Name',
+						type: 'text',
+						value: '',
+						required: true
+					},
+					email: {
+						label: 'Email (optional)',
+						type: 'email',
+						value: ''
+					},
+					subject: {
+						label: 'Subject (optional)',
+						type: 'text',
+						value: ''
+					},
+					message: {
+						label: 'Message',
+						type: 'textarea',
+						value: '',
+						required: true
+					},
+					gdpr: {
+						label: 'I agree with use of my personal information for the sole purpose of communication',
+						type: 'checkbox',
+						value: false,
+						required: true
+					}
+				}} onSubmit={this.SendMessage.bind (this)}/>
+			} onClose={this.ContactClosed.bind (this)} acceptVisible={true} accept="Submit" onAccept={this.ContactAccepted.bind (this)}/>
 		</div>;
 	}
 
@@ -85,6 +132,33 @@ class About extends Component {
 	 */
 	ContactClosed () {
 		this.setState ({contact: false});
+	}
+
+	/**
+	 * Submit contact form, then send message to API.
+	 */
+	ContactAccepted () {
+		this.contactForm.current.Submit ();
+	}
+
+	/**
+	 * Send message to API and close contact form popup.
+	 */
+	SendMessage (values) {
+		ipcRenderer.send ('contact-message-send', values);
+	}
+
+	/**
+	 * Send message result is error or success, show result and close popup.
+	 */
+	SendMessageResult (event, message) {
+		if (typeof (message.success) !== 'undefined') {
+			window.TCH.Main.Alert ('Message sent successfully, thank you!', 'Message Sent');
+
+			this.setState ({contact: false});
+		} else {
+			window.TCH.Main.Alert ('I am sorry, but I have failed to send the message. Are you connected to the Internet? Do you want to try again?', 'Message Failed');
+		}
 	}
 }
 

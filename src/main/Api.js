@@ -8,9 +8,11 @@ const gridApi = require ('./api/Grid');
 const ConsoleWindow_static = require ('./Console').Console_static;
 const ReferenceWindow_static = require ('./Reference').Reference_static;
 const opn = require ('opn');
+const axios = require ('axios');
 
 const readDirPromise = promisify (fs.readdir);
 const statPromise = promisify (fs.stat);
+const config = require ('../../config');
 
 let Main = undefined;
 
@@ -37,6 +39,8 @@ class Api {
 
 		ipcMain.on ('url-open', Api.OpenUrl);
 
+		ipcMain.on ('contact-message-send', Api.SendMessage);
+
 		Main = main;
 		consoleApi.Init (main);
 		gridApi.Init ();
@@ -49,6 +53,7 @@ class Api {
 		const appPackage = require ('../../package');
 
 		let parameters = {
+			apiUrl: config.api.url,
 			directory: {
 				documents: app.getPath ('documents')
 			},
@@ -296,6 +301,24 @@ class Api {
 	static OpenUrl (event, message) {
 		if (typeof (message.url) !== 'undefined') {
 			opn (message.url);
+		}
+	}
+
+	/**
+	 * Send contact message to web API.
+	 */
+	static async SendMessage (event, message) {
+		try {
+			const appPackage = require ('../../package');
+			message.app = appPackage.productName;
+
+			const response = await axios.post (`${config.api.url}?action=contact_message_new`, message);
+
+			event.sender.send ('contact-message-send', response.data);
+		} catch (error) {
+			event.sender.send ('contact-message-send', {
+				error: true
+			});
 		}
 	}
 }

@@ -14,6 +14,8 @@ class Popups extends Component {
 
 		this.state = {
 			beta: false,
+			alert: null,
+			alertHeadline: '',
 			confirm: false
 		};
 	}
@@ -44,6 +46,10 @@ class Popups extends Component {
 				</div>
 			} onClose={this.BetaClosed.bind (this)}/>
 
+			<Popup className="auto" visible={this.state.alert !== null} headline={this.state.alertHeadline} content={
+				<p>{this.state.alert}</p>
+			} onClose={this.AlertClosed.bind (this)}/>
+
 			<Popup className="auto" visible={this.state.confirm} headline="Confirm Action" content={
 				<p>Are you sure you want to do it?</p>
 			} onClose={this.ConfirmClosed.bind (this)} acceptVisible={true} accept="Confirm" onAccept={this.ConfirmAccepted.bind (this)}/>
@@ -64,6 +70,26 @@ class Popups extends Component {
 		ipcRenderer.send ('config-set', {key: 'app-beta', value: true});
 
 		this.setState ({beta: false});
+	}
+
+	/**
+	 * Show alert popup.
+	 */
+	Alert (message, headline) {
+		this.setState ({
+			alert: message,
+			alertHeadline: headline
+		});
+	}
+
+	/**
+	 * Close alert popup.
+	 */
+	AlertClosed () {
+		this.setState ({
+			alert: null,
+			alertHeadline: ''
+		});
 	}
 
 	/**

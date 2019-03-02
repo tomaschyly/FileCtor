@@ -11,6 +11,15 @@ if (typeof (window.TCH.Main) === 'undefined') {
 		popups: null,
 
 		/**
+		 * Show alert to user.
+		 */
+		Alert (message, headline) {
+			if (typeof (this.popups) !== 'undefined') {
+				this.popups.Alert (message, headline);
+			}
+		},
+
+		/**
 		 * Show beta popup.
 		 */
 		Beta () {
@@ -127,6 +136,23 @@ if (typeof (window.TCH.Main) === 'undefined') {
 					}
 
 					return true;
+				},
+
+				/**
+				 * Map to new Object equivalent to Array.map ().
+				 * @param {object} object Old object to be mapped
+				 * @param {function} filter Callback to filter elements into new object
+				 */
+				Map (object, filter) {
+					const newObject = {};
+
+					for (let index in object) {
+						if (object.hasOwnProperty (index)) {
+							newObject [index] = filter (object [index]);
+						}
+					}
+
+					return newObject;
 				}
 			}
 		}
