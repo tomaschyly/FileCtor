@@ -288,7 +288,7 @@ class FileInspector extends Component {
 				});
 				break;
 			case 'row':
-				this.FileRowAction (action, params);
+				//this.FileRowAction (action, params); //TODO disabled since it messes up animations
 				break;
 			case 'console':
 				this.DirectoryConsole (params);

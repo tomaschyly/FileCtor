@@ -15,6 +15,7 @@ class Popups extends Component {
 		this.state = {
 			beta: false,
 			alert: null,
+			alertMessage: '',
 			alertHeadline: '',
 			confirm: false
 		};
@@ -46,8 +47,8 @@ class Popups extends Component {
 				</div>
 			} onClose={this.BetaClosed.bind (this)}/>
 
-			<Popup className="auto" visible={this.state.alert !== null} headline={this.state.alertHeadline} content={
-				<p>{this.state.alert}</p>
+			<Popup className="auto" visible={this.state.alert} headline={this.state.alertHeadline} content={
+				<p>{this.state.alertMessage}</p>
 			} onClose={this.AlertClosed.bind (this)}/>
 
 			<Popup className="auto" visible={this.state.confirm} headline="Confirm Action" content={
@@ -77,7 +78,8 @@ class Popups extends Component {
 	 */
 	Alert (message, headline) {
 		this.setState ({
-			alert: message,
+			alert: true,
+			alertMessage: message,
 			alertHeadline: headline
 		});
 	}
@@ -87,8 +89,7 @@ class Popups extends Component {
 	 */
 	AlertClosed () {
 		this.setState ({
-			alert: null,
-			alertHeadline: ''
+			alert: false
 		});
 	}
 

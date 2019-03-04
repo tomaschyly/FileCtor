@@ -7,6 +7,8 @@ import {ReactComponent as Trash} from '../icon/trash-alt.svg';
 
 import React, {Component} from 'react';
 import ButtonSelect from './ButtonSelect';
+import TransitionGroup from 'react-transition-group/TransitionGroup';
+import CSSTransition from 'react-transition-group/CSSTransition';
 
 const uuidV4 = window.require ('uuid/v4');
 const {ipcRenderer} = window.require ('electron');
@@ -170,6 +172,7 @@ class Grid extends Component {
 	 * Render Grid body.
 	 */
 	RenderBody () {
+		const duration = 400;
 		let body = [];
 
 		if (this.state.items.length > 0) {
@@ -219,15 +222,19 @@ class Grid extends Component {
 					rowContent.push (<div key={`${this.id}-item-${item.id}-actions`} className="tch-grid-col right">{actions}</div>);
 				}
 
-				body.push (<div key={`${this.id}-item-${item.id}`} className="tch-grid-row">{rowContent}</div>);
+				body.push (<CSSTransition key={`${this.id}-item-${item.id}`} timeout={duration} classNames="general-flex-fade">
+					<div className="tch-grid-row general-flex-fade">{rowContent}</div>
+				</CSSTransition>);
 			}
 		} else {
-			body = <div className="tch-grid-row">
-				<div className="tch-grid-col center">{Grid_static.texts.noItems}</div>
-			</div>;
+			body = <CSSTransition key={`${this.id}-item-empty`} timeout={duration} classNames="general-flex-fade">
+				<div className="tch-grid-row general-flex-fade">
+					<div className="tch-grid-col center">{Grid_static.texts.noItems}</div>
+				</div>
+			</CSSTransition>;
 		}
 
-		return <div className="tch-grid-body">{body}</div>;
+		return <TransitionGroup className="tch-grid-body">{body}</TransitionGroup>;
 	}
 
 	/**

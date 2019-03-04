@@ -5,6 +5,8 @@ import { ReactComponent as Code } from '../../icon/code.svg';
 import { ReactComponent as Ellipsis } from '../../icon/ellipsis-v.svg';
 
 import React, { Component } from 'react';
+import TransitionGroup from 'react-transition-group/TransitionGroup';
+import CSSTransition from 'react-transition-group/CSSTransition';
 
 class Files extends Component {
 	/**
@@ -53,7 +55,7 @@ class Files extends Component {
 
 				if (typeof (this.props.onFileAction) !== 'undefined') {
 					if (typeof (rowData.error) !== 'undefined') {
-						row.push (<div className="tch-grid-col actions right" key={`${rowData.reactId}-${2}`}></div>);
+						row.push (<div className="tch-grid-col actions right" key={`${rowData.reactId}-${2}`}/>);
 					} else {
 						let openDirectory = undefined;
 						if (rowData.isDirectory) {
@@ -74,12 +76,14 @@ class Files extends Component {
 					}
 				}
 
-				contents.push (<div className={`tch-grid-row tch-grid-action-row${typeof (rowData.selected) && rowData.selected ? ' active' : ''}`} key={rowData.reactId} onClick={this.FileAction.bind (this)} data-reactid={rowData.reactId} data-action="row">{row}</div>);
+				contents.push (<CSSTransition key={rowData.reactId} timeout={400} classNames="general-flex-fade" unmountOnExit>
+					<div className={`tch-grid-row tch-grid-action-row general-flex-fade ${typeof (rowData.selected) && rowData.selected ? ' active' : ''}`} onClick={this.FileAction.bind (this)} data-reactid={rowData.reactId} data-action="row">{row}</div>
+				</CSSTransition>);
 			}
 		}
 
 		return <div className="tch-grid">
-			<div className="tch-grid-body">{contents}</div>
+			<TransitionGroup className="tch-grid-body">{contents}</TransitionGroup>
 		</div>;
 	}
 

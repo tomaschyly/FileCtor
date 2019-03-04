@@ -105,18 +105,20 @@ class Form extends Component {
 					const input = inputs [index];
 
 					if (typeof (input.error) !== 'undefined') {
-						delete input.error;
+						input.error = false;
 					}
 
 					if (typeof (input.required) !== 'undefined' && input.required) {
 						if (input.type === 'checkbox') {
 							if (!input.value) {
-								input.error = `${input.label} is required field.`;
+								input.error = true;
+								input.errorMessage = `${input.label} is required field.`;
 								valid = false;
 							}
 						} else {
 							if (input.value.length === 0) {
-								input.error = `${input.label} is required field.`;
+								input.error = true;
+								input.errorMessage = `${input.label} is required field.`;
 								valid = false;
 							}
 						}
@@ -126,7 +128,8 @@ class Form extends Component {
 						switch (input.type) {
 							case 'email':
 								if (!emailValidator.validate (input.value)) {
-									input.error = `${input.label} is not valid email address.`;
+									input.error = true;
+									input.errorMessage = `${input.label} is not valid email address.`;
 									valid = false;
 								}
 								break;

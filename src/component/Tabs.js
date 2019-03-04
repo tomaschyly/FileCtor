@@ -7,6 +7,8 @@ import React, { Component } from 'react';
 import Navigation from './tabs/Navigation';
 import Content from './tabs/Content';
 import ButtonSelect from './ButtonSelect';
+import TransitionGroup from 'react-transition-group/TransitionGroup';
+import CSSTransition from 'react-transition-group/CSSTransition';
 
 const uuidV4 = window.require ('uuid/v4');
 const extend = window.require ('extend');
@@ -19,8 +21,6 @@ class Tabs extends Component {
 		super (props);
 
 		this.onResizeListener = undefined;
-
-		this.additionalTabsSelect = undefined;
 
 		let tabs = [];
 		let selectedTab = undefined;
@@ -48,7 +48,8 @@ class Tabs extends Component {
 
 		this.state = {
 			tabs: tabs,
-			selectedTab: selectedTab
+			selectedTab: selectedTab,
+			additionalTabs: []
 		};
 	}
 
@@ -91,8 +92,6 @@ class Tabs extends Component {
 	componentWillUnmount () {
 		window.removeEventListener ('resize', this.onResizeListener);
 		this.onResizeListener = undefined;
-
-		this.additionalTabsSelect = undefined;
 	}
 
 	/**
@@ -117,18 +116,27 @@ class Tabs extends Component {
 	 */
 	RenderNavigation () {
 		let navigation = [];
+		const duration = 400;
 
 		for (let index in this.state.tabs) {
-			navigation.push (<Navigation key={this.state.tabs [index].id} params={this.state.tabs [index]} selectCallback={this.SelectTabNavigation.bind (this)} removeCallback={this.RemoveTabNavigation.bind (this)} />);
+			if (this.state.tabs.hasOwnProperty (index)) {
+				navigation.push (<CSSTransition key={this.state.tabs [index].id} timeout={duration} classNames="general-fade" onExited={this.NavigationAdditionalList.bind (this)}>
+					<Navigation className="general-fade" params={this.state.tabs [index]} selectCallback={this.SelectTabNavigation.bind (this)} removeCallback={this.RemoveTabNavigation.bind (this)} />
+				</CSSTransition>);
+			}
 		}
-
-		this.additionalTabsSelect = React.createRef ();
 
 		return <div className="panel no-white">
 			<div className="tch-tabs-navigation">
-				{navigation}
+				<TransitionGroup className="tch-tabs-navigation-items" appear>
+					{navigation}
+				</TransitionGroup>
+
 				<button type="button" className="button icon tch-tabs-navigation-add" onClick={this.AddTabNavigation.bind (this)}><Plus /></button>
-				<ButtonSelect ref={this.additionalTabsSelect} className="tch-tabs-navigation-additional" icon={<CaretDown />} onSelectItem={this.SelectTabAdditional.bind (this)} />
+
+				<CSSTransition in={this.state.additionalTabs.length > 0} timeout={duration} classNames="general-fade">
+					<ButtonSelect className="tch-tabs-navigation-additional general-fade" icon={<CaretDown />} options={this.state.additionalTabs} onSelectItem={this.SelectTabAdditional.bind (this)} />
+				</CSSTransition>
 			</div>
 		</div>;
 	}
@@ -152,7 +160,7 @@ class Tabs extends Component {
 		maxWidth -= document.querySelector ('.tch-tabs-navigation-add').offsetWidth;
 
 		let additionalButton = document.querySelector ('.tch-tabs-navigation-additional');
-		additionalButton.style.display = '';
+		additionalButton.style.display = 'block';
 		maxWidth -= additionalButton.offsetWidth;
 		
 		let additionalItems = [];
@@ -186,12 +194,30 @@ class Tabs extends Component {
 					}
 				}
 			}
-			
-			this.additionalTabsSelect.current.setState ({
-				options: options
-			});
+
+			let update = false;
+			for (let i = 0; i < options.length; i++) {
+				const _option = options [i];
+
+				for (let j = 0; j < this.state.additionalTabs.length; j++) {
+					if (_option.id === this.state.additionalTabs [j].id && _option.label !== this.state.additionalTabs [j].label) {
+						update = true;
+					}
+				}
+			}
+
+			if (this.state.additionalTabs.length !== options.length || update) {
+				this.setState ({
+					additionalTabs: options
+				});
+			}
 		} else {
-			additionalButton.style.display = 'none';
+			additionalButton.style.display = '';
+			if (this.state.additionalTabs.length !== 0) {
+				this.setState ({
+					additionalTabs: []
+				});
+			}
 		}
 	}
 

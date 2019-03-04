@@ -1,7 +1,15 @@
 /*** ButtonSelect styles ***/
 .button-select-container { display: block; }
-.button-select-list { display: none; position: absolute; overflow: hidden; overflow-y: auto; width: auto; max-width: 162px; height: auto; max-height: 162px; border: 2px solid black; border-radius: 8px; background: white; }
+.button-select-list { display: none; position: absolute; overflow: hidden; overflow-y: auto; width: auto; max-width: 162px; height: auto; max-height: 162px; left: 0; top: 0; z-index: 10; border: 2px solid black; border-radius: 8px; background: white; }
 .button-select-list.visible { display: block; }
+.button-select-list.general-fade { display: none; }
+.button-select-list.general-fade-enter,
+.button-select-list.general-fade-appear { display: block; }
+.button-select-list.general-fade-enter-active,
+.button-select-list.general-fade-enter-done,
+.button-select-list.general-fade-appear-active { display: block; }
+.button-select-list.general-fade-exit,
+.button-select-list.general-fade-exit-active { display: block; }
 .button-select-list::-webkit-scrollbar { width: 8px; }
 .button-select-list button { display: block; width: 100%; min-height: 32px; border: 0; border-bottom: 2px solid black; border-radius: 0; margin: 0; font-size: 14px; }
 .button-select-list button:last-child { min-height: 30px; border-bottom: 0; }

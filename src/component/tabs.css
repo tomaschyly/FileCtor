@@ -1,7 +1,8 @@
 /*** Tabs styles ***/
 .tch-tabs-navigation { display: flex; overflow: hidden; }
+.tch-tabs-navigation-items { display: flex; }
 .tch-tabs-navigation .button { flex: 0 0 auto; border-width: 0; border-right-width: 2px; border-radius: 0; margin: 0; vertical-align: middle; text-align: center; }
-.tch-tabs-navigation .button:last-child { border-right-width: 0; }
+/*.tch-tabs-navigation .button:last-child { border-right-width: 0; }*/
 .tch-tabs-navigation .button svg { display: inline-block; border: 2px solid black; border-radius: 50%; vertical-align: middle; transition: border 0.4s linear; }
 .tch-tabs-navigation .button:hover svg,
 .tch-tabs-navigation .button:focus svg { border-color: white; }
@@ -12,3 +13,21 @@
 .tch-tabs-navigation .button.icon svg:hover,
 .tch-tabs-navigation .button.icon svg:focus { color: white; }
 .tch-tabs-navigation.fill .tch-tabs-navigation-item { flex-grow: 1; }
+.tch-tabs-navigation.fill .tch-tabs-navigation-items { flex-grow: 1; }
+
+.tch-tabs-navigation .general-fade { transform: translateY(-100%); transition: border 0.4s linear, color 0.4s linear, background 0.4s linear, opacity 0.4s linear, transform 0.4s linear; }
+.tch-tabs-navigation .general-fade.button-select-container { display: none; }
+.tch-tabs-navigation .general-fade-enter,
+.tch-tabs-navigation .general-fade-appear { transform: translateY(-100%); }
+.tch-tabs-navigation .general-fade-enter-active,
+.tch-tabs-navigation .general-fade-enter-done,
+.tch-tabs-navigation .general-fade-appear-active { transform: translateY(0); }
+.tch-tabs-navigation .general-fade-exit,
+.tch-tabs-navigation .general-fade-exit-active { transform: translateY(-100%); }
+.tch-tabs-navigation .general-fade-enter.button-select-container,
+.tch-tabs-navigation .general-fade-appear.button-select-container,
+.tch-tabs-navigation .general-fade-enter-active.button-select-container,
+.tch-tabs-navigation .general-fade-enter-done.button-select-container,
+.tch-tabs-navigation .general-fade-appear-active.button-select-container,
+.tch-tabs-navigation .general-fade-exit.button-select-container,
+.tch-tabs-navigation .general-fade-exit-active.button-select-container { display: block; }

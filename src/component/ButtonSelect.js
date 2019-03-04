@@ -2,6 +2,7 @@
 import './buttonSelect.css';
 
 import React, { Component } from 'react';
+import List from './buttonSelect/List';
 
 window.ButtonSelect_static = {
 	globalHideOptionsListener: undefined,
@@ -23,6 +24,7 @@ class ButtonSelect extends Component {
 		window.ButtonSelect_static.buttonSelects.push (this);
 
 		this.container = undefined;
+		this.list = undefined;
 
 		this.state = {
 			optionsVisible: false
@@ -48,30 +50,22 @@ class ButtonSelect extends Component {
 		}
 
 		this.container = undefined;
+		this.list = undefined;
 	}
 
 	/**
 	 * Render the component into html.
 	 */
 	render () {
-		let options = [];
-		if (typeof (this.props.options) !== 'undefined' && Array.isArray (this.props.options)) {
-			for (let index in this.props.options) {
-				if (this.props.options.hasOwnProperty (index)) {
-					let rowData = this.props.options [index];
-
-					options.push (<button type="button" key={rowData.id} data-value={rowData.value} onClick={this.SelectOption.bind (this)}>{rowData.label}</button>);
-				}
-			}
-		}
-
 		let current = typeof (this.props.icon) !== 'undefined' ? this.props.icon : this.props.value;
 
 		this.container = React.createRef ();
+		this.list = React.createRef ();
 
 		return <div ref={this.container} className={`button-select-container ${typeof (this.props.className) !== 'undefined' ? this.props.className : ''}`}>
 			<button className="button icon" type="button" onClick={this.ToggleOptions.bind (this)}>{current}</button>
-			<div className={`button-select-list${this.state.optionsVisible ? ' visible' : ''}`}>{options}</div>
+
+			<List ref={this.list} options={this.props.options} visible={this.state.optionsVisible} onClickItem={this.SelectOption.bind (this)}/>
 		</div>;
 	}
 
@@ -108,39 +102,30 @@ class ButtonSelect extends Component {
 	 * Set correct position to options.
 	 */
 	OptionsPosition () {
-		let list = this.container.current.querySelector ('.button-select-list');
-		list.style.opacity = 0;
+		const container = this.container.current;
+		const list = this.list.current.container.current;
 
-		setTimeout (() => {
-			let containerWidth = this.container.current.offsetWidth;
-			let containerLeft = this.container.current.offsetLeft;
-			let containerHeight = this.container.current.offsetHeight;
-			let containerTop = this.container.current.offsetTop;
+		list.style.left = '';
+		list.style.top = '';
 
-			list.style.width = '';
-			list.style.left = '0px';
-			list.style.top = '0px';
-			let listWidth = list.offsetWidth;
+		const containerOffset = container.getBoundingClientRect ();
+		const listOffset = list.getBoundingClientRect ();
 
-			list.style.width = `${listWidth}px`;
-			list.style.left = `${containerLeft + (containerWidth / 2) - (list.offsetWidth / 2)}px`;
-			list.style.opacity = 1;
+		let x = containerOffset.x + (containerOffset.width / 2) - (listOffset.width / 2);
+		let y = containerOffset.y + containerOffset.height;
 
-			let overflowX = document.getElementById ('content').offsetWidth - list.offsetWidth - list.offsetLeft;
+		const overflowX = window.innerWidth - listOffset.width - x - 2;
+		if (overflowX < 0) {
+			x = x - Math.abs (overflowX);
+		}
 
-			let viewportOffset = list.getBoundingClientRect ();
-			let overflowY = document.getElementById ('content').offsetHeight - list.offsetHeight - viewportOffset.top;
-			
-			if (overflowX < 0) {
-				list.style.left = `${containerLeft + (containerWidth / 2) - (list.offsetWidth / 2) - Math.abs (overflowX)}px`;
-			}
+		const overflowY = window.innerHeight - listOffset.height - y - 2;
+		if (overflowY < 0) {
+			y = y - Math.abs (overflowY);
+		}
 
-			if (overflowY < 0) {
-				list.style.top = `${containerHeight + containerTop - 6 - Math.abs (overflowY)}px`;
-			} else {
-				list.style.top = `${containerHeight + containerTop - 4}px`;
-			}
-		}, 1);
+		list.style.left = `${x}px`;
+		list.style.top = `${y}px`;
 	}
 
 	/**
