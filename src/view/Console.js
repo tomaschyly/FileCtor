@@ -188,6 +188,7 @@ class Console extends Component {
 					<div>
 						<p>Please, do not run untrusted code. You may cause harm to your computer.</p>
 						<p>Especially be wary of copy pasting code from internet that you do not understand.</p>
+						<p>And be sure that you are in the correct directory and have correct selected files before you execute the script. I will NOT be responsible for any damage that you cause to yor own PC.</p>
 					</div>
 				} close="Back" onClose={this.WarningClose.bind (this)} accept="I Understand" acceptVisible={true} onAccept={this.WarningAccept.bind (this)}/>
 
@@ -402,7 +403,7 @@ class Console extends Component {
 			files = parameters.files;
 		}
 
-		info.push (`<p>${files.length} selected files (not yet implemented)</p>`);
+		info.push (`<p>${files.length} selected files (not yet fully implemented)</p>`);
 
 		if (typeof (this.state.snippet) === 'object') {
 			if (this.state.snippet.id !== null) {

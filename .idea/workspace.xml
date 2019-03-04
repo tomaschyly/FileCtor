@@ -5,28 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e80eeacf-ac6a-4766-91ed-816ee626a7d8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/component/buttonSelect/List.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/ButtonSelect.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/ButtonSelect.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/Form.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/Form.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/Grid.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/Grid.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/Popup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/Popup.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/Popups.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/Popups.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/Tabs.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/Tabs.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/buttonSelect.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/buttonSelect.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/fileInspector/Files.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/fileInspector/Files.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/form.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/form.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/form/Checkbox.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/form/Checkbox.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/form/TextInput.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/form/TextInput.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/form/Textarea.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/form/Textarea.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/popup.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/popup.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/tabs.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/tabs.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/tabs/Navigation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/tabs/Navigation.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/FileInspector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/FileInspector.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/fileInspector.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/fileInspector.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/Console.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/Console.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -41,8 +21,8 @@
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="357">
-                <caret line="21" selection-start-line="21" selection-end-line="21" />
+              <first_editor relative-caret-position="731">
+                <caret line="43" lean-forward="true" selection-start-line="43" selection-end-line="43" />
               </first_editor>
               <second_editor />
             </state>
@@ -52,8 +32,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="23" selection-start-line="3" selection-start-column="23" selection-end-line="3" selection-end-column="23" />
+            <state relative-caret-position="884">
+              <caret line="52" lean-forward="true" selection-start-line="52" selection-end-line="52" />
             </state>
           </provider>
         </entry>
@@ -63,6 +43,19 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="326">
               <caret line="25" selection-start-line="25" selection-end-line="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/view/Console.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="461">
+              <caret line="185" lean-forward="true" selection-start-line="185" selection-end-line="185" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+                <element signature="e#51#74#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -106,7 +99,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/component/Titlebar.js" />
         <option value="$PROJECT_DIR$/node_modules/tch-database/engine/NeDB.js" />
         <option value="$PROJECT_DIR$/src/component/Navigation.js" />
         <option value="$PROJECT_DIR$/src/component/navigation.css" />
@@ -116,7 +108,6 @@
         <option value="$PROJECT_DIR$/src/main/model/Snippet.js" />
         <option value="$PROJECT_DIR$/src/view/console.css" />
         <option value="$PROJECT_DIR$/src/component/CodeMirrorEditor.js" />
-        <option value="$PROJECT_DIR$/src/view/Console.js" />
         <option value="$PROJECT_DIR$/src/main/api/Console.js" />
         <option value="$PROJECT_DIR$/src/view/Reference.js" />
         <option value="$PROJECT_DIR$/src/main/api/functions.js" />
@@ -157,6 +148,8 @@
         <option value="$PROJECT_DIR$/src/component/buttonSelect.css" />
         <option value="$PROJECT_DIR$/src/component/Grid.js" />
         <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/src/view/Console.js" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -405,12 +398,12 @@
       <workItem from="1551604324129" duration="2753000" />
       <workItem from="1551614339297" duration="8146000" />
       <workItem from="1551635988692" duration="6658000" />
-      <workItem from="1551726459676" duration="3617000" />
+      <workItem from="1551726459676" duration="5381000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="215765000" />
+    <option name="totallyTimeSpent" value="217529000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -423,6 +416,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="2576" height="1456" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17527822" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -627,17 +621,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/view/Console.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="118" column="39" lean-forward="true" selection-start-line="118" selection-start-column="39" selection-end-line="118" selection-end-column="39" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="e#51#74#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/view/About.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2805">
@@ -786,16 +769,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="357">
-            <caret line="21" selection-start-line="21" selection-end-line="21" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/component/tabs.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="561">
@@ -892,10 +865,31 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/view/Console.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="461">
+          <caret line="185" lean-forward="true" selection-start-line="185" selection-end-line="185" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#51#74#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="731">
+            <caret line="43" lean-forward="true" selection-start-line="43" selection-end-line="43" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="23" selection-start-line="3" selection-start-column="23" selection-end-line="3" selection-end-column="23" />
+        <state relative-caret-position="884">
+          <caret line="52" lean-forward="true" selection-start-line="52" selection-end-line="52" />
         </state>
       </provider>
     </entry>
