@@ -40,13 +40,29 @@ class Reference extends Component {
 							label: 'console.log ()',
 							description: 'Parameters: any[, ...]\nUse this function like you would standard console.log (). Value/s will be shown as output after script is done executing.'
 						},
+						'fs-createReadStream': {
+							label: 'fs.createReadStream ()',
+							description: 'Parameters: string, object\nUse this function like you would join Node\'s fs.createReadStream ().'
+						},
+						'fs-createWriteStream': {
+							label: 'fs.createWriteStream ()',
+							description: 'Parameters: string, object\nUse this function like you would join Node\'s fs.createWriteStream ().'
+						},
+						'path-extname': {
+							label: 'path.extname ()',
+							description: 'Parameter: string\nUse this function like you would join Node\'s path.extname ().'
+						},
 						'path-join': {
 							label: 'path.join ()',
-							description: 'Parameters: string[, ...]\nUse this function like you would join Nodes path.join ().'
+							description: 'Parameters: string[, ...]\nUse this function like you would join Node\'s path.join ().'
 						},
 						'ReadDirectory': {
 							label: 'ReadDirectory ()',
 							description: 'async\nParameters: string[, RegExp]\nFirst parameter is directory path, second is optional filter. Can be awaited. Lists files inside directory.'
+						},
+						'readline-createInterface': {
+							label: 'readline.createInterface ()',
+							description: 'Parameter: object\nUse this function like you would join Node\'s readline.createInterface ().'
 						},
 						'RenameFiles': {
 							label: 'RenameFiles ()',

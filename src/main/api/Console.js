@@ -3,6 +3,7 @@ const vm = require ('vm');
 const path = require ('path');
 const {promisify} = require ('util');
 const fs = require ('fs');
+const readline = require ('readline');
 const extend = require ('extend');
 const ConsoleWindow = require ('../Console').Console;
 const ReferenceWindow = require ('../Reference').Reference;
@@ -62,11 +63,19 @@ class Console {
 	 */
 	static async ExecuteScript (event, message) {
 		let sandbox = {
+			fs: {
+				createReadStream: fs.createReadStream,
+				createWriteStream: fs.createWriteStream
+			},
 			log: '',
 			path: {
+				extname: path.extname,
 				join: path.join
 			},
 			readDirPromise: promisify (fs.readdir),
+			readline: {
+				createInterface: readline.createInterface
+			},
 			renameFilePromise: promisify (fs.rename)
 		};
 
