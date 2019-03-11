@@ -41,3 +41,21 @@ App is using [Electron](https://electronjs.org/) and [React](https://reactjs.org
 1. 
 	1. Write your request in [here](https://github.com/tomaschyly/FileCtor/issues).
 	2. Or use the contact form inside the app's About view.
+
+## Included script Snippets
+
+### Simple Example
+
+This is just a basic script example that does almost nothing, but demonstrate that execution works.
+
+### Rename Files
+
+Rename files to a new name and append with number if there are more than one.
+
+### Rename Host Sql
+
+Script for renaming host inside Sql query. E.g. rename host of WP website when migrating from Dev to Prod. Should work on large Sql files.
+
+### Resize/Crop Images
+
+*Coming soon...*
