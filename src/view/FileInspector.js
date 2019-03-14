@@ -6,6 +6,7 @@ import { ReactComponent as Ellipsis } from '../icon/ellipsis-v.svg';
 import { ReactComponent as Hdd } from '../icon/hdd.svg';
 
 import React, { Component } from 'react';
+import Button from '../component/Button';
 import Tabs from '../component/Tabs';
 import Files from '../component/fileInspector/Files';
 import ButtonSelect from '../component/ButtonSelect';
@@ -119,10 +120,10 @@ class FileInspector extends Component {
 						<div className="current-directory-actions">
 							<input id="current-directory" className={(typeof (changeDrive) !== 'undefined' ? 'drives' : '')} type="text" onChange={this.DirectoryChanged.bind (this)} />
 							<div className="current-directory-actions-container">
-								<button type="button" className="button icon" onClick={this.DirectoryToParent.bind (this)}><LevelUpAlt /></button>
+								<Button type="button" className="button icon" onClick={this.DirectoryToParent.bind (this)}><LevelUpAlt /></Button>
 								{changeDrive}
-								<button type="button" className="button icon" onClick={this.DirectoryConsole.bind (this)}><Code /></button>
-								<button type="button" className="button icon"><Ellipsis /></button>
+								<Button type="button" className="button icon" onClick={this.DirectoryConsole.bind (this)}><Code /></Button>
+								<Button type="button" className="button icon"><Ellipsis /></Button>
 							</div>
 						</div>
 					</div>

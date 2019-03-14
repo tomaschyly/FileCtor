@@ -6,6 +6,7 @@ import { ReactComponent as Question } from '../icon/question.svg';
 import { ReactComponent as ExpandArrows } from '../icon/expand-arrows.svg';
 
 import React, { Component } from 'react';
+import Button from '../component/Button';
 import CodeMirrorEditor from '../component/CodeMirrorEditor';
 import Popup from '../component/Popup';
 
@@ -156,27 +157,27 @@ class Console extends Component {
 									<CodeMirrorEditor ref={this.editor} script={this.state.script} onChange={this.ScriptChanged.bind (this)}/>
 								</div>
 								<div className="current-script-actions-top-container">
-									<button type="button" className="button icon enlarge" onClick={this.Enlarge.bind (this)} data-value="0"><ExpandArrows/></button>
+									<Button type="button" className="button icon enlarge" onClick={this.Enlarge.bind (this)} data-value="0"><ExpandArrows/></Button>
 								</div>
 							</div>
 							<div className="current-script-actions-container">
 								<div className="panel no-white">
-									<button type="button" className="button" onClick={this.Execute.bind (this)}>Execute</button>
-									<button type="button" className={`button icon${this.state.loadEnabled ? '' : ' hidden'}`} onClick={this.LoadSnippet.bind (this)}><FolderOpen/></button>
-									<button type="button" className="button icon" onClick={this.SaveSnippet.bind (this)}><Save/></button>
-									<button type="button" className="button icon" onClick={this.ShowApi.bind (this)}><Question/></button>
+									<Button type="button" className="button" onClick={this.Execute.bind (this)}>Execute</Button>
+									<Button type="button" className={`button icon${this.state.loadEnabled ? '' : ' hidden'}`} onClick={this.LoadSnippet.bind (this)}><FolderOpen/></Button>
+									<Button type="button" className="button icon" onClick={this.SaveSnippet.bind (this)}><Save/></Button>
+									<Button type="button" className="button icon" onClick={this.ShowApi.bind (this)}><Question/></Button>
 								</div>
 							</div>
 							<div className="panel current-console-log-container">
 								<div id="current-console-log" className={(this.state.logIsError ? 'error' : '')} dangerouslySetInnerHTML={{__html: this.state.log}}/>
 								<div className="current-console-log-actions-container">
-									<button type="button" className="button icon enlarge" onClick={this.Enlarge.bind (this)} data-value="1"><ExpandArrows/></button>
+									<Button type="button" className="button icon enlarge" onClick={this.Enlarge.bind (this)} data-value="1"><ExpandArrows/></Button>
 								</div>
 							</div>
 							<div className="current-console-info-container">
 								<input id="current-directory" type="text" value={this.state.directory} onChange={this.DirectoryChanged.bind (this)} />
 								<div className="current-console-info-actions-container">
-									<button type="button" className="button icon enlarge" onClick={this.Enlarge.bind (this)} data-value="2"><ExpandArrows/></button>
+									<Button type="button" className="button icon enlarge" onClick={this.Enlarge.bind (this)} data-value="2"><ExpandArrows/></Button>
 								</div>
 								<div id="current-console-info" dangerouslySetInnerHTML={{__html: this.state.currentInfo}}/>
 							</div>
@@ -218,7 +219,7 @@ class Console extends Component {
 
 			for (let i = 0; i < snippetsByName.length; i++) {
 				(snippet => {
-					rows.push (<button key={`snippet-load-button-${snippet.id}`} type="button" className={`snippet-load-button${snippet.id === selectedSnippetId ? ' active' : ''}`} onClick={() => { this.setState ({selectedSnippetId: snippet.id}); }}>{snippet.name}</button>);
+					rows.push (<Button key={`snippet-load-button-${snippet.id}`} type="button" className={`snippet-load-button${snippet.id === selectedSnippetId ? ' active' : ''}`} onClick={() => { this.setState ({selectedSnippetId: snippet.id}); }}>{snippet.name}</Button>);
 				}) (snippetsByName [i]);
 			}
 

@@ -9,6 +9,7 @@ const ConsoleWindow = require ('../Console').Console;
 const ReferenceWindow = require ('../Reference').Reference;
 const Snippet = require ('../model/Snippet');
 const {WHERE_CONDITIONS} = require ('tch-database');
+//const sharp = require ('sharp');
 
 let Main = undefined;
 
@@ -76,7 +77,8 @@ class Console {
 			readline: {
 				createInterface: readline.createInterface
 			},
-			renameFilePromise: promisify (fs.rename)
+			renameFilePromise: promisify (fs.rename),
+			//sharp: sharp
 		};
 
 		sandbox = extend (sandbox, message.parameters);

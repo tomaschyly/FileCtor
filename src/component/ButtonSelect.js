@@ -2,6 +2,7 @@
 import './buttonSelect.css';
 
 import React, { Component } from 'react';
+import Button from './Button';
 import List from './buttonSelect/List';
 
 window.ButtonSelect_static = {
@@ -63,7 +64,7 @@ class ButtonSelect extends Component {
 		this.list = React.createRef ();
 
 		return <div ref={this.container} className={`button-select-container ${typeof (this.props.className) !== 'undefined' ? this.props.className : ''}`}>
-			<button className="button icon" type="button" onClick={this.ToggleOptions.bind (this)}>{current}</button>
+			<Button className="button icon" type="button" onClick={this.ToggleOptions.bind (this)}>{current}</Button>
 
 			<List ref={this.list} options={this.props.options} visible={this.state.optionsVisible} onClickItem={this.SelectOption.bind (this)}/>
 		</div>;

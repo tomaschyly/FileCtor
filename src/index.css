@@ -106,7 +106,9 @@ a.button:focus,
 button:focus,
 input[type=submit]:focus { color: white; background: black; }
 button.icon { padding: 4px; }
+button.icon-larger { padding: 2px; }
 button svg { display: block; width: 18px; height: 18px; padding: 2px; }
+button.icon-larger svg { width: 28px; height: 28px; }
 
 img { max-width: 100%; }
 

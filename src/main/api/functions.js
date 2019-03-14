@@ -41,6 +41,10 @@ async function RenameFiles (directory, files, newName) {
 	return files.length;
 }
 
+/*async function ResizeImage () {
+
+}*/
+
 module.exports = {
 	Init,
 	ReadDirectory,

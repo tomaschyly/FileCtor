@@ -1,6 +1,7 @@
 import './popup.css';
 
 import React, {Component} from 'react';
+import Button from './Button';
 import CSSTransition from 'react-transition-group/CSSTransition';
 
 class Popup extends Component {
@@ -29,8 +30,8 @@ class Popup extends Component {
 					<div className="general-popup-content">{typeof (this.props.content) !== 'undefined' ? this.props.content : ''}</div>
 
 					<div className="general-popup-footer">
-						<button type="button" className="button general-popup-close" onClick={this.Close.bind (this)}>{this.close}</button>
-						<button type="button" className={`button general-popup-confirm f-right${this.props.acceptVisible ? '' : ' hidden'}`} onClick={this.Accept.bind (this)}>{this.accept}</button>
+						<Button type="button" className="button general-popup-close" onClick={this.Close.bind (this)}>{this.close}</Button>
+						<Button type="button" className={`button general-popup-confirm f-right${this.props.acceptVisible ? '' : ' hidden'}`} onClick={this.Accept.bind (this)}>{this.accept}</Button>
 					</div>
 				</div>
 			</div>

@@ -1,7 +1,12 @@
 import './about.css';
 import logo from '../image/tomas-chyly.png';
+import {ReactComponent as Github} from '../icon/github.svg';
+import {ReactComponent as Npm} from '../icon/npm.svg';
+import {ReactComponent as StackOverflow} from '../icon/stack-overflow.svg';
+import {ReactComponent as Twitter} from '../icon/twitter.svg';
 
 import React, { Component } from 'react';
+import Button from '../component/Button';
 import Link from '../component/Link';
 import Popup from '../component/Popup';
 import Form from '../component/Form';
@@ -61,9 +66,16 @@ class About extends Component {
 						<p>If you have any issues with the app, UI or have ideas for improvement, please use the contact form below. Thank you!</p>
 
 						<div className="actions">
-							<button type="button" onClick={this.Website.bind (this)}>Website</button>
-							<button type="button" onClick={this.Repository.bind (this)}>App Repository</button>
-							<button type="button" onClick={this.ContactOpen.bind (this)}>Contact</button>
+							<Button type="button" onClick={this.Website.bind (this)}>Website</Button>
+							<Button type="button" onClick={this.Repository.bind (this)}>App Repository</Button>
+							<Button type="button" onClick={this.ContactOpen.bind (this)}>Contact</Button>
+						</div>
+
+						<div className="socials">
+							<Button type="button" className="button icon icon-larger" onClick={this.Github.bind (this)}><Github/></Button>
+							<Button type="button" className="button icon icon-larger" onClick={this.Npm.bind (this)}><Npm/></Button>
+							<Button type="button" className="button icon icon-larger" onClick={this.StackOverflow.bind (this)}><StackOverflow/></Button>
+							<Button type="button" className="button icon icon-larger" onClick={this.Twitter.bind (this)}><Twitter/></Button>
 						</div>
 
 						<p>Icons used in this app are from the great <Link href="https://fontawesome.com/">Font Awesome</Link>. The <Link href="https://fontawesome.com/license/free">free version</Link> is used.</p>
@@ -159,6 +171,34 @@ class About extends Component {
 		} else {
 			window.TCH.Main.Alert ('I am sorry, but I have failed to send the message. Are you connected to the Internet? Do you want to try again?', 'Message Failed');
 		}
+	}
+
+	/**
+	 * Open github in default browser.
+	 */
+	Github () {
+		ipcRenderer.send ('url-open', {url: 'https://github.com/tomaschyly'});
+	}
+
+	/**
+	 * Open npm in default browser.
+	 */
+	Npm () {
+		ipcRenderer.send ('url-open', {url: 'https://www.npmjs.com/~tomaschyly'});
+	}
+
+	/**
+	 * Open stackoverflow in default browser.
+	 */
+	StackOverflow () {
+		ipcRenderer.send ('url-open', {url: 'https://stackoverflow.com/users/1979892/tom%C3%A1%C5%A1-chyl%C3%BD'});
+	}
+
+	/**
+	 * Open twitter in default browser.
+	 */
+	Twitter () {
+		ipcRenderer.send ('url-open', {url: 'https://twitter.com/TomasChyly'});
 	}
 }
 

@@ -3518,10 +3518,10 @@ electron-to-chromium@^1.3.113:
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.114.tgz#1862887589db93f832057c81878c56c404960aa6"
   integrity sha512-EQEFDVId4dqTrV9wvDmu/Po8Re9nN1sJm9KZECKRf3HC39DUYAEHQ8s7s9HsnhO9iFwl/Gpke9dvm6VwQTss5w==
 
-electron@^4.0.8:
-  version "4.0.8"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-4.0.8.tgz#b7998b16543d2094f081757a0c5afdb8875ea510"
-  integrity sha512-FOBJIHkuv8wc15N+ZyqwDzPavYVu5CHMBEf14jHDWv7QW2vkEIpJjVK+PIT31kfZfvjsIP0j2wvA/FBsiqB7pw==
+electron@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-4.1.0.tgz#ecba9c83de271e8ba7637332ece9ed023c6ea3f0"
+  integrity sha512-q/yTi9dT5UEFK/s+vOQaHNkTHWiRK9kEBYVJt34nmWc9piW42hXT+nhKUEHHhccMPr3q18gG0iPZqeR+LG76ow==
   dependencies:
     "@types/node" "^10.12.18"
     electron-download "^4.1.0"
@@ -9823,10 +9823,10 @@ tar@^4:
     safe-buffer "^5.1.2"
     yallist "^3.0.2"
 
-tch-database@^0.3.3:
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/tch-database/-/tch-database-0.3.3.tgz#40f72a77ab64a5003b973c138e74b1a59abbe399"
-  integrity sha512-9kmtJhB+ugK4fpN4KnZiVlMv1AlTwQdz4DCa+wnm/2ZikwzMXO81UCWez2Mh+YzyNKFNESGcWgnkb6+fGzsNjg==
+tch-database@^0.4.2:
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/tch-database/-/tch-database-0.4.2.tgz#9c38af2dbde6c524854ed3914bcbb2aa4d2f52d5"
+  integrity sha512-sGUPEt7mcozxTYam6RHADx+jQokLSODZdzLwWrGt0wMj8cxym3WMBfQ6zL+ltrTpRrOUysTNDtlc4p8PnsaMeQ==
   dependencies:
     clone "^2.1.2"
     extend "^3.0.2"

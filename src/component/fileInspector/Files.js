@@ -5,6 +5,7 @@ import { ReactComponent as Code } from '../../icon/code.svg';
 import { ReactComponent as Ellipsis } from '../../icon/ellipsis-v.svg';
 
 import React, { Component } from 'react';
+import Button from '../Button';
 import TransitionGroup from 'react-transition-group/TransitionGroup';
 import CSSTransition from 'react-transition-group/CSSTransition';
 
@@ -59,19 +60,19 @@ class Files extends Component {
 					} else {
 						let openDirectory = undefined;
 						if (rowData.isDirectory) {
-							openDirectory = <button type="button" className="tch-grid-action icon" data-reactid={rowData.reactId} data-action="directory"><FolderOpen /></button>;
+							openDirectory = <Button type="button" className="tch-grid-action icon" data-reactid={rowData.reactId} data-action="directory"><FolderOpen /></Button>;
 						}
 		
 						let execute = undefined;
 						if (!rowData.isDirectory) {
-							execute = <button type="button" className="tch-grid-action icon" data-reactid={rowData.reactId} data-action="file"><Eye /></button>;
+							execute = <Button type="button" className="tch-grid-action icon" data-reactid={rowData.reactId} data-action="file"><Eye /></Button>;
 						}
 						
 						row.push (<div className="tch-grid-col actions right" key={`${rowData.reactId}-${2}`}>
 							{openDirectory}
 							{execute}
-							<button type="button" className="tch-grid-action icon" data-reactid={rowData.reactId} data-action="console"><Code /></button>
-							<button type="button" className="tch-grid-action icon" data-reactid={rowData.reactId} data-action="options"><Ellipsis /></button>
+							<Button type="button" className="tch-grid-action icon" data-reactid={rowData.reactId} data-action="console"><Code /></Button>
+							<Button type="button" className="tch-grid-action icon" data-reactid={rowData.reactId} data-action="options"><Ellipsis /></Button>
 						</div>);
 					}
 				}

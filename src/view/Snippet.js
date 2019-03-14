@@ -1,6 +1,7 @@
 import './snippet.css';
 
 import React, { Component } from 'react';
+import Button from '../component/Button';
 import Grid from '../component/Grid';
 
 const {ipcRenderer} = window.require ('electron');
@@ -49,7 +50,14 @@ class Snippet extends Component {
 	 * Render the component into html.
 	 */
 	render () {
-		let rowRenderer = value => {
+		const descriptionRenderer = value => {
+			if (typeof (value) === 'string' && value.length > 65) {
+				return `${value.substring (0, 62)}...`;
+			} else {
+				return value;
+			}
+		};
+		const dateRenderer = value => {
 			let date = new Date (parseInt (value) * 1000);
 			return date.toLocaleDateString ();
 		};
@@ -65,13 +73,14 @@ class Snippet extends Component {
 				index: 'description',
 				label: 'Description',
 				sort: false,
-				filter: 'search'
+				filter: 'search',
+				renderer: descriptionRenderer
 			},
 			{
 				index: 'created',
 				label: 'Created',
 				sort: true,
-				renderer: rowRenderer
+				renderer: dateRenderer
 			}
 		];
 		let actions = {
@@ -98,7 +107,7 @@ class Snippet extends Component {
 			<div className="container">
 				<div className="row">
 					<div className="col-10">
-						<button type="button" className="button f-right" onClick={this.NewSnippet.bind (this)}>New Snippet</button>
+						<Button type="button" className="button f-right" onClick={this.NewSnippet.bind (this)}>New Snippet</Button>
 
 						<Grid ref={this.grid} modelName="Snippet" columns={columns} actions={actions}/>
 					</div>

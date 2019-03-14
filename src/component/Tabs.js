@@ -4,6 +4,7 @@ import { ReactComponent as Plus } from '../icon/plus.svg';
 import { ReactComponent as CaretDown } from '../icon/caret-down.svg';
 
 import React, { Component } from 'react';
+import Button from './Button';
 import Navigation from './tabs/Navigation';
 import Content from './tabs/Content';
 import ButtonSelect from './ButtonSelect';
@@ -132,7 +133,7 @@ class Tabs extends Component {
 					{navigation}
 				</TransitionGroup>
 
-				<button type="button" className="button icon tch-tabs-navigation-add" onClick={this.AddTabNavigation.bind (this)}><Plus /></button>
+				<Button type="button" className="button icon tch-tabs-navigation-add" onClick={this.AddTabNavigation.bind (this)}><Plus /></Button>
 
 				<CSSTransition in={this.state.additionalTabs.length > 0} timeout={duration} classNames="general-fade">
 					<ButtonSelect className="tch-tabs-navigation-additional general-fade" icon={<CaretDown />} options={this.state.additionalTabs} onSelectItem={this.SelectTabAdditional.bind (this)} />
@@ -294,6 +295,7 @@ class Tabs extends Component {
 	 * Select Tab from Navigation.
 	 */
 	SelectTabNavigation (e) {
+		console.log (e); //TODO remove
 		let id = typeof (e) !== 'undefined' ? e.target.dataset.id : undefined;
 
 		this.setState ({selectedTab: id});

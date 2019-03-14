@@ -2,6 +2,7 @@ import './checkbox.css';
 import {ReactComponent as Check} from '../../icon/check.svg';
 
 import React, {Component} from 'react';
+import Button from '../Button';
 import CSSTransition from 'react-transition-group/CSSTransition';
 
 class Checkbox extends Component {
@@ -18,7 +19,7 @@ class Checkbox extends Component {
 
 		return <div className={`general-form-checkbox${typeof (className) !== 'undefined' ? ` ${className}` : ''}${value ? ' checked' : ''}`}>
 			<div>
-				<button type="button" className="button icon" onClick={this.Toggle.bind (this)}><Check/></button>
+				<Button type="button" className="button icon" onClick={this.Toggle.bind (this)}><Check/></Button>
 			</div>
 			<label htmlFor={id} onClick={this.Toggle.bind (this)}>{label}</label>
 

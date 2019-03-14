@@ -40,11 +40,11 @@ class Navigation extends Component {
 				<div className="row">
 					<div className="col-10">
 						<div className="panel no-white header-panel">
-							<nav>
+							<nav id="navigation">
 								<div className="dummy" />
-								<NavLink exact to="/" className="button">Files</NavLink>
-								<NavLink to="/snippet" className="button">Snippets</NavLink>
-								<NavLink to="/about" className="button">About</NavLink>
+								<NavLink exact to="/" className="button" onClick={this.OnClick.bind (this)}>Files</NavLink>
+								<NavLink to="/snippet" className="button" onClick={this.OnClick.bind (this)}>Snippets</NavLink>
+								<NavLink to="/about" className="button" onClick={this.OnClick.bind (this)}>About</NavLink>
 								<div className="dummy" />
 							</nav>
 						</div>
@@ -52,6 +52,19 @@ class Navigation extends Component {
 				</div>
 			</div>;
 		}
+	}
+
+	/**
+	 * OnClick remove focus.
+	 */
+	OnClick () {
+		setTimeout (() => {
+			try {
+				document.getElementById ('navigation').querySelector (':focus').blur ();
+			} catch (e) {
+				console.error (e);
+			}
+		}, 400);
 	}
 
 	/**

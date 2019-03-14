@@ -6,6 +6,7 @@ import {ReactComponent as Edit} from '../icon/edit.svg';
 import {ReactComponent as Trash} from '../icon/trash-alt.svg';
 
 import React, {Component} from 'react';
+import Button from './Button';
 import ButtonSelect from './ButtonSelect';
 import TransitionGroup from 'react-transition-group/TransitionGroup';
 import CSSTransition from 'react-transition-group/CSSTransition';
@@ -115,7 +116,7 @@ class Grid extends Component {
 				}
 
 				(index => {
-					sort = <button type="button" className={`tch-grid-sort icon${this.columns [i].index === this.state.sort ? ' active' : ''}`} data-index={index} onClick={() => { this.ChangeSort (index); }}>{icon}</button>;
+					sort = <Button type="button" className={`tch-grid-sort icon${this.columns [i].index === this.state.sort ? ' active' : ''}`} data-index={index} onClick={() => { this.ChangeSort (index); }}>{icon}</Button>;
 				}) (this.columns [i].index);
 			}
 
@@ -214,7 +215,7 @@ class Grid extends Component {
 							}
 
 							(action => {
-								actions.push (<button key={`${this.id}-item-${item.id}-actions-${index}`} type="button" className="tch-grid-action icon" onClick={() => { this.ExecuteAction (item [action.index], action.action, (typeof (action.confirm) !== 'undefined' && action.confirm)); }}>{icon}</button>);
+								actions.push (<Button key={`${this.id}-item-${item.id}-actions-${index}`} type="button" className="tch-grid-action icon" onClick={() => { this.ExecuteAction (item [action.index], action.action, (typeof (action.confirm) !== 'undefined' && action.confirm)); }}>{icon}</Button>);
 							}) (this.actions [index]);
 						}
 					}

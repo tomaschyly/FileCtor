@@ -7,6 +7,7 @@ import { ReactComponent as Home } from '../icon/home.svg';
 import { ReactComponent as ExpandArrowsAlt } from '../icon/expand-arrows-alt.svg';
 
 import React, { Component } from 'react';
+import Button from './Button';
 
 const { remote, ipcRenderer } = window.require ('electron');
 
@@ -91,42 +92,42 @@ class TitleBar extends Component {
 			case 'linux':
 				elements = <div id="titlebar">
 					<div id="titlebar-actions-other">
-						<button type="button" id="titlebar-reset" onClick={this.Reset.bind (this)}><ExpandArrowsAlt /></button>
-						<button type="button" id="titlebar-main" onClick={this.Main.bind (this)}><Home /></button>
+						<Button type="button" id="titlebar-reset" onClick={this.Reset.bind (this)}><ExpandArrowsAlt /></Button>
+						<Button type="button" id="titlebar-main" onClick={this.Main.bind (this)}><Home /></Button>
 					</div>
 					<div id="title">{this.state.title}</div>
 					<div id="titlebar-actions">
-						<button type="button" id="titlebar-home" onClick={this.Main.bind (this)}><Home /></button>
-						<button type="button" id="titlebar-minimize" onClick={this.Minimize.bind (this)}><Minimize /></button>
-						<button type="button" id="titlebar-maximize" onClick={this.Maximize.bind (this)}><MaximizeSquare /><MaximizeClone /></button>
+						<Button type="button" id="titlebar-home" onClick={this.Main.bind (this)}><Home /></Button>
+						<Button type="button" id="titlebar-minimize" onClick={this.Minimize.bind (this)}><Minimize /></Button>
+						<Button type="button" id="titlebar-maximize" onClick={this.Maximize.bind (this)}><MaximizeSquare /><MaximizeClone /></Button>
 					</div>
 				</div>;
 				break;
 			case 'darwin':
 				elements = <div id="titlebar">
 					<div id="titlebar-actions">
-						<button type="button" id="titlebar-close" onClick={this.Close.bind (this)}><Close /></button>
-						<button type="button" id="titlebar-minimize" onClick={this.Minimize.bind (this)}><Minimize /></button>
-						<button type="button" id="titlebar-maximize" onClick={this.Maximize.bind (this)}><MaximizeSquare /><MaximizeClone /></button>
+						<Button type="button" id="titlebar-close" onClick={this.Close.bind (this)}><Close /></Button>
+						<Button type="button" id="titlebar-minimize" onClick={this.Minimize.bind (this)}><Minimize /></Button>
+						<Button type="button" id="titlebar-maximize" onClick={this.Maximize.bind (this)}><MaximizeSquare /><MaximizeClone /></Button>
 					</div>
 					<div id="title">{this.state.title}</div>
 					<div id="titlebar-actions-other">
-						<button type="button" id="titlebar-main" onClick={this.Main.bind (this)}><Home /></button>
-						<button type="button" id="titlebar-reset" onClick={this.Reset.bind (this)}><ExpandArrowsAlt /></button>
+						<Button type="button" id="titlebar-main" onClick={this.Main.bind (this)}><Home /></Button>
+						<Button type="button" id="titlebar-reset" onClick={this.Reset.bind (this)}><ExpandArrowsAlt /></Button>
 					</div>
 				</div>;
 				break;
 			default:
 				elements = <div id="titlebar">
 					<div id="titlebar-actions-other">
-						<button type="button" id="titlebar-reset" onClick={this.Reset.bind (this)}><ExpandArrowsAlt /></button>
-						<button type="button" id="titlebar-main" onClick={this.Main.bind (this)}><Home /></button>
+						<Button type="button" id="titlebar-reset" onClick={this.Reset.bind (this)}><ExpandArrowsAlt /></Button>
+						<Button type="button" id="titlebar-main" onClick={this.Main.bind (this)}><Home /></Button>
 					</div>
 					<div id="title">{this.state.title}</div>
 					<div id="titlebar-actions">
-						<button type="button" id="titlebar-minimize" onClick={this.Minimize.bind (this)}><Minimize /></button>
-						<button type="button" id="titlebar-maximize" onClick={this.Maximize.bind (this)}><MaximizeSquare /><MaximizeClone /></button>
-						<button type="button" id="titlebar-close" onClick={this.Close.bind (this)}><Close /></button>
+						<Button type="button" id="titlebar-minimize" onClick={this.Minimize.bind (this)}><Minimize /></Button>
+						<Button type="button" id="titlebar-maximize" onClick={this.Maximize.bind (this)}><MaximizeSquare /><MaximizeClone /></Button>
+						<Button type="button" id="titlebar-close" onClick={this.Close.bind (this)}><Close /></Button>
 					</div>
 				</div>;
 				break;
@@ -140,10 +141,6 @@ class TitleBar extends Component {
 	 */
 	Minimize () {
 		this.currentWindow.minimize ();
-
-		setTimeout (() => {
-			document.getElementById ('titlebar-minimize').blur ();
-		}, 1);
 	}
 
 	/**
@@ -171,10 +168,6 @@ class TitleBar extends Component {
 			this.currentWindow.maximize ();
 			maximize.classList.add ('minimize');
 		}
-
-		setTimeout (() => {
-			maximize.blur ();
-		}, 1);
 	}
 
 	/**
@@ -182,10 +175,6 @@ class TitleBar extends Component {
 	 */
 	Close () {
 		this.currentWindow.close ();
-
-		setTimeout (() => {
-			document.getElementById ('titlebar-close').blur ();
-		}, 1);
 	}
 
 	/**
