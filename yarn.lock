@@ -9823,10 +9823,10 @@ tar@^4:
     safe-buffer "^5.1.2"
     yallist "^3.0.2"
 
-tch-database@^0.4.2:
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/tch-database/-/tch-database-0.4.2.tgz#9c38af2dbde6c524854ed3914bcbb2aa4d2f52d5"
-  integrity sha512-sGUPEt7mcozxTYam6RHADx+jQokLSODZdzLwWrGt0wMj8cxym3WMBfQ6zL+ltrTpRrOUysTNDtlc4p8PnsaMeQ==
+tch-database@^0.4.3:
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/tch-database/-/tch-database-0.4.3.tgz#9a018f68ca51f7d3a50253ad5400974abca249aa"
+  integrity sha512-1f9RIBpPshM8GrvtHEkxpX4Up9MMfmM4XlXDA5CQ8jwQDVt4RsvhAn7QwK/zNMcNCAV0hExHkMn077Lnp3Bgcg==
   dependencies:
     clone "^2.1.2"
     extend "^3.0.2"

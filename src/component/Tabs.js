@@ -295,7 +295,6 @@ class Tabs extends Component {
 	 * Select Tab from Navigation.
 	 */
 	SelectTabNavigation (e) {
-		console.log (e); //TODO remove
 		let id = typeof (e) !== 'undefined' ? e.target.dataset.id : undefined;
 
 		this.setState ({selectedTab: id});

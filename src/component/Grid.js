@@ -1,4 +1,5 @@
 /* eslint-disable no-whitespace-before-property */
+import {ReactComponent as Cog} from '../icon/cog.svg';
 import {ReactComponent as ChevronCircleUp} from '../icon/chevron-circle-up.svg';
 import {ReactComponent as ChevronCirceDown} from '../icon/chevron-circle-down.svg';
 import {ReactComponent as Eye} from '../icon/eye.svg';
@@ -48,6 +49,7 @@ class Grid extends Component {
 		}
 
 		this.state = {
+			loading: true,
 			filter: typeof (props.filter) !== 'undefined' ? props.filter : {},
 			items: typeof (props.items) !== 'undefined' ? props.items : [],
 			count: typeof (props.count) !== 'undefined' ? props.count : 0,
@@ -174,9 +176,19 @@ class Grid extends Component {
 	 */
 	RenderBody () {
 		const duration = 400;
-		let body = [];
+		let body = undefined;
 
-		if (this.state.items.length > 0) {
+		if (this.state.loading) {
+			body = <CSSTransition key={`${this.id}-item-loading`} timeout={duration} classNames="general-flex-fade">
+				<div className="tch-grid-row general-flex-fade">
+					<div className="tch-grid-col loading">
+						<Cog className="spin"/>
+					</div>
+				</div>
+			</CSSTransition>;
+		} else if (this.state.items.length > 0) {
+			let items = [];
+
 			for (let i = 0; i < this.state.items.length; i++) {
 				let item = this.state.items [i];
 				let rowContent = [];
@@ -223,10 +235,14 @@ class Grid extends Component {
 					rowContent.push (<div key={`${this.id}-item-${item.id}-actions`} className="tch-grid-col right">{actions}</div>);
 				}
 
-				body.push (<CSSTransition key={`${this.id}-item-${item.id}`} timeout={duration} classNames="general-flex-fade">
-					<div className="tch-grid-row general-flex-fade">{rowContent}</div>
-				</CSSTransition>);
+				items.push (<div key={`${this.id}-item-${item.id}`} className="tch-grid-row">{rowContent}</div>);
 			}
+
+			body = <CSSTransition key={`${this.id}-item-items`} timeout={duration} classNames="general-fade">
+				<div className="general-fade">
+					{items}
+				</div>
+			</CSSTransition>;
 		} else {
 			body = <CSSTransition key={`${this.id}-item-empty`} timeout={duration} classNames="general-flex-fade">
 				<div className="tch-grid-row general-flex-fade">
@@ -235,7 +251,7 @@ class Grid extends Component {
 			</CSSTransition>;
 		}
 
-		return <TransitionGroup className="tch-grid-body">{body}</TransitionGroup>;
+		return <TransitionGroup className="tch-grid-body" appear>{body}</TransitionGroup>;
 	}
 
 	/**
@@ -288,16 +304,22 @@ class Grid extends Component {
 	 * Request data update from API.
 	 */
 	UpdateData () {
-		let parameters = {
-			modelName: this.modelName,
-			filter: this.state.filter,
-			page: this.state.page,
-			pageSize: this.state.pageSize,
-			sort: this.state.sort,
-			sortDirection: this.state.sortDirection
-		};
+		this.setState ({
+			loading: true
+		});
 
-		ipcRenderer.send ('grid-update', parameters);
+		setTimeout (() => {
+			let parameters = {
+				modelName: this.modelName,
+				filter: this.state.filter,
+				page: this.state.page,
+				pageSize: this.state.pageSize,
+				sort: this.state.sort,
+				sortDirection: this.state.sortDirection
+			};
+
+			ipcRenderer.send ('grid-update', parameters);
+		}, 400);
 	}
 
 	/**
@@ -305,6 +327,7 @@ class Grid extends Component {
 	 */
 	DataUpdated (event, message) {
 		this.setState ({
+			loading: false,
 			count: message.count,
 			items: message.items,
 			pages: message.pages

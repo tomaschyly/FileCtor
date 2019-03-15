@@ -93,6 +93,10 @@ class Api {
 							name: files [index]
 						};
 
+						if (typeof (message.query) !== 'undefined' && !new RegExp (message.query, 'i').test (file.name)) {
+							continue;
+						}
+
 						try {
 							if (stats) {
 								let stat = await statPromise (path.join (message.directory, file.name));

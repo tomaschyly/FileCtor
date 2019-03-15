@@ -10,14 +10,6 @@
 .file-inspector .tabs { display: block; height: calc(100% - 16px); }
 .file-inspector .tabs-panel { width: calc(100% + 32px); height: calc(100% - 54px); border-width: 0; border-top-width: 2px; border-bottom-width: 2px; border-radius: 0; margin: 0 -16px 16px -16px; overflow: hidden; overflow-y: auto; }
 .file-inspector .tch-grid-body { border-bottom: 0; }
-.file-inspector .tch-grid-body .tch-grid-row { display: none; transform: translateY(-100%); transition: border 0.4s linear, opacity 0.4s linear, transform 0.4s linear; }
-.file-inspector .tch-grid-body .general-flex-fade-enter,
-.file-inspector .tch-grid-body .general-flex-fade-appear { display: flex; opacity: 0.01; transform: translateY(-100%); }
-.file-inspector .tch-grid-body .general-flex-fade-enter-active,
-.file-inspector .tch-grid-body .general-flex-fade-enter-done,
-.file-inspector .tch-grid-body .general-flex-fade-appear-active { display: flex; opacity: 1; transform: translateY(0); }
-.file-inspector .tch-grid-body .general-flex-fade-exit,
-.file-inspector .tch-grid-body .general-flex-fade-exit-active { display: flex; opacity: 0.01; transform: translateY(-100%); }
 .file-inspector .tch-grid-col { flex-basis: auto; }
 #current-directory { padding-right: 106px; }
 #current-directory.drives { padding-right: 140px; }

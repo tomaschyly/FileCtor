@@ -30,6 +30,7 @@ class FileInspector extends Component {
 		this.state = {
 			startTabs: undefined,
 			startSelectedTab: undefined,
+			query: '',
 			drives: []
 		};
 	}
@@ -167,17 +168,37 @@ class FileInspector extends Component {
 		this.selectedTabParams = params;
 
 		setTimeout (() => {
-			ipcRenderer.send ('directory-contents', {
-				id: params.id,
-				directory: params.directory,
-				statistics: true
-			});
+			if (typeof (this.files) !== 'undefined') {
+				this.files.current.setState ({
+					loading: true
+				});
+			}
+
+			setTimeout (() => {
+				ipcRenderer.send ('directory-contents', {
+					id: params.id,
+					directory: params.directory,
+					statistics: true,
+					query: this.state.query
+				});
+			}, 400);
 		}, 1);
 
 		this.files = React.createRef ();
 		return <div id={`file-inspector-files-${params.id}`}>
+			<input type="text" value={this.state.query} name="filter-files" id="filter-files" placeholder="Search query" onChange={e => this.ChangeFilterQuery (e.target.value)}/>
+
 			<Files ref={this.files} onFileAction={this.FileAction.bind (this)} />
 		</div>;
+	}
+
+	/**
+	 * Change files filter query.
+	 */
+	ChangeFilterQuery (value) {
+		this.setState ({
+			query: value
+		});
 	}
 
 	/**
@@ -199,6 +220,7 @@ class FileInspector extends Component {
 			
 			this.selectedRows = [];
 			this.files.current.setState ({
+				loading: false,
 				contents: this.SortFiles (message.contents)
 			});
 		}

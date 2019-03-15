@@ -144,24 +144,19 @@ img { max-width: 100%; }
 .tch-grid-body { overflow: hidden; border-bottom: 2px solid black; }
 .tch-grid.empty .tch-grid-body { border-bottom: 0; }
 .tch-grid-row { display: flex; flex-wrap: nowrap; min-height: 40px; }
-.tch-grid-body .tch-grid-row { display: none; border-top: 2px solid transparent; border-bottom: 2px solid transparent; transform: translateY(-100%); transition: border 0.4s linear, opacity 0.4s linear, transform 0.4s linear; }
+.tch-grid-body .tch-grid-row { display: flex; border-top: 2px solid transparent; border-bottom: 2px solid transparent; transition: border 0.4s linear, opacity 0.4s linear, transform 0.4s linear; }
 .tch-grid-body .tch-grid-row.active { background: #666666; }
 .tch-grid-body .tch-grid-row:hover,
 .tch-grid-body .tch-grid-row:focus { border-top-color: black; border-bottom-color: black; }
 .tch-grid-body .tch-grid-row:first-of-type { border-top-width: 0; }
 .tch-grid-body .tch-grid-row:last-of-type { border-bottom-width: 0; }
-.tch-grid-body .general-flex-fade-enter,
-.tch-grid-body .general-flex-fade-appear { display: flex; opacity: 0.01; transform: translateY(-100%); }
-.tch-grid-body .general-flex-fade-enter-active,
-.tch-grid-body .general-flex-fade-enter-done,
-.tch-grid-body .general-flex-fade-appear-active { display: flex; opacity: 1; transform: translateY(0); }
-.tch-grid-body .general-flex-fade-exit,
-.tch-grid-body .general-flex-fade-exit-active { display: flex; opacity: 0.01; transform: translateY(-100%); }
 .tch-grid-col { display: flex; flex-wrap: wrap; flex-basis: 0; flex-grow: 1; flex-shrink: 1; align-items: center; padding: 4px; word-break: break-all; }
 .tch-grid-col.no-grow,
 .tch-grid-col.actions { flex-grow: 0; flex-shrink: 0; }
 .tch-grid-col.center { justify-content: center; }
 .tch-grid-col.right { justify-content: flex-end; }
+.tch-grid-col.loading { justify-content: center; }
+.tch-grid-col.loading svg { display: block; width: 28px; height: 28px; }
 .tch-grid-header .tch-grid-col { font-size: 18px; }
 .tch-grid button { margin: 0; vertical-align: middle; }
 .tch-grid-header button { margin-left: 4px; }
