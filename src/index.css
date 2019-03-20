@@ -38,6 +38,7 @@
 
 html { width: 100%; height: 100%; }
 body { width: 100%; height: 100%; overflow-x: hidden; border: 2px solid black; color: black; font-size: 16px; line-height: 1.2; font-family: CaveHand; background: #f5f5f5; }
+.fancy-font-disabled { font-family: Consolas, 'Courier New', monospace; }
 .darwin body { border-radius: 4px; }
 #root { width: 100%; height: 100%; }
 #app { width: 100%; height: 100%; }
@@ -105,6 +106,10 @@ input[type=submit]:hover,
 a.button:focus,
 button:focus,
 input[type=submit]:focus { color: white; background: black; }
+.button-red { border-color: red; }
+.button-red.active,
+.button-red:hover,
+.button-red:focus { color: white; background: red; }
 button.icon { padding: 4px; }
 button.icon-larger { padding: 2px; }
 button svg { display: block; width: 18px; height: 18px; padding: 2px; }

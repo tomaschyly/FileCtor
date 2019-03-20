@@ -1,0 +1,2 @@
+/*** Settings styles ***/
+.settings { overflow: hidden; overflow-y: auto; height: calc(100% + 16px); padding-top: 16px; margin-top: -16px; }

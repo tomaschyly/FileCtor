@@ -1,6 +1,6 @@
 /*** Checkbox styles ***/
 .general-form-checkbox { display: flex; flex-wrap: wrap; flex-direction: row; margin-bottom: 16px; }
-.general-form-checkbox .button { width: 30px; height: 30px; margin-right: 16px; }
+.general-form-checkbox .button { width: 30px; height: 30px; margin-bottom: 0; margin-right: 16px; }
 .general-form-checkbox .button svg { display: none; }
 .general-form-checkbox.checked .button svg { display: block; }
 .general-form-checkbox label { flex-basis: calc(100% - 46px); margin-bottom: 0; }

@@ -9,6 +9,7 @@ const ConsoleWindow_static = require ('./Console').Console_static;
 const ReferenceWindow_static = require ('./Reference').Reference_static;
 const opn = require ('opn');
 const axios = require ('axios');
+const Snippet = require ('./model/Snippet');
 
 const readDirPromise = promisify (fs.readdir);
 const statPromise = promisify (fs.stat);
@@ -37,6 +38,10 @@ class Api {
 
 		ipcMain.on ('config-set', Api.SetConfig);
 
+		ipcMain.on ('app-settings-save', Api.SaveAppSettings);
+
+		ipcMain.on ('app-reset', Api.ResetApp);
+
 		ipcMain.on ('url-open', Api.OpenUrl);
 
 		ipcMain.on ('contact-message-send', Api.SendMessage);
@@ -59,7 +64,8 @@ class Api {
 			},
 			platform: process.platform,
 			name: appPackage.productName,
-			version: appPackage.version
+			version: appPackage.version,
+			settings: Main.config.Get ('app-settings')
 		};
 
 		switch (process.platform) {
@@ -297,6 +303,35 @@ class Api {
 		if (typeof (message.key) !== 'undefined' && typeof (message.value) !== 'undefined') {
 			Main.config.Set (message.key, message.value);
 		}
+	}
+
+	/**
+	 * Save app settings to config.
+	 */
+	static SaveAppSettings (event, message) {
+		Main.config.Set ('app-settings', message);
+
+		if (Main.window !== null) {
+			Main.window.send ('app-settings-save', message);
+		}
+		if (ConsoleWindow_static.window !== null) {
+			ConsoleWindow_static.window.send ('app-settings-save', message);
+		}
+		if (ReferenceWindow_static.window !== null) {
+			ReferenceWindow_static.window.send ('app-settings-save', message);
+		}
+	}
+
+	/**
+	 * Reset the app config and relaunch.
+	 */
+	static async ResetApp () {
+		await Main.config.Reset ();
+
+		await new Snippet ().DeleteAll ();
+
+		app.relaunch ();
+		app.quit ();
 	}
 
 	/**

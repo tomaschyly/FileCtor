@@ -108,6 +108,9 @@ class Console extends Component {
 			}
 		};
 		ipcRenderer.on ('snippet-load', this.snippetLoadListener);
+
+		this.keyboardActionsListener = this.KeyboardActions.bind (this);
+		window.addEventListener ('keyup', this.keyboardActionsListener);
 	}
 
 	/**
@@ -130,6 +133,9 @@ class Console extends Component {
 
 		ipcRenderer.removeListener ('snippet-load', this.snippetLoadListener);
 		delete this.snippetLoadListener;
+
+		window.removeEventListener ('keyup', this.keyboardActionsListener);
+		delete this.keyboardActionsListener;
 	}
 
 	/**
@@ -243,13 +249,23 @@ class Console extends Component {
 	 * Execute the script.
 	 */
 	Execute () {
-		ipcRenderer.send ('script-execute', {
-			parameters: {
-				directory: this.state.directory,
-				files: this.state.files
-			},
-			script: this.state.script
-		});
+		const {console} = window.TCH.mainParameters.settings;
+
+		const action = () => {
+			ipcRenderer.send ('script-execute', {
+				parameters: {
+					directory: this.state.directory,
+					files: this.state.files
+				},
+				script: this.state.script
+			});
+		};
+
+		if (console.executeConfirm) {
+			window.TCH.Main.ConfirmAction (action);
+		} else {
+			action ();
+		}
 	}
 
 	/**
@@ -287,7 +303,7 @@ class Console extends Component {
 	 * Show list of snippets to open one.
 	 */
 	LoadSnippet () {
-		this.setState ({loadPopup: true});
+		this.setState ({loadPopup: true, savePopup: false});
 
 		ipcRenderer.send ('snippet-list-name', {
 			name: this.state.loadSnippetName,
@@ -331,7 +347,7 @@ class Console extends Component {
 	 * Save script as snippet.
 	 */
 	SaveSnippet () {
-		this.setState ({savePopup: true});
+		this.setState ({savePopup: true, loadPopup: false});
 	}
 
 	/**
@@ -471,6 +487,22 @@ class Console extends Component {
 		ipcRenderer.send ('config-set', {key: 'console-warning', value: true});
 
 		this.setState ({warning: false});
+	}
+
+	/**
+	 * Listen to keyboard actions and execute them.
+	 */
+	KeyboardActions (e) {
+		const {controls} = window.TCH.mainParameters.settings;
+		const combination = e.ctrlKey ? `ctrl+${e.key}` : e.key;
+
+		if (combination === controls.execute) {
+			this.Execute ();
+		} else if (combination === controls.snippetLoad) {
+			this.LoadSnippet ();
+		} else if (combination === controls.snippetSave) {
+			this.SaveSnippet ();
+		}
 	}
 }
 

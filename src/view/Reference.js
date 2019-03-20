@@ -68,6 +68,10 @@ class Reference extends Component {
 					'RenameFiles': {
 						label: 'RenameFiles ()',
 						description: 'async\nParameters: string, array, string\nFirst parameter is directory containing the files, second is array of file names, third is new name. Can be awaited. Renames files to a new name with number if more than one file.'
+					},
+					'RenameFilesPart': {
+						label: 'RenameFilesPart ()',
+						description: 'async\nParameters: string, array, string, string\nFirst parameter is directory containing the files, second is array of file names, third is part to be removed and fourth is new part instead of old one. Can be awaited. Rename files to a new name by changing part of name with provided new part.'
 					}
 				}
 			}

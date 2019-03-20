@@ -20,6 +20,8 @@ class Popup extends Component {
 	 * Render the component into html.
 	 */
 	render () {
+		const {acceptClassName} = this.props;
+
 		return <CSSTransition in={this.props.visible} timeout={400} classNames="general-flex-fade">
 			<div className={`general-popup-container${typeof (this.props.className) !== 'undefined' ? ` ${this.props.className}` : ''} general-flex-fade`}>
 				<div className="general-popup">
@@ -31,7 +33,7 @@ class Popup extends Component {
 
 					<div className="general-popup-footer">
 						<Button type="button" className="button general-popup-close" onClick={this.Close.bind (this)}>{this.close}</Button>
-						<Button type="button" className={`button general-popup-confirm f-right${this.props.acceptVisible ? '' : ' hidden'}`} onClick={this.Accept.bind (this)}>{this.accept}</Button>
+						<Button type="button" className={`button general-popup-confirm f-right${this.props.acceptVisible ? '' : ' hidden'}${typeof (acceptClassName) !== 'undefined' ? ` ${acceptClassName}` : ''}`} onClick={this.Accept.bind (this)}>{this.accept}</Button>
 					</div>
 				</div>
 			</div>

@@ -4,6 +4,16 @@ File inspector with interactive console.
 
 The idea is to have something similar to other file system managers, e.g. [TotalCommander](https://www.ghisler.com/). But this app is intended for Developers as it allows to run various JS scripts against files and directories.
 
+There are multiple script Snippets installed with the app. They will give you some functionality right away, without having to write your own first.
+
+## Contents
+
+1. [Installation](#installation)
+2. [Important Notes](#important-notes)
+3. [How to Use](#how-to-use)
+4. [Included script Snippets](#included-script-snippets)
+5. [Roadmap](#roadmap)
+
 ## Installation
 
 1. Download latest release from [here](https://github.com/tomaschyly/FileCtor/releases). Win32 is for Windows. Darwin is for MacOS.
@@ -59,3 +69,21 @@ Script for renaming host inside Sql query. E.g. rename host of WP website when m
 ### Resize/Crop Images
 
 *Coming soon...*
+
+## Roadmap
+
+* Various improvements - an ongoing process happening regularly
+* Resize/Crop images - **ON HOLD** until certain issue with Electron 4 is solved by 3rd parties
+* Dark Mode
+* More files explorer like actions - **LOW PRIORITY**
+* More script capabilities - an ongoing process/dependant also on requests
+* TinyPNG integration
+
+
+* Auto-updates/notifications - **TBD**
+* MacOS touchbar - **TBD**
+* Linux (Ubuntu) - **TBD**
+* Simple GUI for snippets - **TBD**
+
+
+* Monaco Editor - **DISTANT FUTURE POSSIBILITY**

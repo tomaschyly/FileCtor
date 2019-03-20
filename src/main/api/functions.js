@@ -41,6 +41,20 @@ async function RenameFiles (directory, files, newName) {
 	return files.length;
 }
 
+async function RenameFilesPart (directory, files, removePart, newPart) {
+	for (let i = 0; i < files.length; i++) {
+		let extension = files [i].split ('.');
+		extension = extension.length > 1 ? `.${extension.pop ()}` : '';
+
+		newName = files [i].replace (extension, '');
+		let fileNewName = `${newName.replace (new RegExp (removePart, 'i'), newPart)}${extension}`;
+
+		await renameFilePromise (path.join (directory, files [i]), path.join (directory, fileNewName));
+	}
+
+	return files.length;
+}
+
 /*async function ResizeImage () {
 
 }*/
@@ -48,5 +62,6 @@ async function RenameFiles (directory, files, newName) {
 module.exports = {
 	Init,
 	ReadDirectory,
-	RenameFiles
+	RenameFiles,
+	RenameFilesPart
 };

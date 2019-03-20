@@ -260,7 +260,7 @@ class Tabs extends Component {
 
 		this.setState ({
 			tabs: tabs,
-			selectedTab: typeof (this.state.selectedTab) === 'undefined' ? params.id : this.state.selectedTab
+			selectedTab: params.id /*typeof (this.state.selectedTab) === 'undefined' ? params.id : this.state.selectedTab*/
 		});
 	}
 

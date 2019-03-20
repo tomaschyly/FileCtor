@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import FileInspector from './view/FileInspector';
 import Snippet from './view/Snippet';
+import Settings from './view/Settings';
 import About from './view/About';
 import Console from './view/Console';
 import Reference from './view/Reference';
@@ -14,6 +15,7 @@ class Router extends Component {
 		return <Switch>
 			<Route exact path="/" component={FileInspector} />
 			<Route path="/snippet" component={Snippet} />
+			<Route path="/settings" component={Settings} />
 			<Route path="/about" component={About} />
 			<Route path="/console" component={Console} />
 			<Route path="/reference" component={Reference} />

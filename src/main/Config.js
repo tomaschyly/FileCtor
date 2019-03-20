@@ -81,6 +81,27 @@ class Config {
 			this.Save ();
 		}
 	}
+
+	/**
+	 * Reset the config.
+	 */
+	async Reset () {
+		return new Promise ((resolve, reject) => {
+			try {
+				this.data = {};
+				
+				writeFileAtomic (this.filePath, JSON.stringify (this.data), error => {
+					if (error) {
+						reject (error);
+					} else {
+						resolve ();
+					}
+				});
+			} catch (error) {
+				reject (error);
+			}
+		});
+	}
 }
 
 module.exports = Config;

@@ -44,6 +44,7 @@ class Navigation extends Component {
 								<div className="dummy" />
 								<NavLink exact to="/" className="button" onClick={this.OnClick.bind (this)}>Files</NavLink>
 								<NavLink to="/snippet" className="button" onClick={this.OnClick.bind (this)}>Snippets</NavLink>
+								<NavLink to="/settings" className="button" onClick={this.OnClick.bind (this)}>Settings</NavLink>
 								<NavLink to="/about" className="button" onClick={this.OnClick.bind (this)}>About</NavLink>
 								<div className="dummy" />
 							</nav>
@@ -73,7 +74,7 @@ class Navigation extends Component {
 	Disable () {
 		this.setState ({disabled: true});
 
-		document.getElementById ('app').classList.add ('navigation-disabled');
+		window.TCH.Main.app.ToggleClass ('navigation-disabled');
 	}
 }
 

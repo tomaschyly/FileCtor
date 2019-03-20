@@ -97,7 +97,19 @@ result = 'Saved new file to: ' + destination;`
 
 		await new Snippet ().LoadFromData (renameHostSql).Save ();
 	},
-	/*2: async function () {
+	2: async function () {
+		const renameFilesPart = {
+			name: 'Rename Files (part of name)',
+			description: 'Rename files to a new name by changing part of name with provided new part.',
+			script: `const removePart = REMOVE_PART;
+const newPart = NEW_PART;
+const files = await ReadDirectory (directory);
+result = await RenameFilesPart (directory, files, removePart, newPart);`
+		};
+
+		await new Snippet ().LoadFromData (renameFilesPart).Save ();
+	}
+	/*3: async function () {
 		const resizeImages = {
 			name: 'Resize Image/s',
 			description: 'Script for resizing/croping images. Choose target size and format to be applied to selected files.',
