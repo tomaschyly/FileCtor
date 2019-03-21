@@ -1,7 +1,7 @@
 {
 	"name": "tch-filector",
 	"productName": "FileCtor",
-	"version": "0.7.0",
+	"version": "0.7.1",
 	"author": "Tomas Chyly <chyly@tomas-chyly.com> (https://tomas-chyly.com/en/)",
 	"license": "GPL v3",
 	"description": "File inspector with interactive console.",

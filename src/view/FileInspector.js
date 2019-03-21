@@ -98,8 +98,6 @@ class FileInspector extends Component {
 			return '';
 		}
 
-		this.tabs = React.createRef ();
-
 		let changeDrive = undefined;
 		if (this.state.drives.length > 0) {
 			let drives = this.state.drives.map (element => {
@@ -112,6 +110,8 @@ class FileInspector extends Component {
 
 			changeDrive = <ButtonSelect icon={<Hdd />} options={drives} onSelectItem={this.DirectoryChangeDrive.bind (this)} />;
 		}
+
+		this.tabs = React.createRef ();
 
 		return <div className="file-inspector">
 			<Tabs ref={this.tabs} startTabs={this.state.startTabs} startSelectedTab={this.state.startSelectedTab} startWith="1" tabsSave={this.TabsSave.bind (this)} tabParameters={this.TabParameters.bind (this)} onTabSelected={this.TabSelected.bind (this)} />
@@ -139,6 +139,13 @@ class FileInspector extends Component {
 	TabsSave (tabs, selectedTab) {
 		ipcRenderer.send ('config-set', {key: 'file-inspector-tabs', value: tabs});
 		ipcRenderer.send ('config-set', {key: 'file-inspector-tab-selected', value: selectedTab});
+
+		let bottom = document.querySelector ('.container.bottom');
+		if (tabs.length > 0 && bottom.classList.contains ('hidden')) {
+			bottom.classList.remove ('hidden');
+		} else if (tabs.length === 0 && !bottom.classList.contains ('hidden')) {
+			bottom.classList.add ('hidden');
+		}
 	}
 
 	/**
@@ -269,6 +276,19 @@ class FileInspector extends Component {
 			let input = document.getElementById ('current-directory');
 			input.value = params.directory;
 			input.dataset.value = encodeURIComponent (params.directory);
+
+			if (this.selectedTabId !== this.lastSelectedTabId) {
+				let tabsPanel = document.querySelector ('.tabs-panel');
+				tabsPanel.scrollTo (0, 0);
+
+				if (this.state.query !== '') {
+					this.setState ({
+						query: ''
+					});
+				}
+			}
+
+			this.lastSelectedTabId = this.selectedTabId;
 		}
 	}
 
@@ -364,8 +384,15 @@ class FileInspector extends Component {
 				}
 			}
 
+			let tabsPanel = document.querySelector ('.tabs-panel');
+			tabsPanel.scrollTo (0, 0);
+
 			this.tabs.current.setState ({
 				selectedTab: this.tabs.current.state.selectedTab
+			});
+
+			this.setState ({
+				query: ''
 			});
 
 			ipcRenderer.send ('directory-contents', {
