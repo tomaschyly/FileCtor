@@ -47,7 +47,10 @@ let Main = {
 					frame: false,
 					center: true,
 					show: false,
-					icon: path.join (__dirname, 'icon.png')
+					icon: path.join (__dirname, 'icon.png'),
+					webPreferences: {
+						nodeIntegration: true
+					}
 				});
 				break;
 			case 'darwin':
@@ -59,7 +62,10 @@ let Main = {
 					frame: false,
 					center: true,
 					show: false,
-					icon: path.join (__dirname, 'icon.icns')
+					icon: path.join (__dirname, 'icon.icns'),
+					webPreferences: {
+						nodeIntegration: true
+					}
 				});
 				break;
 			default:
@@ -71,7 +77,10 @@ let Main = {
 					frame: false,
 					center: true,
 					show: false,
-					icon: path.join (__dirname, 'icon.ico')
+					icon: path.join (__dirname, 'icon.ico'),
+					webPreferences: {
+						nodeIntegration: true
+					}
 				});
 		}
 

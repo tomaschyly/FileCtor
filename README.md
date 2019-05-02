@@ -62,6 +62,10 @@ This is just a basic script example that does almost nothing, but demonstrate th
 
 Rename files to a new name and append with number if there are more than one.
 
+### Rename Files (part of name)
+
+Rename files to a new name by changing part of name with provided new part.
+
 ### Rename Host Sql
 
 Script for renaming host inside Sql query. E.g. rename host of WP website when migrating from Dev to Prod. Should work on large Sql files.
@@ -79,11 +83,9 @@ Script for renaming host inside Sql query. E.g. rename host of WP website when m
 * More script capabilities - an ongoing process/dependant also on requests
 * TinyPNG integration
 
-
 * Auto-updates/notifications - **TBD**
 * MacOS touchbar - **TBD**
 * Linux (Ubuntu) - **TBD**
 * Simple GUI for snippets - **TBD**
-
 
 * Monaco Editor - **DISTANT FUTURE POSSIBILITY**
