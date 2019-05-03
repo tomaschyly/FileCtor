@@ -192,7 +192,7 @@ class FileInspector extends Component {
 		}, 1);
 
 		this.files = React.createRef ();
-		return <div id={`file-inspector-files-${params.id}`}>
+		return <div className="file-inspector-files" id={`file-inspector-files-${params.id}`}>
 			<input type="text" value={this.state.query} name="filter-files" id="filter-files" placeholder="Search query" onChange={e => this.ChangeFilterQuery (e.target.value)}/>
 
 			<Files ref={this.files} onFileAction={this.FileAction.bind (this)} />

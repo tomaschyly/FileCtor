@@ -153,8 +153,8 @@ img { max-width: 100%; }
 .tch-grid-body .tch-grid-row.active { background: #666666; }
 .tch-grid-body .tch-grid-row:hover,
 .tch-grid-body .tch-grid-row:focus { border-top-color: black; border-bottom-color: black; }
-.tch-grid-body .tch-grid-row:first-of-type { border-top-width: 0; }
-.tch-grid-body .tch-grid-row:last-of-type { border-bottom-width: 0; }
+.tch-grid-body .tch-grid-row:first-of-type { border-top-color: transparent; }
+.tch-grid-body .tch-grid-row:last-of-type { border-bottom-color: transparent; }
 .tch-grid-col { display: flex; flex-wrap: wrap; flex-basis: 0; flex-grow: 1; flex-shrink: 1; align-items: center; padding: 4px; word-break: break-all; }
 .tch-grid-col.no-grow,
 .tch-grid-col.actions { flex-grow: 0; flex-shrink: 0; }
