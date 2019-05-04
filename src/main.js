@@ -100,6 +100,8 @@ let Main = {
 			this.window.setMenu (null);
 
 			if (windowParameters !== null && typeof (windowParameters.maximized) !== 'undefined' && windowParameters.maximized) {
+				this.window.setBounds ({width: this.default.width, height: this.default.height});
+				this.window.center ();
 				this.window.maximize ();
 			}
 

@@ -82,6 +82,8 @@ class Reference {
 			Reference_static.window.setMenu (null);
 
 			if (windowParameters !== null && typeof (windowParameters.maximized) !== 'undefined' && windowParameters.maximized) {
+				Reference_static.window.setBounds ({width: Reference_static.default.width, height: Reference_static.default.height});
+				Reference_static.window.center ();
 				Reference_static.window.maximize ();
 			}
 

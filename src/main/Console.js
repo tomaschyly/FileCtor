@@ -82,6 +82,8 @@ class Console {
 			Console_static.window.setMenu (null);
 
 			if (windowParameters !== null && typeof (windowParameters.maximized) !== 'undefined' && windowParameters.maximized) {
+				Console_static.window.setBounds ({width: Console_static.default.width, height: Console_static.default.height});
+				Console_static.window.center ();
 				Console_static.window.maximize ();
 			}
 

@@ -1,11 +1,11 @@
 /* eslint-disable no-whitespace-before-property */
 import {ReactComponent as Cog} from '../../icon/cog.svg';
-import { ReactComponent as FolderOpen } from '../../icon/folder-open.svg';
-import { ReactComponent as Eye } from '../../icon/eye.svg';
-import { ReactComponent as Code } from '../../icon/code.svg';
-import { ReactComponent as Ellipsis } from '../../icon/ellipsis-v.svg';
+import {ReactComponent as FolderOpen} from '../../icon/folder-open.svg';
+import {ReactComponent as Eye} from '../../icon/eye.svg';
+import {ReactComponent as Code} from '../../icon/code.svg';
+import {ReactComponent as Ellipsis} from '../../icon/ellipsis-v.svg';
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Server from 'react-dom/server';
 import Button from '../Button';
 import TransitionGroup from 'react-transition-group/TransitionGroup';

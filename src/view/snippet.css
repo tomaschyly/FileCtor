@@ -1,2 +1,7 @@
 /*** Snippet styles ***/
 .snippet { overflow: hidden; overflow-y: auto; height: calc(100% + 16px); padding-top: 16px; margin-top: -16px; }
+.snippet .container,
+.snippet .container > .row,
+.snippet .container > .row > div { height: 100%; }
+.snippet .tch-grid { height: calc(100% - 68px); }
+.snippet .tch-grid-body { overflow: hidden; overflow-y: auto; height: calc(100% - 130px); }
