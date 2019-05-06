@@ -74,9 +74,9 @@ Script for renaming host inside Sql query. E.g. rename host of WP website when m
 
 **ON HOLD**
 
-### TinyPNG Compress Images
+### TinyPNG Compress/Resize/Crop Images
 
-*WIP*
+Two scripts for images (PNG & JPG), one can compress them, the other can resize or crop. Crop is intelligent in determining area of interest. You need TinyPNG API key for them to work.
 
 ## Roadmap
 
