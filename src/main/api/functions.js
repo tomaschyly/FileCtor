@@ -46,7 +46,7 @@ async function RenameFilesPart (directory, files, removePart, newPart) {
 		let extension = files [i].split ('.');
 		extension = extension.length > 1 ? `.${extension.pop ()}` : '';
 
-		newName = files [i].replace (extension, '');
+		let newName = files [i].replace (extension, '');
 		let fileNewName = `${newName.replace (new RegExp (removePart, 'i'), newPart)}${extension}`;
 
 		await renameFilePromise (path.join (directory, files [i]), path.join (directory, fileNewName));
@@ -55,13 +55,29 @@ async function RenameFilesPart (directory, files, removePart, newPart) {
 	return files.length;
 }
 
-/*async function ResizeImage () {
+async function TinyPNGCompressFile (file) {
+	let extension = file.split ('.');
+	extension = extension.length > 1 ? `.${extension.pop ()}` : '';
 
-}*/
+	let newName = file.replace (extension, `.compressed${extension}`);
+
+	await tinify.fromFile (file).preserve ('copyright', 'creation').toFile (newName);
+}
+
+async function TinyPNGResizeCropFile (file, params) {
+	let extension = file.split ('.');
+	extension = extension.length > 1 ? `.${extension.pop ()}` : '';
+
+	let newName = file.replace (extension, `.processed${extension}`);
+
+	await tinify.fromFile (file).preserve ('copyright', 'creation').resize (params).toFile (newName);
+}
 
 module.exports = {
 	Init,
 	ReadDirectory,
 	RenameFiles,
-	RenameFilesPart
+	RenameFilesPart,
+	TinyPNGCompressFile,
+	TinyPNGResizeCropFile
 };

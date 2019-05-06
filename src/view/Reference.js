@@ -72,6 +72,14 @@ class Reference extends Component {
 					'RenameFilesPart': {
 						label: 'RenameFilesPart ()',
 						description: 'async\nParameters: string, array, string, string\nFirst parameter is directory containing the files, second is array of file names, third is part to be removed and fourth is new part instead of old one. Can be awaited. Rename files to a new name by changing part of name with provided new part.'
+					},
+					'TinyPNGCompressFile': {
+						label: 'TinyPNGCompressFile ()',
+						description: 'async\nParameter: string\nParameter is path to a file. Can be awaited. This function will use TinyPNG API to compress the file and then write it to the same directory with modified name.'
+					},
+					'TinyPNGResizeCropFile': {
+						label: 'TinyPNGResizeCropFile ()',
+						description: 'async\nParameters: string, object\nFirst parameter is path to a file, second are parameters defining what to do with the file. Can be awaited. This function will resize or crop the file and then write it to the same directory with modified name.\nTo resize the file use: {method: "fit", width: 150, height: 150}.\nTo crop the file change method to "cover". This will not just crop the image, but it will intelligently determine area of interest.'
 					}
 				}
 			}

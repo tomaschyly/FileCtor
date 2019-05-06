@@ -72,7 +72,11 @@ Script for renaming host inside Sql query. E.g. rename host of WP website when m
 
 ### Resize/Crop Images
 
-*Coming soon...*
+**ON HOLD**
+
+### TinyPNG Compress Images
+
+*WIP*
 
 ## Roadmap
 
@@ -81,7 +85,6 @@ Script for renaming host inside Sql query. E.g. rename host of WP website when m
 * Dark Mode
 * More files explorer like actions - **LOW PRIORITY**
 * More script capabilities - an ongoing process/dependant also on requests
-* TinyPNG integration
 
 * Auto-updates/notifications - **TBD**
 * MacOS touchbar - **TBD**

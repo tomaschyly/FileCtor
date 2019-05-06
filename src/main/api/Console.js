@@ -10,6 +10,7 @@ const ReferenceWindow = require ('../Reference').Reference;
 const Snippet = require ('../model/Snippet');
 const {WHERE_CONDITIONS} = require ('tch-database');
 //const sharp = require ('sharp');
+const tinify = require ('tinify');
 
 let Main = undefined;
 
@@ -63,6 +64,9 @@ class Console {
 	 * Execute script inside VM with custom sandbox.
 	 */
 	static async ExecuteScript (event, message) {
+		let settings = Main.config.Get ('app-settings');
+		tinify.key = settings.console.tinypngApiKey;
+
 		let sandbox = {
 			fs: {
 				createReadStream: fs.createReadStream,
@@ -78,7 +82,8 @@ class Console {
 				createInterface: readline.createInterface
 			},
 			renameFilePromise: promisify (fs.rename),
-			//sharp: sharp
+			//sharp: sharp,
+			tinify: tinify
 		};
 
 		sandbox = extend (sandbox, message.parameters);

@@ -6,6 +6,7 @@ import Button from '../component/Button';
 import Popup from '../component/Popup';
 
 const {ipcRenderer} = window.require ('electron');
+const extend = window.require ('extend');
 
 const defaults = {
 	controls: {
@@ -14,7 +15,8 @@ const defaults = {
 		snippetSave: 'ctrl+s'
 	},
 	console: {
-		executeConfirm: false
+		executeConfirm: false,
+		tinypngApiKey: ''
 	},
 	theme: {
 		fancyFont: true
@@ -33,9 +35,9 @@ class Settings extends Component {
 		this.formControls = undefined;
 
 		this.formsValues = {};
-
+		
 		this.state = {
-			current: window.TCH.mainParameters.settings !== null ? window.TCH.mainParameters.settings : defaults,
+			current: window.TCH.mainParameters.settings !== null ? extend (true, {}, defaults, window.TCH.mainParameters.settings) : defaults,
 			reset: false
 		};
 	}
@@ -96,6 +98,11 @@ class Settings extends Component {
 									label: 'Confirm Execute',
 									type: 'checkbox',
 									value: current.console.executeConfirm
+								},
+								tinypngApiKey: {
+									label: 'TinyPNG API Key',
+									type: 'text',
+									value: current.console.tinypngApiKey
 								}
 							}} onSubmit={values => this.formsValues.console = values}/>
 						</div>

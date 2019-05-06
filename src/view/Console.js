@@ -4,6 +4,7 @@ import { ReactComponent as FolderOpen } from '../icon/folder-open.svg';
 import { ReactComponent as Save } from '../icon/save.svg';
 import { ReactComponent as Question } from '../icon/question.svg';
 import { ReactComponent as ExpandArrows } from '../icon/expand-arrows.svg';
+import {ReactComponent as Cog} from '../icon/cog.svg';
 
 import React, { Component } from 'react';
 import Button from '../component/Button';
@@ -35,6 +36,7 @@ class Console extends Component {
 			snippetsByName: [],
 			selectedSnippetId: null,
 			script: '',
+			scriptExecuting: false,
 			log: '',
 			logIsError: false,
 			currentInfo: '',
@@ -152,6 +154,8 @@ class Console extends Component {
 		if (typeof (window.Console_static.parameters) === 'undefined') {
 			return '';
 		} else {
+			const {scriptExecuting} = this.state;
+
 			this.editor = React.createRef ();
 
 			return <div className={`console ${this.state.mainClasses}`}>
@@ -167,12 +171,19 @@ class Console extends Component {
 								</div>
 							</div>
 							<div className="current-script-actions-container">
-								<div className="panel no-white">
-									<Button type="button" className="button" onClick={this.Execute.bind (this)}>Execute</Button>
-									<Button type="button" className={`button icon${this.state.loadEnabled ? '' : ' hidden'}`} onClick={this.LoadSnippet.bind (this)}><FolderOpen/></Button>
-									<Button type="button" className="button icon" onClick={this.SaveSnippet.bind (this)}><Save/></Button>
-									<Button type="button" className="button icon" onClick={this.ShowApi.bind (this)}><Question/></Button>
-								</div>
+								{
+									scriptExecuting ? 
+										<div className="panel no-white loading">
+											<Cog className="spin"/>
+										</div>
+										:
+										<div className="panel no-white">
+											<Button type="button" className="button" onClick={this.Execute.bind (this)}>Execute</Button>
+											<Button type="button" className={`button icon${this.state.loadEnabled ? '' : ' hidden'}`} onClick={this.LoadSnippet.bind (this)}><FolderOpen/></Button>
+											<Button type="button" className="button icon" onClick={this.SaveSnippet.bind (this)}><Save/></Button>
+											<Button type="button" className="button icon" onClick={this.ShowApi.bind (this)}><Question/></Button>
+										</div>
+								}
 							</div>
 							<div className="panel current-console-log-container">
 								<div id="current-console-log" className={(this.state.logIsError ? 'error' : '')} dangerouslySetInnerHTML={{__html: this.state.log}}/>
@@ -252,6 +263,8 @@ class Console extends Component {
 		const {console} = window.TCH.mainParameters.settings;
 
 		const action = () => {
+			this.setState ({scriptExecuting: true});
+
 			ipcRenderer.send ('script-execute', {
 				parameters: {
 					directory: this.state.directory,
@@ -273,7 +286,7 @@ class Console extends Component {
 	 */
 	ExecutionResult (event, message) {
 		if (typeof (message.error) !== 'undefined') {
-			this.setState ({log: message.error, logIsError: true});
+			this.setState ({scriptExecuting: false, log: message.error, logIsError: true});
 		} else {
 			let log = message.log;
 
@@ -295,7 +308,7 @@ class Console extends Component {
 				log = log.join ('');
 			}
 
-			this.setState ({log: log, logIsError: false});
+			this.setState ({scriptExecuting: false, log: log, logIsError: false});
 		}
 	}
 

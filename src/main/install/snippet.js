@@ -20,7 +20,7 @@ console.log ('2 * 3 equals ' + variable);`
 			description: 'Rename files to a new name and append with number if there are more than one.',
 			script: `const newName = NEW_NAME;
 const files = await ReadDirectory (directory);
-result = await RenameFiles (directory, files, newName);`
+result = '# files renamed ' + await RenameFiles (directory, files, newName);`
 		};
 
 		await new Snippet ().LoadFromData (renameExampleSnippet).Save ();
@@ -104,10 +104,51 @@ result = 'Saved new file to: ' + destination;`
 			script: `const removePart = REMOVE_PART;
 const newPart = NEW_PART;
 const files = await ReadDirectory (directory);
-result = await RenameFilesPart (directory, files, removePart, newPart);`
+result = '# files renamed ' + await RenameFilesPart (directory, files, removePart, newPart);`
 		};
 
 		await new Snippet ().LoadFromData (renameFilesPart).Save ();
+	},
+	3: async function () {
+		const compressImages = {
+			name: 'Compress Images (TinyPNG)',
+			description: 'Compress PNG & JPG images using TinyPNG API. You have to have TinyPNG API key set in settings.',
+			script: `const files = await ReadDirectory (directory, /(.png|.jpg)$/);
+
+if (files.length < 1) {
+	throw Error ('The directory does not contain any images');
+}
+
+for (let i = 0; i < files.length; i++) {
+	await TinyPNGCompressFile (path.join (directory, files [i]));
+}
+
+result = '# compressed images ' + files.length;`
+		};
+
+		await new Snippet ().LoadFromData (compressImages).Save ();
+
+		const resizeCropImages = {
+			name: 'Resize/Crop Images (TinyPNG)',
+			description: 'Resize or crop PNG & JPG images using TinyPNG API. You have to have TinyPNG API key set in settings.',
+			script: `const method = 'fit'; //"fit" => resize, "cover" => intelligently crop
+const width = WIDTH;
+const height = HEIGHT;
+
+const files = await ReadDirectory (directory, /(.png|.jpg)$/);
+
+if (files.length < 1) {
+	throw Error ('The directory does not contain any images');
+}
+
+for (let i = 0; i < files.length; i++) {
+	await TinyPNGResizeCropFile (path.join (directory, files [i]), {method: method, width: width, height: height});
+}
+
+result = '# resized/cropped images ' + files.length;`
+		};
+
+		await new Snippet ().LoadFromData (resizeCropImages).Save ();
 	}
 	/*3: async function () {
 		const resizeImages = {
