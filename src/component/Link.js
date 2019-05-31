@@ -20,10 +20,14 @@ class Link extends Component {
 	 * On click open default browser.
 	 */
 	Open () {
-		const {href} = this.props;
+		const {href, onClick} = this.props;
 
 		if (typeof (href) !== 'undefined') {
 			ipcRenderer.send ('url-open', {url: href});
+		}
+
+		if (typeof onClick === 'function') {
+			onClick (href);
 		}
 	}
 }

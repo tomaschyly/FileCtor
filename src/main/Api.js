@@ -46,6 +46,8 @@ class Api {
 
 		ipcMain.on ('contact-message-send', Api.SendMessage);
 
+		ipcMain.on ('version-check-update', Api.CheckVersion);
+
 		Main = main;
 		consoleApi.Init (main);
 		gridApi.Init ();
@@ -356,6 +358,49 @@ class Api {
 			event.sender.send ('contact-message-send', response.data);
 		} catch (error) {
 			event.sender.send ('contact-message-send', {
+				error: true
+			});
+		}
+	}
+
+	/**
+	 * Check if there is new version available.
+	 */
+	static async CheckVersion (event) {
+		try {
+			const appPackage = require ('../../package');
+			const appID = appPackage.name;
+			const currentVersion = appPackage.version;
+
+			const response = await axios.get (`${config.api.url}?action=app_version&app_id=${encodeURIComponent (appID)}`);
+
+			if (typeof response.data === 'object' && response.data.app_id === appID) {
+				if (typeof response.data.version === 'string' && currentVersion !== response.data.version) {
+					let downloadUrl = null;
+					switch (process.platform) {
+						case 'linux':
+							downloadUrl = response.data.download_ubuntu;
+							break;
+						case 'darwin':
+							downloadUrl = response.data.download_macos;
+							break;
+						default:
+							downloadUrl = response.data.download_windows;
+							break;
+					}
+
+					event.sender.send ('version-check-update', {
+						newVersion: response.data.version,
+						downloadUrl: downloadUrl
+					});
+				}
+			} else {
+				event.sender.send ('version-check-update', {
+					error: true
+				});
+			}
+		} catch (error) {
+			event.sender.send ('version-check-update', {
 				error: true
 			});
 		}

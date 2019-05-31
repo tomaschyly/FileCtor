@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Popup from './Popup';
+import Link from './Link';
 
 const {ipcRenderer} = window.require ('electron');
 
@@ -17,7 +18,8 @@ class Popups extends Component {
 			alert: null,
 			alertMessage: '',
 			alertHeadline: '',
-			confirm: false
+			confirm: false,
+			update: false
 		};
 	}
 
@@ -26,6 +28,17 @@ class Popups extends Component {
 	 */
 	componentDidMount () {
 		window.TCH.Main.popups = this;
+	}
+
+	/**
+	 * Component was updated.
+	 */
+	componentDidUpdate (prevProps) {
+		const {updateAvailable} = this.props;
+
+		if (prevProps.updateAvailable !== updateAvailable && typeof updateAvailable === 'object' && typeof updateAvailable.notified === 'undefined') {
+			this.setState ({update: true});
+		}
 	}
 
 	/**
@@ -39,6 +52,20 @@ class Popups extends Component {
 	 * Render the component into html.
 	 */
 	render () {
+		const {updateAvailable} = this.props;
+		const {update} = this.state;
+
+		let updatePopup = null;
+		if (updateAvailable !== null) {
+			updatePopup = <Popup visible={update} headline="Update Available" content={
+				<div>
+					<p>There is new update ({updateAvailable.newVersion}) available.</p>
+
+					{updateAvailable.downloadUrl !== '' ? <p><Link href={updateAvailable.downloadUrl} onClick={this.UpdateClosed.bind (this)}>Download the update</Link></p> : null}
+				</div>
+			} onClose={this.UpdateClosed.bind (this)}/>;
+		}
+
 		return <div className="general-popups">
 			<Popup visible={this.state.beta} headline="Beta" content={
 				<div>
@@ -54,6 +81,8 @@ class Popups extends Component {
 			<Popup className="auto" visible={this.state.confirm} headline="Confirm Action" content={
 				<p>Are you sure you want to do it?</p>
 			} onClose={this.ConfirmClosed.bind (this)} acceptVisible={true} accept="Confirm" onAccept={this.ConfirmAccepted.bind (this)}/>
+
+			{updatePopup}
 		</div>;
 	}
 
@@ -103,7 +132,7 @@ class Popups extends Component {
 	}
 
 	/**
-	 * Confirm popup vas canceled.
+	 * Confirm popup was canceled.
 	 */
 	ConfirmClosed () {
 		this.confirmAction = undefined;
@@ -122,6 +151,21 @@ class Popups extends Component {
 
 			this.confirmAction = undefined;
 		}
+	}
+
+	/**
+	 * Close update popup.
+	 */
+	UpdateClosed () {
+		const {updateAvailable} = this.props;
+
+		updateAvailable.notified = true;
+
+		window.App_static.Instance.setState ({
+			updateAvailable: updateAvailable
+		});
+
+		this.setState ({update: false});
 	}
 }
 

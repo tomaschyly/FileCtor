@@ -2,8 +2,9 @@
 import './fileInspector.css';
 import { ReactComponent as Code } from '../icon/code.svg';
 import { ReactComponent as LevelUpAlt } from '../icon/level-up-alt.svg';
-import { ReactComponent as Ellipsis } from '../icon/ellipsis-v.svg';
+//import { ReactComponent as Ellipsis } from '../icon/ellipsis-v.svg';
 import { ReactComponent as Hdd } from '../icon/hdd.svg';
+import {ReactComponent as Refresh} from '../icon/refresh.svg';
 
 import React, { Component } from 'react';
 import Button from '../component/Button';
@@ -49,7 +50,18 @@ class FileInspector extends Component {
 
 		this.startTabsListener = (event, message) => {
 			if (message.key === 'app-beta') {
-				if (message.value === null || !message.value) {
+				let {version} = window.TCH.mainParameters;
+				let showBeta = true;
+				const versionSplit = version.split ('.');
+
+				if (versionSplit.length > 2) {
+					version = `${versionSplit [0]}.${versionSplit [1]}`;
+					version = parseFloat (version);
+
+					showBeta = version < 1.0;
+				}
+
+				if (showBeta && (message.value === null || !message.value)) {
 					window.TCH.Main.Beta ();
 				}
 			} else if (message.key === 'file-inspector-tabs') {
@@ -122,15 +134,16 @@ class FileInspector extends Component {
 							<input id="current-directory" className={(typeof (changeDrive) !== 'undefined' ? 'drives' : '')} type="text" onChange={this.DirectoryChanged.bind (this)} />
 							<div className="current-directory-actions-container">
 								<Button type="button" className="button icon" onClick={this.DirectoryToParent.bind (this)}><LevelUpAlt /></Button>
+								<Button type="button" className="button icon" onClick={this.DirectoryRefresh.bind (this)}><Refresh/></Button>
 								{changeDrive}
 								<Button type="button" className="button icon" onClick={this.DirectoryConsole.bind (this)}><Code /></Button>
-								<Button type="button" className="button icon"><Ellipsis /></Button>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>;
+		//<Button type="button" className="button icon"><Ellipsis /></Button> //TODO
 	}
 
 	/**
@@ -324,18 +337,33 @@ class FileInspector extends Component {
 				}
 				break;
 			}
-			case 'file':
-				ipcRenderer.send ('file-open', {
-					directory: this.selectedTabParams.directory,
-					file: params.name
-				});
+			case 'file': {
+				if (this.selectedRows.length > 0) {
+					for (let i = 0; i < this.selectedRows.length; i++) {
+						(row => {
+							if (!row.isDirectory) {
+								ipcRenderer.send ('file-open', {
+									directory: this.selectedTabParams.directory,
+									file: row.name
+								});
+							}
+						}) (this.selectedRows [i]);
+					}
+				} else {
+					ipcRenderer.send ('file-open', {
+						directory: this.selectedTabParams.directory,
+						file: params.name
+					});
+				}
 				break;
+			}
 			case 'row':
-				//this.FileRowAction (action, params); //TODO disabled since it messes up animations
+				this.FileRowAction (action, params);
 				break;
-			case 'console':
+			case 'console': {
 				this.DirectoryConsole (params);
 				break;
+			}
 			default:
 				console.error (`FileInspector - FileAction - unsupported action: ${action}`);
 				break;
@@ -346,6 +374,10 @@ class FileInspector extends Component {
 	 * Handle actions on file rows.
 	 */
 	FileRowAction (action, params) {
+		if (params.isDirectory) {
+			return;
+		}
+
 		if (typeof (params.selected) === 'undefined') {
 			params.selected = false;
 		}
@@ -366,10 +398,10 @@ class FileInspector extends Component {
 	/**
 	 * Input changed directory, update files.
 	 */
-	DirectoryChanged () {
+	DirectoryChanged (force = false) {
 		let input = document.getElementById ('current-directory');
 
-		if (encodeURIComponent (input.value) !== input.dataset.value) {
+		if (encodeURIComponent (input.value) !== input.dataset.value || force) {
 			this.selectedTabParams.directory = input.value;
 			this.selectedTabParams.title = path.basename (this.selectedTabParams.directory);
 			if (this.selectedTabParams.title === '') {
@@ -411,6 +443,13 @@ class FileInspector extends Component {
 	}
 
 	/**
+	 * Refresh contents of current directory.
+	 */
+	DirectoryRefresh () {
+		this.DirectoryChanged (true);
+	}
+
+	/**
 	 * Change directory to different drive.
 	 */
 	DirectoryChangeDrive (e) {
@@ -436,6 +475,20 @@ class FileInspector extends Component {
 
 		if (actionParams !== null && !actionParams.isDirectory) {
 			params.file = actionParams.name;
+
+			if (actionParams.selected && this.selectedRows.length > 1) {
+				const files = [];
+
+				for (let i = 0; i < this.selectedRows.length; i++) {
+					if (!this.selectedRows [i].isDirectory) {
+						files.push (this.selectedRows [i].name);
+					}
+				}
+
+				if (files.length > 0) {
+					params.files = files;
+				}
+			}
 		}
 
 		window.TCH.Main.OpenConsole (params);

@@ -29,6 +29,7 @@ class Console extends Component {
 		this.state = {
 			mainClasses: '',
 			directory: undefined,
+			file: undefined,
 			files: [],
 			snippet: undefined,
 			loadEnabled: true,
@@ -59,21 +60,18 @@ class Console extends Component {
 		this.parametersListener = (event, message) => {
 			window.Console_static.parameters = message;
 
-			let files = [];
-			if (typeof (message.file) !== 'undefined') {
-				files.push (message.file);
-			}
-
 			this.setState ({
 				directory: message.directory,
-				files: files,
+				file: message.file,
+				files: message.files,
 				snippet: message.snippet,
 				loadEnabled: !(typeof (message.loadEnabled) !== 'undefined' && !message.loadEnabled),
 				script: typeof (message.snippet) !== 'undefined' && typeof (message.snippet.script) !== 'undefined' ? message.snippet.script : ''
 			});
 
 			this.UpdateCurrentInfo ({
-				files: files
+				file: message.file,
+				files: message.files
 			});
 		};
 		ipcRenderer.on ('payload-last', this.parametersListener);
@@ -268,6 +266,7 @@ class Console extends Component {
 			ipcRenderer.send ('script-execute', {
 				parameters: {
 					directory: this.state.directory,
+					file: this.state.file,
 					files: this.state.files
 				},
 				script: this.state.script
@@ -428,12 +427,14 @@ class Console extends Component {
 	UpdateCurrentInfo (parameters = {}, prevState = null) {
 		let info = [];
 
+		let file = this.state.file;
 		let files = this.state.files;
+		if (typeof (parameters.file) !== 'undefined') {
+			file = parameters.file;
+		}
 		if (typeof (parameters.files) !== 'undefined') {
 			files = parameters.files;
 		}
-
-		info.push (`<p>${files.length} selected files (not yet fully implemented)</p>`);
 
 		if (typeof (this.state.snippet) === 'object') {
 			if (this.state.snippet.id !== null) {
@@ -442,13 +443,30 @@ class Console extends Component {
 				if (typeof (this.state.snippet.description) !== 'undefined') {
 					info.push (`<p>${this.state.snippet.description}</p>`);
 				}
-
-				//TODO compare content to know ich unsaved progress? num of lines of code?
 			} else {
-				info.push ('<p>Snippet: you are coding a new Snippet</p>');
+				info.push ('<p><strong>Snippet:</strong> you are coding a new Snippet</p>');
 			}
 		} else {
-			info.push ('<p>Snippet: none is open</p>');
+			info.push ('<p><strong>Snippet:</strong> none is open</p>');
+		}
+
+		let count = files ? files.length : 0;
+		count = count === 0 && file ? 1 : count;
+
+		info.push (`<p class="files"><strong># of selected files:</strong> ${count}</p>`);
+
+		if (file) {
+			info.push (`<p class="files"><strong>Primary file:</strong> ${file}</p>`);
+		}
+
+		if (files) {
+			info.push ('<p><strong>Selected files:</strong></p>');
+
+			const infoFiles = files.map (element => `<p>${element}</p>`);
+			for (let indexOfFiles in infoFiles) {
+				// noinspection JSUnfilteredForInLoop
+				info.push (infoFiles [indexOfFiles]);
+			}
 		}
 
 		info = info.join ('');

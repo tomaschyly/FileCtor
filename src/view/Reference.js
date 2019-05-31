@@ -28,6 +28,10 @@ class Reference extends Component {
 						label: 'directory',
 						description: 'Initial value: current selected directory\nThis value has assigned current selected directory of console and it should be used by script for execution.'
 					},
+					file: {
+						label: 'file',
+						description: 'Initial value: current primary file\nThis value contains the name of the file which was used to open the console.'
+					},
 					files: {
 						label: 'files',
 						description: 'Initial value: current selected files\nThis value contains array of currently selected files and should be used by script for execution.'

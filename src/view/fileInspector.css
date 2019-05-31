@@ -15,7 +15,12 @@
 .file-inspector .tch-grid-body { height: 100%; border-bottom: 0; }
 .file-inspector .tch-grid-body > div,
 .file-inspector .tch-grid-body > div > div { height: 100%; }
+.file-inspector .tch-grid-row { cursor: pointer; }
+.file-inspector .tch-grid-row.directory { cursor: default; }
 .file-inspector .tch-grid-col { flex-basis: auto; }
+.file-inspector .tch-grid-row.active button { border-color: white; color: white; }
+.file-inspector .tch-grid-row.active button:hover,
+.file-inspector .tch-grid-row.active button:focus { border-color: white; color: black; background: white; }
 .file-inspector .bottom { display: block; transition: transform 0.4s linear; }
 .file-inspector .bottom.hidden { display: block; transform: translateY(100%); }
 #current-directory { padding-right: 106px; }

@@ -3,7 +3,7 @@ import {ReactComponent as Cog} from '../../icon/cog.svg';
 import {ReactComponent as FolderOpen} from '../../icon/folder-open.svg';
 import {ReactComponent as Eye} from '../../icon/eye.svg';
 import {ReactComponent as Code} from '../../icon/code.svg';
-import {ReactComponent as Ellipsis} from '../../icon/ellipsis-v.svg';
+//import {ReactComponent as Ellipsis} from '../../icon/ellipsis-v.svg';
 
 import React, {Component} from 'react';
 import Server from 'react-dom/server';
@@ -135,18 +135,18 @@ class Files extends Component {
 					{openDirectory}
 					{execute}
 					<Button type="button" className="tch-grid-action icon" data-reactid={rowData.reactId} data-action="console"><Code /></Button>
-					<Button type="button" className="tch-grid-action icon" data-reactid={rowData.reactId} data-action="options"><Ellipsis /></Button>
 				</div>);
+				//<Button type="button" className="tch-grid-action icon" data-reactid={rowData.reactId} data-action="options"><Ellipsis /></Button> //TODO
 			}
 		}
 
-		return <div className={`tch-grid-row tch-grid-action-row tch-grid-action-row-${index} ${typeof (rowData.selected) && rowData.selected ? ' active' : ''}`} style={style} onClick={this.FileAction.bind (this)} data-reactid={rowData.reactId} data-action="row">
+		return <div className={`tch-grid-row tch-grid-action-row tch-grid-action-row-${index}${rowData.isDirectory ? ' directory' : ''}${typeof (rowData.selected) && rowData.selected ? ' active' : ''}`} style={style} onClick={this.FileAction.bind (this)} data-reactid={rowData.reactId} data-action="row">
 			{row}
 		</div>;
 	}
 
 	/**
-	 * Output formated file size.
+	 * Output formatted file size.
 	 */
 	FileSize (size) {
 		if (typeof (size) !== 'undefined') {
@@ -170,6 +170,8 @@ class Files extends Component {
 	 * Handle actions on files.
 	 */
 	FileAction (e) {
+		const {contents} = this.state;
+
 		if (typeof (this.props.onFileAction) !== 'undefined') {
 			let target = e.target;
 			
@@ -184,9 +186,9 @@ class Files extends Component {
 			if (target !== null) {
 				let params = undefined;
 
-				for (let index in this.state.contents) {
-					if (this.state.contents.hasOwnProperty (index)) {
-						let rowData = this.state.contents [index];
+				for (let index in contents) {
+					if (contents.hasOwnProperty (index)) {
+						const rowData = contents [index];
 
 						if (rowData.reactId === target.dataset.reactid) {
 							params = rowData;

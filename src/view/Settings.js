@@ -15,11 +15,11 @@ const defaults = {
 		snippetSave: 'ctrl+s'
 	},
 	console: {
-		executeConfirm: false,
+		executeConfirm: true,
 		tinypngApiKey: ''
 	},
 	theme: {
-		fancyFont: true
+		fancyFont: false
 	}
 };
 

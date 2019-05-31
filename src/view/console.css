@@ -37,10 +37,13 @@
 .console .current-console-info-actions-container .button { margin: 0; background: white; }
 .console .current-console-info-actions-container .button:hover,
 .console .current-console-info-actions-container .button:focus { background: black; }
-.console .current-console-info-container { overflow: hidden; /*overflow-y: auto;*/ height: 56px; transition: height 0.4s linear; }
+.console .current-console-info-container { /*overflow: hidden;*/ /*overflow-y: auto;*/ height: 56px; transition: height 0.4s linear; }
 .current-console-info-enlarge .current-console-info-container { height: calc(100% - 168px); }
 .console #current-directory { padding-right: 8px; }
+#current-console-info { display: block; overflow: hidden; overflow-y: auto; width: calc(100% + 32px); height: calc(100% - 56px); padding: 0 16px 0 16px; border-top: 0 solid black; margin: 0 0 0 -16px; transition: border 0.4s 0s linear; }
+.current-console-info-enlarge #current-console-info { border-top-width: 2px; transition: border 0s 0s linear; }
 #current-console-info p { margin: 0 0 8px 0; }
+#current-console-info p:first-child { padding-top: 8px; }
 .current-console-info-enlarge .current-console-info-actions-container .enlarge { display: none; }
 .snippet-load-button { width: 100%; border: 0; border-bottom: 2px solid black; border-radius: 0; margin: 0; }
 .snippet-load-button:last-child { border-bottom: 0; }

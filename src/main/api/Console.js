@@ -65,7 +65,7 @@ class Console {
 	 */
 	static async ExecuteScript (event, message) {
 		let settings = Main.config.Get ('app-settings');
-		tinify.key = settings.console.tinypngApiKey;
+		tinify.key = settings !== null ? settings.console.tinypngApiKey : null;
 
 		let sandbox = {
 			fs: {

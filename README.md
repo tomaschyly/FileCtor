@@ -70,10 +70,6 @@ Rename files to a new name by changing part of name with provided new part.
 
 Script for renaming host inside Sql query. E.g. rename host of WP website when migrating from Dev to Prod. Should work on large Sql files.
 
-### Resize/Crop Images
-
-**ON HOLD**
-
 ### TinyPNG Compress/Resize/Crop Images
 
 Two scripts for images (PNG & JPG), one can compress them, the other can resize or crop. Crop is intelligent in determining area of interest. You need TinyPNG API key for them to work.
@@ -81,12 +77,10 @@ Two scripts for images (PNG & JPG), one can compress them, the other can resize 
 ## Roadmap
 
 * Various improvements - an ongoing process happening regularly
-* Resize/Crop images - **ON HOLD** until certain issue with Electron 4 is solved by 3rd parties
 * Dark Mode
 * More files explorer like actions - **LOW PRIORITY**
 * More script capabilities - an ongoing process/dependant also on requests
 
-* Auto-updates/notifications - **TBD**
 * MacOS touchbar - **TBD**
 * Linux (Ubuntu) - **TBD**
 * Simple GUI for snippets - **TBD**

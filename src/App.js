@@ -8,6 +8,10 @@ import Settings from './view/Settings';
 
 const { ipcRenderer } = window.require ('electron');
 
+window.App_static = {
+	Instance: null
+};
+
 class App extends Component {
 	/**
 	 * App initialization.
@@ -15,8 +19,11 @@ class App extends Component {
 	constructor (props) {
 		super (props);
 
+		window.App_static.Instance = this;
+
 		this.state = {
-			classes: []
+			classes: [],
+			updateAvailable: null
 		};
 
 		window.TCH.mainParameters = undefined;
@@ -54,6 +61,19 @@ class App extends Component {
 			this.ClassesBySettings ();
 		};
 		ipcRenderer.on ('app-settings-save', this.appSettingsSaveListener);
+
+		this.checkVersionListener = (event, message) => {
+			if (typeof message.newVersion !== 'undefined') {
+				this.setState ({
+					updateAvailable: {
+						newVersion: message.newVersion,
+						downloadUrl: message.downloadUrl
+					}
+				});
+			}
+		};
+		ipcRenderer.on ('version-check-update', this.checkVersionListener);
+		ipcRenderer.send ('version-check-update');
 	}
 
 	/**
@@ -67,12 +87,17 @@ class App extends Component {
 		
 		ipcRenderer.removeListener ('app-settings-save', this.appSettingsSaveListener);
 		delete this.appSettingsSaveListener;
+
+		ipcRenderer.removeListener ('version-check-update', this.checkVersionListener);
+		delete this.checkVersionListener;
 	}
 
 	/**
 	 * Render the component into html.
 	 */
 	render () {
+		const {updateAvailable} = this.state;
+
 		if (typeof (window.TCH.mainParameters) === 'undefined') {
 			return '';
 		} else {
@@ -81,9 +106,9 @@ class App extends Component {
 					<TitleBar />
 					<Navigation />
 					<div id="content">
-						<Router />
+						<Router/>
 					</div>
-					<Popups/>
+					<Popups updateAvailable={updateAvailable}/>
 				</div>
 			</HashRouter>;
 		}

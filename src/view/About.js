@@ -1,5 +1,5 @@
 import './about.css';
-import logo from '../image/tomas-chyly.png';
+import logo from '../image/tomas-chylyV2-sign.png';
 import {ReactComponent as Github} from '../icon/github.svg';
 import {ReactComponent as Npm} from '../icon/npm.svg';
 import {ReactComponent as StackOverflow} from '../icon/stack-overflow.svg';
@@ -23,7 +23,8 @@ class About extends Component {
 		this.contactForm = undefined;
 
 		this.state = {
-			contact: false
+			contact: false,
+			contactSending: false
 		};
 	}
 
@@ -51,7 +52,8 @@ class About extends Component {
 	 * Render the component into html.
 	 */
 	render () {
-		const {name, version} = window.TCH.mainParameters;
+		const {name, version} = window.TCH.mainParameters
+		const {contactSending} = this.state;
 
 		this.contactForm = React.createRef ();
 
@@ -114,7 +116,7 @@ class About extends Component {
 						required: true
 					}
 				}} onSubmit={this.SendMessage.bind (this)}/>
-			} onClose={this.ContactClosed.bind (this)} acceptVisible={true} accept="Submit" onAccept={this.ContactAccepted.bind (this)}/>
+			} onClose={this.ContactClosed.bind (this)} acceptVisible={true} accept="Submit" onAccept={this.ContactAccepted.bind (this)} loading={contactSending}/>
 		</div>;
 	}
 
@@ -157,6 +159,8 @@ class About extends Component {
 	 * Send message to API and close contact form popup.
 	 */
 	SendMessage (values) {
+		this.setState ({contactSending: true});
+
 		ipcRenderer.send ('contact-message-send', values);
 	}
 
@@ -164,6 +168,8 @@ class About extends Component {
 	 * Send message result is error or success, show result and close popup.
 	 */
 	SendMessageResult (event, message) {
+		this.setState ({contactSending: false});
+
 		if (typeof (message.success) !== 'undefined') {
 			window.TCH.Main.Alert ('Message sent successfully, thank you!', 'Message Sent');
 

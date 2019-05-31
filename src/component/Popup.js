@@ -1,4 +1,5 @@
 import './popup.css';
+import {ReactComponent as Cog} from '../icon/cog.svg';
 
 import React, {Component} from 'react';
 import Button from './Button';
@@ -6,21 +7,15 @@ import CSSTransition from 'react-transition-group/CSSTransition';
 
 class Popup extends Component {
 	/**
-	 * Popup initialization.
-	 */
-	constructor (props) {
-		super (props);
-
-		this.close = typeof (this.props.close) !== 'undefined' ? this.props.close : 'Close';
-
-		this.accept = typeof (this.props.accept) !== 'undefined' ? this.props.accept : 'Accept';
-	}
-
-	/**
 	 * Render the component into html.
 	 */
 	render () {
-		const {acceptClassName} = this.props;
+		const {close, acceptClassName, accept, loading} = this.props;
+
+		let acceptContent = typeof (accept) !== 'undefined' ? accept : 'Accept';
+		if (loading) {
+			acceptContent = <Cog className="spin"/>;
+		}
 
 		return <CSSTransition in={this.props.visible} timeout={400} classNames="general-flex-fade">
 			<div className={`general-popup-container${typeof (this.props.className) !== 'undefined' ? ` ${this.props.className}` : ''} general-flex-fade`}>
@@ -32,8 +27,10 @@ class Popup extends Component {
 					<div className="general-popup-content">{typeof (this.props.content) !== 'undefined' ? this.props.content : ''}</div>
 
 					<div className="general-popup-footer">
-						<Button type="button" className="button general-popup-close" onClick={this.Close.bind (this)}>{this.close}</Button>
-						<Button type="button" className={`button general-popup-confirm f-right${this.props.acceptVisible ? '' : ' hidden'}${typeof (acceptClassName) !== 'undefined' ? ` ${acceptClassName}` : ''}`} onClick={this.Accept.bind (this)}>{this.accept}</Button>
+						<Button type="button" className="button general-popup-close" onClick={this.Close.bind (this)}>{typeof (close) !== 'undefined' ? close : 'Close'}</Button>
+						<Button type="button" className={`button general-popup-confirm f-right${this.props.acceptVisible ? '' : ' hidden'}${typeof (acceptClassName) !== 'undefined' ? ` ${acceptClassName}` : ''}`} onClick={this.Accept.bind (this)}>
+							{acceptContent}
+						</Button>
 					</div>
 				</div>
 			</div>

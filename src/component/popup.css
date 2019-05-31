@@ -14,3 +14,4 @@
 .general-popup-footer { display: block; width: 100%; height: auto; padding: 8px 16px; border-top: 2px solid black; margin: 0; background: transparent; }
 .red .general-popup-footer { border-top-color: red; }
 .general-popup-footer button { margin-bottom: 0; }
+.general-popup-footer button svg { width: 20px; height: 20px; }
