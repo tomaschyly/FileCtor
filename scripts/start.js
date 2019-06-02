@@ -1,12 +1,12 @@
 const findFreePort = require ('find-free-port');
 const shell = require ('shelljs');
 
-let Starter = {
+const Starter = {
 	/**
 	 * Start the react and electron for dev.
 	 */
 	async Start () {
-		let port = await findFreePort (3000, 5001, '127.0.0.1');
+		const port = await findFreePort (3000, 5001, '127.0.0.1');
 
 		process.env.FILECTOR_PORT = port;
 

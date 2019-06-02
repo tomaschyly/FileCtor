@@ -256,18 +256,30 @@ class Api {
 		switch (message.window) {
 			case 'main':
 				if (Main.window !== null) {
+					if (Main.window.isMaximized ()) {
+						Main.window.unmaximize ();
+					}
+
 					Main.window.setSize (Main.default.width, Main.default.height);
 					Main.window.center ();
 				}
 				break;
 			case 'console':
 				if (ConsoleWindow_static.window !== null) {
+					if (ConsoleWindow_static.window.isMaximized ()) {
+						ConsoleWindow_static.window.unmaximize ();
+					}
+
 					ConsoleWindow_static.window.setSize (ConsoleWindow_static.default.width, ConsoleWindow_static.default.height);
 					ConsoleWindow_static.window.center ();
 				}
 				break;
 			case 'reference':
 				if (ReferenceWindow_static.window !== null) {
+					if (ReferenceWindow_static.window.isMaximized ()) {
+						ReferenceWindow_static.window.unmaximize ();
+					}
+
 					ReferenceWindow_static.window.setSize (ReferenceWindow_static.default.width, ReferenceWindow_static.default.height);
 					ReferenceWindow_static.window.center ();
 				}
@@ -370,29 +382,34 @@ class Api {
 		try {
 			const appPackage = require ('../../package');
 			const appID = appPackage.name;
-			const currentVersion = appPackage.version;
+			let currentVersion = appPackage.version;
 
 			const response = await axios.get (`${config.api.url}?action=app_version&app_id=${encodeURIComponent (appID)}`);
 
 			if (typeof response.data === 'object' && response.data.app_id === appID) {
 				if (typeof response.data.version === 'string' && currentVersion !== response.data.version) {
-					let downloadUrl = null;
-					switch (process.platform) {
-						case 'linux':
-							downloadUrl = response.data.download_ubuntu;
-							break;
-						case 'darwin':
-							downloadUrl = response.data.download_macos;
-							break;
-						default:
-							downloadUrl = response.data.download_windows;
-							break;
-					}
+					const newVersion = parseFloat (response.data.version.replace (/\./g, ''));
+					currentVersion = parseFloat (currentVersion.replace (/\./g, ''));
 
-					event.sender.send ('version-check-update', {
-						newVersion: response.data.version,
-						downloadUrl: downloadUrl
-					});
+					if (newVersion > currentVersion) {
+						let downloadUrl = null;
+						switch (process.platform) {
+							case 'linux':
+								downloadUrl = response.data.download_ubuntu;
+								break;
+							case 'darwin':
+								downloadUrl = response.data.download_macos;
+								break;
+							default:
+								downloadUrl = response.data.download_windows;
+								break;
+						}
+
+						event.sender.send ('version-check-update', {
+							newVersion: response.data.version,
+							downloadUrl: downloadUrl
+						});
+					}
 				}
 			} else {
 				event.sender.send ('version-check-update', {

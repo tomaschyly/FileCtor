@@ -16,13 +16,27 @@ There are multiple script Snippets installed with the app. They will give you so
 
 ## Installation
 
-1. Download latest release from [here](https://github.com/tomaschyly/FileCtor/releases). Win32 is for Windows. Darwin is for MacOS.
-2. For Windows, unzip anywhere you want to have the app installed. For MacOS, unzip anywhere, then copy app to your Applications folder.
+**Windows**
+
+1. Download latest Win32 release from [here](https://github.com/tomaschyly/FileCtor/releases).
+2. Unzip anywhere, then you can copy the folder wherever you want the app to be, there is no installation.
+3. Run the app, optionally create shortcut to use.
+
+**MacOS**
+
+1. Download latest Darwin release from [here](https://github.com/tomaschyly/FileCtor/releases).
+2. Unzip anywhere, then copy app to your Applications folder.
+3. Run the app, optionally create shortcut to use.
+
+**Ubuntu**
+
+1. Download latest Deb release from [here](https://github.com/tomaschyly/FileCtor/releases).
+2. Unzip anywhere, then install the package.
 3. Run the app, optionally create shortcut to use.
 
 ## Important Notes
 
-This app is intended to be cross-platform, currently developed and tested on Windows 10 and MacOS. Ubuntu will follow.
+This app is intended to be cross-platform, currently developed and tested on Windows 10, MacOS and Ubuntu 18.04 LTS.
 
 App is using [Electron](https://electronjs.org/) and [React](https://reactjs.org/) as it was originally meant for me to improve my skill with Electron and learn properly React.
 

@@ -52,7 +52,7 @@ class About extends Component {
 	 * Render the component into html.
 	 */
 	render () {
-		const {name, version} = window.TCH.mainParameters
+		const {name, version} = window.TCH.mainParameters;
 		const {contactSending} = this.state;
 
 		this.contactForm = React.createRef ();
@@ -124,7 +124,7 @@ class About extends Component {
 	 * Open website in default browser.
 	 */
 	Website () {
-		ipcRenderer.send ('url-open', {url: 'https://tomas-chyly.com/en/'});
+		ipcRenderer.send ('url-open', {url: 'https://tomas-chyly.com/en/project/filector/'});
 	}
 
 	/**

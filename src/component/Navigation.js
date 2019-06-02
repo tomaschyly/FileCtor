@@ -36,7 +36,7 @@ class Navigation extends Component {
 		if (this.state.disabled) {
 			return '';
 		} else {
-			return <div className="container">
+			return <div className="container" id="navigation-container">
 				<div className="row">
 					<div className="col-10">
 						<div className="panel no-white header-panel">

@@ -11,7 +11,7 @@ if (typeof (process.env.FILECTOR_DEV) !== 'undefined' && process.env.FILECTOR_DE
 	process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = true;
 }
 
-let Main = {
+const Main = {
 	default: {
 		width: 800,
 		height: 600
@@ -47,7 +47,7 @@ let Main = {
 					frame: false,
 					center: true,
 					show: false,
-					icon: path.join (__dirname, 'icon.png'),
+					icon: path.join (__dirname, '../icon.png'),
 					webPreferences: {
 						nodeIntegration: true
 					}
@@ -62,7 +62,7 @@ let Main = {
 					frame: false,
 					center: true,
 					show: false,
-					icon: path.join (__dirname, 'icon.icns'),
+					icon: path.join (__dirname, '../icon.icns'),
 					webPreferences: {
 						nodeIntegration: true
 					}
@@ -77,7 +77,7 @@ let Main = {
 					frame: false,
 					center: true,
 					show: false,
-					icon: path.join (__dirname, 'icon.ico'),
+					icon: path.join (__dirname, '../icon.ico'),
 					webPreferences: {
 						nodeIntegration: true
 					}
@@ -113,7 +113,7 @@ let Main = {
 
 			let size = this.window.getSize ();
 
-			if (size [0] !== this.default.width || size [1] !== this.default.height) {
+			if (Math.abs (size [0] - this.default.width) > 4 || Math.abs (size [1] - this.default.height) > 4) {
 				this.window.send ('reset-show', {window: 'main'});
 			} else {
 				this.window.send ('reset-hide');
@@ -141,7 +141,7 @@ let Main = {
 				height: size [1]
 			});
 
-			if (size [0] !== this.default.width || size [1] !== this.default.height) {
+			if (Math.abs (size [0] - this.default.width) > 4 || Math.abs (size [1] - this.default.height) > 4) {
 				this.window.send ('reset-show', {window: 'main'});
 			} else {
 				this.window.send ('reset-hide');

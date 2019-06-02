@@ -95,7 +95,7 @@ class Reference {
 
 			let size = Reference_static.window.getSize ();
 
-			if (size [0] !== Reference_static.default.width || size [1] !== Reference_static.default.height) {
+			if (Math.abs (size [0] - Reference_static.default.width) > 4 || Math.abs (size [1] - Reference_static.default.height) > 4) {
 				Reference_static.window.send ('reset-show', {window: 'reference'});
 			} else {
 				Reference_static.window.send ('reset-hide');
@@ -121,7 +121,7 @@ class Reference {
 				height: size [1]
 			});
 
-			if (size [0] !== Reference_static.default.width || size [1] !== Reference_static.default.height) {
+			if (Math.abs (size [0] - Reference_static.default.width) > 4 || Math.abs (size [1] - Reference_static.default.height) > 4) {
 				Reference_static.window.send ('reset-show', {window: 'reference'});
 			} else {
 				Reference_static.window.send ('reset-hide');

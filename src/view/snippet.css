@@ -1,7 +1,8 @@
 /*** Snippet styles ***/
-.snippet { overflow: hidden; overflow-y: auto; height: calc(100% + 16px); padding-top: 16px; margin-top: -16px; }
+.snippet { display: flex; overflow: hidden; overflow-y: auto; max-height: calc(100% + 16px); padding-top: 16px; margin-top: -16px; }
 .snippet .container,
 .snippet .container > .row,
-.snippet .container > .row > div { height: 100%; }
+.snippet .container > .row > div { display: flex; flex-direction: column; flex: 1 0 auto; max-height: 100%; }
+.snippet .f-right { margin-left: auto; }
 .snippet .tch-grid { height: calc(100% - 68px); }
 .snippet .tch-grid-body { overflow: hidden; overflow-y: auto; height: calc(100% - 130px); }

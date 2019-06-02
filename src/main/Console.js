@@ -95,7 +95,7 @@ class Console {
 
 			let size = Console_static.window.getSize ();
 
-			if (size [0] !== Console_static.default.width || size [1] !== Console_static.default.height) {
+			if (Math.abs (size [0] - Console_static.default.width) > 4 || Math.abs (size [1] - Console_static.default.height) > 4) {
 				Console_static.window.send ('reset-show', {window: 'console'});
 			} else {
 				Console_static.window.send ('reset-hide');
@@ -121,7 +121,7 @@ class Console {
 				height: size [1]
 			});
 
-			if (size [0] !== Console_static.default.width || size [1] !== Console_static.default.height) {
+			if (Math.abs (size [0] - Console_static.default.width) > 4 || Math.abs (size [1] - Console_static.default.height) > 4) {
 				Console_static.window.send ('reset-show', {window: 'console'});
 			} else {
 				Console_static.window.send ('reset-hide');

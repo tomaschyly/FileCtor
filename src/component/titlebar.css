@@ -1,5 +1,5 @@
 /*** Frame titlebar styles ***/
-#titlebar { display: flex; background: black; -webkit-user-select: none; -webkit-app-region: drag; }
+#titlebar { display: flex; flex: 0 0 32px; max-height: 32px; background: black; -webkit-user-select: none; -webkit-app-region: drag; }
 #title { display: inline-block; flex-grow: 1; padding: 8px 8px 8px 138px; color: white; font-size: 14px; text-align: center; }
 #titlebar.main-visible #title,
 #titlebar.reset-visible #title { padding-left: 92px; }
