@@ -4,7 +4,7 @@
 	"version": "1.0.1",
 	"author": "Tomas Chyly <chyly@tomas-chyly.com> (https://tomas-chyly.com/en/)",
 	"license": "GPL v3",
-	"description": "File inspector with interactive console.",
+	"description": "File inspector with interactive javascript console.",
 	"private": true,
 	"engines": {
 		"node": ">=8.0.0"

@@ -1,10 +1,10 @@
 # FileCtor
 
-File inspector with interactive console.
+File inspector with interactive javascript console.
 
 The idea is to have something similar to other file system managers, e.g. [TotalCommander](https://www.ghisler.com/). But this app is intended for Developers as it allows to run various JS scripts against files and directories.
 
-There are multiple script Snippets installed with the app. They will give you some functionality right away, without having to write your own first.
+There are multiple script Snippets installed with the app. They will give you some functionality right away, without having to write your own first. Then you can ofcourse write and save your own.
 
 ## Contents
 
@@ -90,13 +90,11 @@ Two scripts for images (PNG & JPG), one can compress them, the other can resize 
 
 ## Roadmap
 
-* Various improvements - an ongoing process happening regularly
 * Dark Mode
 * More files explorer like actions - **LOW PRIORITY**
 * More script capabilities - an ongoing process/dependant also on requests
 
 * MacOS touchbar - **TBD**
-* Linux (Ubuntu) - **TBD**
 * Simple GUI for snippets - **TBD**
 
 * Monaco Editor - **DISTANT FUTURE POSSIBILITY**
