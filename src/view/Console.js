@@ -60,10 +60,15 @@ class Console extends Component {
 		this.parametersListener = (event, message) => {
 			window.Console_static.parameters = message;
 
+			const newFiles = message.files || [];
+			if (message.file && newFiles.length === 0) {
+				newFiles.push (message.file);
+			}
+
 			this.setState ({
 				directory: message.directory,
 				file: message.file,
-				files: message.files,
+				files: newFiles,
 				snippet: message.snippet,
 				loadEnabled: !(typeof (message.loadEnabled) !== 'undefined' && !message.loadEnabled),
 				script: typeof (message.snippet) !== 'undefined' && typeof (message.snippet.script) !== 'undefined' ? message.snippet.script : ''
@@ -71,7 +76,7 @@ class Console extends Component {
 
 			this.UpdateCurrentInfo ({
 				file: message.file,
-				files: message.files
+				files: newFiles
 			});
 		};
 		ipcRenderer.on ('payload-last', this.parametersListener);
@@ -259,6 +264,7 @@ class Console extends Component {
 	 */
 	Execute () {
 		const {console} = window.TCH.mainParameters.settings;
+		const {file, files} = this.state;
 
 		const action = () => {
 			this.setState ({scriptExecuting: true});
@@ -266,8 +272,8 @@ class Console extends Component {
 			ipcRenderer.send ('script-execute', {
 				parameters: {
 					directory: this.state.directory,
-					file: this.state.file,
-					files: this.state.files
+					file: file,
+					files: files
 				},
 				script: this.state.script
 			});
