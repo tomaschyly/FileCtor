@@ -2,9 +2,15 @@
 
 File inspector with interactive javascript console.
 
+![Javascript console](/screenshots/FileCtor-Console.png)
+
 The idea is to have something similar to other file system managers, e.g. [TotalCommander](https://www.ghisler.com/). But this app is intended for Developers as it allows to run various JS scripts against files and directories.
 
+![Files & directory view](/screenshots/FileCtor-Files.png)
+
 There are multiple script Snippets installed with the app. They will give you some functionality right away, without having to write your own first. Then you can ofcourse write and save your own.
+
+![Saved code snippets](/screenshots/FileCtor-Snippets.png)
 
 ## Contents
 
