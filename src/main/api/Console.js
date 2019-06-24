@@ -9,12 +9,10 @@ const ConsoleWindow = require ('../Console').Console;
 const ReferenceWindow = require ('../Reference').Reference;
 const Snippet = require ('../model/Snippet');
 const {WHERE_CONDITIONS} = require ('tch-database');
-//const sharp = require ('sharp');
 const tinify = require ('tinify');
 
-let Main = undefined;
-
 const Console_static = {
+	main: undefined,
 	lastPayload: undefined
 };
 
@@ -23,7 +21,7 @@ class Console {
 	 * Console Api initialization.
 	 */
 	static Init (main) {
-		Main = main;
+		Console_static.main = main;
 
 		ipcMain.on ('console-show', Console.OpenConsole);
 
@@ -48,7 +46,7 @@ class Console {
 	static OpenConsole (event, message) {
 		Console_static.lastPayload = message;
 
-		ConsoleWindow.Open (Main, Console.LastPayload);
+		ConsoleWindow.Open (Console_static.main, Console.LastPayload);
 	}
 
 	/**
@@ -64,7 +62,7 @@ class Console {
 	 * Execute script inside VM with custom sandbox.
 	 */
 	static async ExecuteScript (event, message) {
-		let settings = Main.config.Get ('app-settings');
+		let settings = Console_static.main.config.Get ('app-settings');
 		tinify.key = settings !== null ? settings.console.tinypngApiKey : null;
 
 		let sandbox = {
@@ -82,7 +80,6 @@ class Console {
 				createInterface: readline.createInterface
 			},
 			renameFilePromise: promisify (fs.rename),
-			//sharp: sharp,
 			tinify: tinify
 		};
 
@@ -149,8 +146,8 @@ class Console {
 
 		await snippet.Save ();
 
-		if (Main.window !== null) {
-			Main.window.send ('snippet-saved');
+		if (Console_static.main.window !== null) {
+			Console_static.main.window.send ('snippet-saved');
 		}
 	}
 
@@ -203,7 +200,7 @@ class Console {
 	 * Open console reference window.
 	 */
 	static OpenConsoleReference () {
-		ReferenceWindow.Open (Main);
+		ReferenceWindow.Open (Console_static.main);
 	}
 }
 

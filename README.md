@@ -96,6 +96,7 @@ Two scripts for images (PNG & JPG), one can compress them, the other can resize 
 
 ## Roadmap
 
+* Localization - **However I know only limited number of languages**
 * Dark Mode
 * More files explorer like actions - **LOW PRIORITY**
 * More script capabilities - an ongoing process/dependant also on requests

@@ -150,40 +150,4 @@ result = '# resized/cropped images ' + files.length;`
 
 		await new Snippet ().LoadFromData (resizeCropImages).Save ();
 	}
-	/*3: async function () {
-		const resizeImages = {
-			name: 'Resize Image/s',
-			description: 'Script for resizing/croping images. Choose target size and format to be applied to selected files.',
-			script: `const targetSize = {width: WIDTH, height: HEIGHT};
-const changeFormat = null; // formats: null/jpg/png/webp
-const jpgQuality = 100;
-
-if (files.length === 0) {
-	throw Error ('Make sure to open the console by selecting images you want to edit');
-}
-
-let imagesEdited = 0;
-let imagesFailed = 0;
-
-async function ProcessJpg (filePath) {
-	//TODO
-}
-
-async function ProcessPng (filePath) {
-	//TODO
-}
-
-async function ProcessWebP (filePath) {
-	//TODO
-}
-
-for (let i = 0; i < files.length; i++) {
-	//TODO
-}
-
-result = 'Edited ' + imagesEdited + ' images\\nFailed at ' + imagesFailed + ' images';`
-		};
-
-		await new Snippet ().LoadFromData (resizeImages).Save ();
-	}*/
 };

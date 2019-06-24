@@ -2,15 +2,16 @@ const {BrowserWindow} = require ('electron');
 const path = require ('path');
 
 const Reference_static = {
+	IDENTIFIER: 'reference',
+
 	default: {
 		width: 640,
 		height: 480
 	},
 	window: null,
-	port: null
+	port: null,
+	main: undefined
 };
-
-let Main = undefined;
 
 class Reference {
 	/**
@@ -21,56 +22,35 @@ class Reference {
 			Reference_static.port = process.env.FILECTOR_PORT;
 		}
 
-		let windowParameters = Main.LoadWindow ('reference');
-		let width = windowParameters !== null && typeof (windowParameters.size) !== 'undefined' ? windowParameters.size.width : Reference_static.default.width;
-		let height = windowParameters !== null && typeof (windowParameters.size) !== 'undefined' ? windowParameters.size.height : Reference_static.default.height;
+		let windowParameters = Reference_static.main.LoadWindow (Reference_static.IDENTIFIER);
+		const width = windowParameters !== null && typeof (windowParameters.size) !== 'undefined' ? windowParameters.size.width : Reference_static.default.width;
+		const height = windowParameters !== null && typeof (windowParameters.size) !== 'undefined' ? windowParameters.size.height : Reference_static.default.height;
+
+		windowParameters = {
+			width: width,
+			minWidth: 640,
+			height: height,
+			minHeight: 480,
+			frame: false,
+			center: true,
+			show: false,
+			webPreferences: {
+				nodeIntegration: true
+			}
+		};
 
 		switch (process.platform) {
 			case 'linux':
-				Reference_static.window = new BrowserWindow ({
-					width: width,
-					minWidth: 640,
-					height: height,
-					minHeight: 480,
-					frame: false,
-					center: true,
-					show: false,
-					icon: path.join (__dirname, 'icon.png'),
-					webPreferences: {
-						nodeIntegration: true
-					}
-				});
+				windowParameters.icon = path.join (__dirname, 'icon.png');
 				break;
 			case 'darwin':
-				Reference_static.window = new BrowserWindow ({
-					width: width,
-					minWidth: 640,
-					height: height,
-					minHeight: 480,
-					frame: false,
-					center: true,
-					show: false,
-					icon: path.join (__dirname, 'icon.icns'),
-					webPreferences: {
-						nodeIntegration: true
-					}
-				});
+				windowParameters.icon = path.join (__dirname, 'icon.icns');
 				break;
 			default:
-				Reference_static.window = new BrowserWindow ({
-					width: width,
-					minWidth: 640,
-					height: height,
-					minHeight: 480,
-					frame: false,
-					center: true,
-					show: false,
-					icon: path.join (__dirname, 'icon.ico'),
-					webPreferences: {
-						nodeIntegration: true
-					}
-				});
+				windowParameters.icon = path.join (__dirname, 'icon.ico');
 		}
+
+		Reference_static.window = new BrowserWindow (windowParameters);
 
 		if (typeof (process.env.FILECTOR_DEV) !== 'undefined' && process.env.FILECTOR_DEV === 'true') {
 			Reference_static.window.loadURL (`http://127.0.0.1:${Reference_static.port}/#/reference`);
@@ -93,13 +73,7 @@ class Reference {
 				Reference_static.window.webContents.openDevTools ();
 			}
 
-			let size = Reference_static.window.getSize ();
-
-			if (Math.abs (size [0] - Reference_static.default.width) > 4 || Math.abs (size [1] - Reference_static.default.height) > 4) {
-				Reference_static.window.send ('reset-show', {window: 'reference'});
-			} else {
-				Reference_static.window.send ('reset-hide');
-			}
+			Reference.ShouldShowReset (Reference_static.window);
 		});
 
 		Reference_static.window.on ('closed', () => {
@@ -107,25 +81,21 @@ class Reference {
 		});
 
 		Reference_static.window.on ('maximize', () => {
-			Main.SaveWindow ('reference', 'maximized', true);
+			Reference_static.main.SaveWindow (Reference_static.IDENTIFIER, 'maximized', true);
 		});
 		Reference_static.window.on ('unmaximize', () => {
-			Main.SaveWindow ('reference', 'maximized', false);
+			Reference_static.main.SaveWindow (Reference_static.IDENTIFIER, 'maximized', false);
 		});
 
 		Reference_static.window.on ('resize', () => {
 			let size = Reference_static.window.getSize ();
 
-			Main.SaveWindow ('reference', 'size', {
+			Reference_static.main.SaveWindow (Reference_static.IDENTIFIER, 'size', {
 				width: size [0],
 				height: size [1]
 			});
 
-			if (Math.abs (size [0] - Reference_static.default.width) > 4 || Math.abs (size [1] - Reference_static.default.height) > 4) {
-				Reference_static.window.send ('reset-show', {window: 'reference'});
-			} else {
-				Reference_static.window.send ('reset-hide');
-			}
+			Reference.ShouldShowReset (Reference_static.window);
 		});
 	}
 
@@ -133,13 +103,26 @@ class Reference {
 	 * Open reference, create if not exists.
 	 */
 	static Open (main) {
-		Main = main;
+		Reference_static.main = main;
 
 		if (Reference_static.window === null) {
 			Reference.CreateWindow ();
 		}
 
 		Reference_static.window.focus ();
+	}
+
+	/**
+	 * Check if window should show reset and notify.
+	 */
+	static ShouldShowReset (window) {
+		const size = window.getSize ();
+
+		if (Math.abs (size [0] - Reference_static.default.width) > 4 || Math.abs (size [1] - Reference_static.default.height) > 4) {
+			window.send ('reset-show', {window: Reference_static.IDENTIFIER, windowId: window.id});
+		} else {
+			window.send ('reset-hide');
+		}
 	}
 }
 

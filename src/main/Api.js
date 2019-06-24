@@ -15,13 +15,23 @@ const readDirPromise = promisify (fs.readdir);
 const statPromise = promisify (fs.stat);
 const config = require ('../../config');
 
-let Main = undefined;
+const Api_static = {
+	initialized: false,
+	main: undefined
+};
 
 class Api {
 	/**
 	 * Api initialization.
 	 */
 	static Init (main) {
+		if (Api_static.initialized) {
+			return;
+		}
+		Api_static.initialized = true;
+		
+		Api_static.main = main;
+
 		ipcMain.on ('main-parameters', Api.MainParameters);
 
 		ipcMain.on ('directory-contents', Api.ReadDirectory);
@@ -48,7 +58,6 @@ class Api {
 
 		ipcMain.on ('version-check-update', Api.CheckVersion);
 
-		Main = main;
 		consoleApi.Init (main);
 		gridApi.Init ();
 	}
@@ -67,7 +76,7 @@ class Api {
 			platform: process.platform,
 			name: appPackage.productName,
 			version: appPackage.version,
-			settings: Main.config.Get ('app-settings')
+			settings: Api_static.main.config.Get ('app-settings')
 		};
 
 		switch (process.platform) {
@@ -236,8 +245,8 @@ class Api {
 	 * Open main window if it was closed.
 	 */
 	static OpenMain () {
-		if (Main.window === null) {
-			Main.CreateWindow ();
+		if (Api_static.main.window === null) {
+			Api_static.main.CreateWindow ();
 
 			if (ConsoleWindow_static.window !== null) {
 				ConsoleWindow_static.window.send ('main-opened');
@@ -255,13 +264,13 @@ class Api {
 	static ResetWindow (event, message) {
 		switch (message.window) {
 			case 'main':
-				if (Main.window !== null) {
-					if (Main.window.isMaximized ()) {
-						Main.window.unmaximize ();
+				if (Api_static.main.window !== null) {
+					if (Api_static.main.window.isMaximized ()) {
+						Api_static.main.window.unmaximize ();
 					}
 
-					Main.window.setSize (Main.default.width, Main.default.height);
-					Main.window.center ();
+					Api_static.main.window.setSize (Api_static.main.default.width, Api_static.main.default.height);
+					Api_static.main.window.center ();
 				}
 				break;
 			case 'console':
@@ -295,14 +304,14 @@ class Api {
 	 */
 	static GetConfig (event, message) {
 		if (typeof (message.key) !== 'undefined') {
-			let value = Main.config.Get (message.key);
+			let value = Api_static.main.config.Get (message.key);
 
 			event.sender.send ('config-get', {
 				key: message.key,
 				value: value
 			});
 		} else {
-			let data = Main.config.Get ();
+			let data = Api_static.main.config.Get ();
 
 			event.sender.send ('config-get', {
 				data: data
@@ -315,7 +324,7 @@ class Api {
 	 */
 	static SetConfig (event, message) {
 		if (typeof (message.key) !== 'undefined' && typeof (message.value) !== 'undefined') {
-			Main.config.Set (message.key, message.value);
+			Api_static.main.config.Set (message.key, message.value);
 		}
 	}
 
@@ -323,10 +332,10 @@ class Api {
 	 * Save app settings to config.
 	 */
 	static SaveAppSettings (event, message) {
-		Main.config.Set ('app-settings', message);
+		Api_static.main.config.Set ('app-settings', message);
 
-		if (Main.window !== null) {
-			Main.window.send ('app-settings-save', message);
+		if (Api_static.main.window !== null) {
+			Api_static.main.window.send ('app-settings-save', message);
 		}
 		if (ConsoleWindow_static.window !== null) {
 			ConsoleWindow_static.window.send ('app-settings-save', message);
@@ -340,7 +349,7 @@ class Api {
 	 * Reset the app config and relaunch.
 	 */
 	static async ResetApp () {
-		await Main.config.Reset ();
+		await Api_static.main.config.Reset ();
 
 		await new Snippet ().DeleteAll ();
 

@@ -12,6 +12,8 @@ if (typeof (process.env.FILECTOR_DEV) !== 'undefined' && process.env.FILECTOR_DE
 }
 
 const Main = {
+	IDENTIFIER: 'main',
+
 	default: {
 		width: 800,
 		height: 600
@@ -33,65 +35,44 @@ const Main = {
 
 		await installSnippet (this.config);
 
-		let windowParameters = this.LoadWindow ('main');
-		let width = windowParameters !== null && typeof (windowParameters.size) !== 'undefined' ? windowParameters.size.width : this.default.width;
-		let height = windowParameters !== null && typeof (windowParameters.size) !== 'undefined' ? windowParameters.size.height : this.default.height;
+		Api.Init (this);
+
+		let windowParameters = this.LoadWindow (Main.IDENTIFIER);
+		const width = windowParameters !== null && typeof (windowParameters.size) !== 'undefined' ? windowParameters.size.width : this.default.width;
+		const height = windowParameters !== null && typeof (windowParameters.size) !== 'undefined' ? windowParameters.size.height : this.default.height;
+
+		windowParameters = {
+			width: width,
+			minWidth: 640,
+			height: height,
+			minHeight: 480,
+			frame: false,
+			center: true,
+			show: false,
+			webPreferences: {
+				nodeIntegration: true
+			}
+		};
 
 		switch (process.platform) {
 			case 'linux':
-				this.window = new BrowserWindow ({
-					width: width,
-					minWidth: 640,
-					height: height,
-					minHeight: 480,
-					frame: false,
-					center: true,
-					show: false,
-					icon: path.join (__dirname, '../icon.png'),
-					webPreferences: {
-						nodeIntegration: true
-					}
-				});
+				windowParameters.icon = path.join (__dirname, '../icon.png');
 				break;
 			case 'darwin':
-				this.window = new BrowserWindow ({
-					width: width,
-					minWidth: 640,
-					height: height,
-					minHeight: 480,
-					frame: false,
-					center: true,
-					show: false,
-					icon: path.join (__dirname, '../icon.icns'),
-					webPreferences: {
-						nodeIntegration: true
-					}
-				});
+				windowParameters.icon = path.join (__dirname, '../icon.icns');
 				break;
 			default:
-				this.window = new BrowserWindow ({
-					width: width,
-					minWidth: 640,
-					height: height,
-					minHeight: 480,
-					frame: false,
-					center: true,
-					show: false,
-					icon: path.join (__dirname, '../icon.ico'),
-					webPreferences: {
-						nodeIntegration: true
-					}
-				});
+				windowParameters.icon = path.join (__dirname, '../icon.ico');
 		}
+
+		this.window = new BrowserWindow (windowParameters);
 
 		if (typeof (process.env.FILECTOR_DEV) !== 'undefined' && process.env.FILECTOR_DEV === 'true') {
 			this.window.loadURL (`http://127.0.0.1:${this.port}/`);
 
-			const {default: installExtension, REACT_DEVELOPER_TOOLS/*, REDUX_DEVTOOLS*/} = require ('electron-devtools-installer');
+			const {default: installExtension, REACT_DEVELOPER_TOOLS} = require ('electron-devtools-installer');
 
 			await installExtension (REACT_DEVELOPER_TOOLS);
-
-			/*await installExtension (REDUX_DEVTOOLS);*/
 		} else {
 			this.window.loadURL (`file://${path.join (__dirname, '../build/index.html')}`);
 		}
@@ -111,13 +92,7 @@ const Main = {
 				this.window.webContents.openDevTools ();
 			}
 
-			let size = this.window.getSize ();
-
-			if (Math.abs (size [0] - this.default.width) > 4 || Math.abs (size [1] - this.default.height) > 4) {
-				this.window.send ('reset-show', {window: 'main'});
-			} else {
-				this.window.send ('reset-hide');
-			}
+			this.ShouldShowReset (this.window);
 		});
 
 		this.window.on ('closed', () => {
@@ -127,25 +102,21 @@ const Main = {
 		});
 
 		this.window.on ('maximize', () => {
-			this.SaveWindow ('main', 'maximized', true);
+			this.SaveWindow (Main.IDENTIFIER, 'maximized', true);
 		});
 		this.window.on ('unmaximize', () => {
-			this.SaveWindow ('main', 'maximized', false);
+			this.SaveWindow (Main.IDENTIFIER, 'maximized', false);
 		});
 
 		this.window.on ('resize', () => {
 			let size = this.window.getSize ();
 
-			this.SaveWindow ('main', 'size', {
+			this.SaveWindow (Main.IDENTIFIER, 'size', {
 				width: size [0],
 				height: size [1]
 			});
 
-			if (Math.abs (size [0] - this.default.width) > 4 || Math.abs (size [1] - this.default.height) > 4) {
-				this.window.send ('reset-show', {window: 'main'});
-			} else {
-				this.window.send ('reset-hide');
-			}
+			this.ShouldShowReset (this.window);
 		});
 	},
 
@@ -179,12 +150,23 @@ const Main = {
 		windows [which] [key] = value;
 
 		this.config.Set ('windows', windows);
+	},
+
+	/**
+	 * Check if window should show reset and notify.
+	 */
+	ShouldShowReset (window) {
+		const size = window.getSize ();
+
+		if (Math.abs (size [0] - this.default.width) > 4 || Math.abs (size [1] - this.default.height) > 4) {
+			window.send ('reset-show', {window: Main.IDENTIFIER, windowId: window.id});
+		} else {
+			window.send ('reset-hide');
+		}
 	}
 };
 
 if (singleAppLock) {
-	Api.Init (Main);
-
 	app.on ('ready', () => {
 		Main.CreateWindow ();
 	});
