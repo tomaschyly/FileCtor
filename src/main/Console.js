@@ -1,5 +1,6 @@
 const {BrowserWindow} = require ('electron');
 const path = require ('path');
+const uuidV4 = require ('uuid/v4');
 
 const Console_static = {
 	IDENTIFIER: 'console',
@@ -9,6 +10,7 @@ const Console_static = {
 		height: 480
 	},
 	window: null,
+	uuid: null,
 	port: null,
 	main: undefined
 };
@@ -26,6 +28,8 @@ class Console {
 		const width = windowParameters !== null && typeof (windowParameters.size) !== 'undefined' ? windowParameters.size.width : Console_static.default.width;
 		const height = windowParameters !== null && typeof (windowParameters.size) !== 'undefined' ? windowParameters.size.height : Console_static.default.height;
 
+		Console_static.uuid = uuidV4 ();
+
 		windowParameters = {
 			width: width,
 			minWidth: 640,
@@ -36,7 +40,8 @@ class Console {
 			show: false,
 			webPreferences: {
 				nodeIntegration: true
-			}
+			},
+			uuid: Console_static.uuid
 		};
 
 		switch (process.platform) {
@@ -51,6 +56,7 @@ class Console {
 		}
 
 		Console_static.window = new BrowserWindow (windowParameters);
+		Console_static.window.uuid = Console_static.uuid;
 
 		if (typeof (process.env.FILECTOR_DEV) !== 'undefined' && process.env.FILECTOR_DEV === 'true') {
 			Console_static.window.loadURL (`http://127.0.0.1:${Console_static.port}/#/console`);
@@ -126,7 +132,7 @@ class Console {
 		const size = window.getSize ();
 
 		if (Math.abs (size [0] - Console_static.default.width) > 4 || Math.abs (size [1] - Console_static.default.height) > 4) {
-			window.send ('reset-show', {window: Console_static.IDENTIFIER, windowId: window.id});
+			window.send ('reset-show', {window: Console_static.IDENTIFIER});
 		} else {
 			window.send ('reset-hide');
 		}

@@ -1,5 +1,6 @@
 const {BrowserWindow} = require ('electron');
 const path = require ('path');
+const uuidV4 = require ('uuid/v4');
 
 const Reference_static = {
 	IDENTIFIER: 'reference',
@@ -9,6 +10,7 @@ const Reference_static = {
 		height: 480
 	},
 	window: null,
+	uuid: null,
 	port: null,
 	main: undefined
 };
@@ -26,6 +28,8 @@ class Reference {
 		const width = windowParameters !== null && typeof (windowParameters.size) !== 'undefined' ? windowParameters.size.width : Reference_static.default.width;
 		const height = windowParameters !== null && typeof (windowParameters.size) !== 'undefined' ? windowParameters.size.height : Reference_static.default.height;
 
+		Reference_static.uuid = uuidV4 ();
+
 		windowParameters = {
 			width: width,
 			minWidth: 640,
@@ -36,7 +40,8 @@ class Reference {
 			show: false,
 			webPreferences: {
 				nodeIntegration: true
-			}
+			},
+			uuid: Reference_static.uuid
 		};
 
 		switch (process.platform) {
@@ -51,6 +56,7 @@ class Reference {
 		}
 
 		Reference_static.window = new BrowserWindow (windowParameters);
+		Reference_static.window.uuid = Reference_static.uuid;
 
 		if (typeof (process.env.FILECTOR_DEV) !== 'undefined' && process.env.FILECTOR_DEV === 'true') {
 			Reference_static.window.loadURL (`http://127.0.0.1:${Reference_static.port}/#/reference`);
@@ -119,7 +125,7 @@ class Reference {
 		const size = window.getSize ();
 
 		if (Math.abs (size [0] - Reference_static.default.width) > 4 || Math.abs (size [1] - Reference_static.default.height) > 4) {
-			window.send ('reset-show', {window: Reference_static.IDENTIFIER, windowId: window.id});
+			window.send ('reset-show', {window: Reference_static.IDENTIFIER});
 		} else {
 			window.send ('reset-hide');
 		}

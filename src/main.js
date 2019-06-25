@@ -4,6 +4,7 @@ const path = require ('path');
 const Api = require ('./main/Api');
 const Config = require ('./main/Config');
 const installSnippet = require ('./main/install/snippet');
+const uuidV4 = require ('uuid/v4');
 
 const singleAppLock = app.requestSingleInstanceLock ();
 
@@ -19,6 +20,7 @@ const Main = {
 		height: 600
 	},
 	window: null,
+	uuid: null,
 	port: null,
 	config: null,
 
@@ -41,6 +43,8 @@ const Main = {
 		const width = windowParameters !== null && typeof (windowParameters.size) !== 'undefined' ? windowParameters.size.width : this.default.width;
 		const height = windowParameters !== null && typeof (windowParameters.size) !== 'undefined' ? windowParameters.size.height : this.default.height;
 
+		this.uuid = uuidV4 ();
+
 		windowParameters = {
 			width: width,
 			minWidth: 640,
@@ -51,7 +55,8 @@ const Main = {
 			show: false,
 			webPreferences: {
 				nodeIntegration: true
-			}
+			},
+			uuid: this.uuid
 		};
 
 		switch (process.platform) {
@@ -66,6 +71,7 @@ const Main = {
 		}
 
 		this.window = new BrowserWindow (windowParameters);
+		this.window.uuid = this.uuid;
 
 		if (typeof (process.env.FILECTOR_DEV) !== 'undefined' && process.env.FILECTOR_DEV === 'true') {
 			this.window.loadURL (`http://127.0.0.1:${this.port}/`);
@@ -159,7 +165,7 @@ const Main = {
 		const size = window.getSize ();
 
 		if (Math.abs (size [0] - this.default.width) > 4 || Math.abs (size [1] - this.default.height) > 4) {
-			window.send ('reset-show', {window: Main.IDENTIFIER, windowId: window.id});
+			window.send ('reset-show', {window: Main.IDENTIFIER});
 		} else {
 			window.send ('reset-hide');
 		}

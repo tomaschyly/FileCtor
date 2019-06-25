@@ -68,7 +68,8 @@ class Api {
 	static MainParameters (event) {
 		const appPackage = require ('../../package');
 
-		let parameters = {
+		const parameters = {
+			windowUuid: event.sender.browserWindowOptions.uuid,
 			apiUrl: config.api.url,
 			directory: {
 				documents: app.getPath ('documents')
