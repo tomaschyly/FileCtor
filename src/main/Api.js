@@ -7,7 +7,7 @@ const consoleApi = require ('./api/Console');
 const gridApi = require ('./api/Grid');
 const ConsoleWindow_static = require ('./Console').Console_static;
 const ReferenceWindow_static = require ('./Reference').Reference_static;
-const opn = require ('opn');
+const open = require ('open');
 const axios = require ('axios');
 const Snippet = require ('./model/Snippet');
 
@@ -363,7 +363,7 @@ class Api {
 	 */
 	static OpenUrl (event, message) {
 		if (typeof (message.url) !== 'undefined') {
-			opn (message.url);
+			open (message.url);
 		}
 	}
 
