@@ -45,6 +45,10 @@ class Reference extends Component {
 						label: 'console.log ()',
 						description: 'Parameters: any[, ...]\nUse this function like you would standard console.log (). Value/s will be shown as output after script is done executing.'
 					},
+					'fetch': {
+						label: 'Fetch ()',
+						description: 'Parameters: string, GET|POST, object\nFirst parameter is valid url, second is either GET or POST request type, third is data as object if POST is used. Can be awaited. This function returns contents of called url.'
+					},
 					'fs-createReadStream': {
 						label: 'fs.createReadStream ()',
 						description: 'Parameters: string, object\nUse this function like you would join Node\'s fs.createReadStream ().'

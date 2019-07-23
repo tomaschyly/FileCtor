@@ -74,10 +74,10 @@ class About extends Component {
 						</div>
 
 						<div className="socials">
+							<Button type="button" className="button icon icon-larger" onClick={this.Twitter.bind (this)}><Twitter/></Button>
 							<Button type="button" className="button icon icon-larger" onClick={this.Github.bind (this)}><Github/></Button>
 							<Button type="button" className="button icon icon-larger" onClick={this.Npm.bind (this)}><Npm/></Button>
 							<Button type="button" className="button icon icon-larger" onClick={this.StackOverflow.bind (this)}><StackOverflow/></Button>
-							<Button type="button" className="button icon icon-larger" onClick={this.Twitter.bind (this)}><Twitter/></Button>
 						</div>
 
 						<p>Icons used in this app are from the great <Link href="https://fontawesome.com/">Font Awesome</Link>. The <Link href="https://fontawesome.com/license/free">free version</Link> is used.</p>

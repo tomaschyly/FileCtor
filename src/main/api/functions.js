@@ -73,11 +73,31 @@ async function TinyPNGResizeCropFile (file, params) {
 	await tinify.fromFile (file).preserve ('copyright', 'creation').resize (params).toFile (newName);
 }
 
+async function Fetch (url, type = 'GET', params = null) {
+	let response = null;
+
+	switch (type) {
+		case 'GET':
+			response = await axios.get (url);
+			break;
+		case 'POST':
+			response = await axios.post (url, params || {});
+			break;
+	}
+
+	if (response) {
+		response = sanitizeHtml (response.data);
+	}
+
+	return response;
+}
+
 module.exports = {
 	Init,
 	ReadDirectory,
 	RenameFiles,
 	RenameFilesPart,
 	TinyPNGCompressFile,
-	TinyPNGResizeCropFile
+	TinyPNGResizeCropFile,
+	Fetch
 };

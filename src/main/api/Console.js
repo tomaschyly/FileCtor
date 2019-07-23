@@ -10,6 +10,8 @@ const ReferenceWindow = require ('../Reference').Reference;
 const Snippet = require ('../model/Snippet');
 const {WHERE_CONDITIONS} = require ('tch-database');
 const tinify = require ('tinify');
+const axios = require ('axios');
+const sanitizeHtml = require ('sanitize-html');
 
 const Console_static = {
 	main: undefined,
@@ -80,7 +82,12 @@ class Console {
 				createInterface: readline.createInterface
 			},
 			renameFilePromise: promisify (fs.rename),
-			tinify: tinify
+			tinify: tinify,
+			axios: {
+				get: axios.get,
+				post: axios.post
+			},
+			sanitizeHtml: sanitizeHtml
 		};
 
 		sandbox = extend (sandbox, message.parameters);
