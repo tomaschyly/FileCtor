@@ -47,7 +47,7 @@ class Reference extends Component {
 					},
 					'fetch': {
 						label: 'Fetch ()',
-						description: 'Parameters: string, GET|POST, object\nFirst parameter is valid url, second is either GET or POST request type, third is data as object if POST is used. Can be awaited. This function returns contents of called url.'
+						description: 'Parameters: string, GET|POST, object, boolean\nFirst parameter is valid url, second is either GET or POST request type, third is data as object if POST is used, last parameter is used to disable sanitization. Can be awaited. This function returns contents of called url.'
 					},
 					'fs-createReadStream': {
 						label: 'fs.createReadStream ()',

@@ -73,7 +73,7 @@ async function TinyPNGResizeCropFile (file, params) {
 	await tinify.fromFile (file).preserve ('copyright', 'creation').resize (params).toFile (newName);
 }
 
-async function Fetch (url, type = 'GET', params = null) {
+async function Fetch (url, type = 'GET', params = null, skipSanitize = false) {
 	let response = null;
 
 	switch (type) {
@@ -86,7 +86,7 @@ async function Fetch (url, type = 'GET', params = null) {
 	}
 
 	if (response) {
-		response = sanitizeHtml (response.data);
+		response = !skipSanitize ? sanitizeHtml (response.data) : response.data;
 	}
 
 	return response;
