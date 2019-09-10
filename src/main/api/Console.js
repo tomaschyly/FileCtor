@@ -73,6 +73,7 @@ class Console {
 				createWriteStream: fs.createWriteStream
 			},
 			log: '',
+			_log: [],
 			path: {
 				extname: path.extname,
 				join: path.join
@@ -117,7 +118,8 @@ class Console {
 		}
 
 		let response = {
-			log: sandbox.log,
+			/*log: sandbox.log,*/
+			log: sandbox._log.join ('\n'),
 			error: error,
 			result: sandbox.result
 		};
