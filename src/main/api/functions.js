@@ -92,6 +92,10 @@ async function Fetch (url, type = 'GET', params = null, skipSanitize = false) {
 	return response;
 }
 
+async function Sleep (ms) {
+	return new Promise (resolve => setTimeout (resolve, ms));
+}
+
 module.exports = {
 	Init,
 	ReadDirectory,
@@ -99,5 +103,6 @@ module.exports = {
 	RenameFilesPart,
 	TinyPNGCompressFile,
 	TinyPNGResizeCropFile,
-	Fetch
+	Fetch,
+	Sleep
 };

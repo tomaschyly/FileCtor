@@ -87,7 +87,9 @@ class Console {
 				get: axios.get,
 				post: axios.post
 			},
-			sanitizeHtml: sanitizeHtml
+			sanitizeHtml: sanitizeHtml,
+			setTimeout: setTimeout,
+			setInterval: setInterval
 		};
 
 		sandbox = extend (sandbox, message.parameters);
