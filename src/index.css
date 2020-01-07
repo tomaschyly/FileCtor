@@ -117,10 +117,6 @@ button.icon-larger svg { width: 28px; height: 28px; }
 
 img { max-width: 100%; }
 
-::-webkit-scrollbar { width: 16px; border: 2px solid black; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; }
-::-webkit-scrollbar-thumb { background: black; }
-::-webkit-scrollbar-trac { background: white; }
-
 .panel { clear: both; overflow: hidden; width: 100%; padding: 16px 16px 0 16px; border: 2px solid black; border-radius: 8px; margin-bottom: 16px; }
 .panel.thin { padding: 8px 16px; }
 .panel.no-white { padding: 0; }
