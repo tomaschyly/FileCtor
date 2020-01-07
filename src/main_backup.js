@@ -76,9 +76,9 @@ const Main = {
 		if (typeof (process.env.FILECTOR_DEV) !== 'undefined' && process.env.FILECTOR_DEV === 'true') {
 			this.window.loadURL (`http://127.0.0.1:${this.port}/`);
 
-			//const {default: installExtension, REACT_DEVELOPER_TOOLS} = require ('electron-devtools-installer'); // does not work with current Electron versions after v5
+			const {default: installExtension, REACT_DEVELOPER_TOOLS} = require ('electron-devtools-installer');
 
-			//await installExtension (REACT_DEVELOPER_TOOLS);
+			await installExtension (REACT_DEVELOPER_TOOLS);
 		} else {
 			this.window.loadURL (`file://${path.join (__dirname, '../build/index.html')}`);
 		}
@@ -176,13 +176,13 @@ if (singleAppLock) {
 	app.on ('ready', () => {
 		Main.CreateWindow ();
 	});
-	
+
 	app.on ('window-all-closed', () => {
 		if (process.platform !== 'darwin') {
 			app.quit ();
 		}
 	});
-	
+
 	app.on ('activate', () => {
 		if (Main.window === null) {
 			Main.CreateWindow ();
