@@ -33,8 +33,6 @@ class App extends Component {
 	 * First rendered to DOM.
 	 */
 	componentDidMount () {
-		window.TCH.Main.app = this;
-
 		this.mainParametersListener = (event, message) => {
 			window.TCH.mainParameters = message;
 
@@ -80,8 +78,6 @@ class App extends Component {
 	 * Called before component is removed from DOM.
 	 */
 	componentWillUnmount () {
-		window.TCH.Main.app = null;
-
 		ipcRenderer.removeListener ('main-parameters', this.mainParametersListener);
 		delete this.mainParametersListener;
 		

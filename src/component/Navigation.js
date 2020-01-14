@@ -74,7 +74,7 @@ class Navigation extends Component {
 	Disable () {
 		this.setState ({disabled: true});
 
-		window.TCH.Main.app.ToggleClass ('navigation-disabled');
+		window.App_static.Instance.ToggleClass ('navigation-disabled');
 	}
 }
 

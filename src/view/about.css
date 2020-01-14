@@ -1,6 +1,10 @@
 /*** About styles ***/
-.about { overflow: hidden; overflow-y: auto; height: calc(100% + 16px); padding-top: 16px; margin-top: -16px; }
-.about-content { max-width: 636px; }
+#content { display: flex; flex-direction: column; }
+
+.about { display: flex; overflow: hidden; overflow-y: auto; height: calc(100% + 16px); padding-top: 16px; margin-top: -16px; }
+.about > .container { display: flex; flex-direction: column; }
+.about > .container > .row { flex: 1 0 auto; }
+.about-content { max-width: 780px; }
 .about .logo { display: block; max-width: 200px; margin: 0 auto 16px auto; }
 .about .version { text-align: center; }
 .about .actions,
