@@ -201,3 +201,22 @@ if (singleAppLock) {
 } else {
 	app.quit ();
 }
+
+//TODo remove this testing
+/*setTimeout (async () => {
+	const RxSnippet = require ('./main/model/RxSnippet');
+
+	const model = new RxSnippet ();
+	await model.Load ('519670c9-1484-45e3-9250-34cd90a0d6b6');
+
+	/*model.data = {
+		name: 'test',
+		created: require ('./main/model/Base').NowTimestamp ()
+	};
+	await model.Save ();*//*
+
+	/*model.data.description = 'Lorem ipsum dolor sit amet';
+	await model.Save ();*//*
+
+	console.dir (model.data);
+}, 2000);*/
