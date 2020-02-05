@@ -203,20 +203,22 @@ if (singleAppLock) {
 }
 
 //TODo remove this testing
-/*setTimeout (async () => {
+setTimeout (async () => {
 	const RxSnippet = require ('./main/model/RxSnippet');
 
 	const model = new RxSnippet ();
-	await model.Load ('519670c9-1484-45e3-9250-34cd90a0d6b6');
+	//await model.Load ('54afbc1d-f5c4-4ce3-92cc-8123249cdd49');
+	//await model.Delete ();
 
 	/*model.data = {
-		name: 'test',
-		created: require ('./main/model/Base').NowTimestamp ()
+		name: 'test'
 	};
-	await model.Save ();*//*
+	await model.Save ();*/
 
 	/*model.data.description = 'Lorem ipsum dolor sit amet';
-	await model.Save ();*//*
+	await model.Save ();*/
 
-	console.dir (model.data);
-}, 2000);*/
+	//console.log (model.id, model.data);
+
+	console.log (await model.List ({}, RxSnippet));
+}, 2000);

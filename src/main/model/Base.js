@@ -89,6 +89,49 @@ class Base {
 	}
 
 	/**
+	 * Delete data from DB.
+	 */
+	async Delete () {
+		const collection = await this.InitCollection ();
+
+		if (typeof this.id !== 'undefined') {
+			const record = await collection.findOne (this.id).exec ();
+
+			if (record) {
+				await record.remove ();
+
+				this.Reset ();
+
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get all records from DB.
+	 */
+	async List (parameters = {}, asObject = undefined) {
+		const collection = await this.InitCollection ();
+
+		let list = await collection.find ().exec ();
+
+		list = list.map (element => {
+			if (asObject) {
+				const object = new asObject ();
+				object.data = element.toJSON ();
+				object.id = object.data.id;
+				return object;
+			} else {
+				return element.toJSON ();
+			}
+		});
+
+		return list;
+	}
+
+	/**
 	 * Return current time as timestamp.
 	 */
 	static NowTimestamp () {
