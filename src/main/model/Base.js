@@ -115,7 +115,53 @@ class Base {
 	async List (parameters = {}, asObject = undefined) {
 		const collection = await this.InitCollection ();
 
-		let list = await collection.find ().exec ();
+		let list = collection.find ();
+
+		if (typeof parameters.where === 'object') {
+			const fields = Object.keys (parameters.where);
+
+			for (let field of fields) {
+				const comparison = parameters.where [field].comparison;
+
+				switch (comparison) {
+					case 'eq':
+						list = list.where (field).eq (parameters.where [field].value);
+						break;
+					case 'and':
+						list = list.where (field).and (parameters.where [field].value);
+						break;
+					case 'or':
+						list = list.where (field).or (parameters.where [field].value);
+						break;
+					case 'in':
+						list = list.where (field).in (parameters.where [field].value);
+						break;
+					case 'regex':
+						list = list.where (field).regex (parameters.where [field].value);
+						break;
+					default:
+						throw new Error ('Unsupported where condition comparison type');
+				}
+			}
+		}
+
+		if (parameters.limit) {
+			list = list.limit (parameters.limit);
+
+			if (parameters.page) {
+				list = list.skip (parameters.limit * parameters.page);
+			}
+		}
+
+		if (parameters.sort) {
+			const sortBy = parameters.sortBy || 1;
+			const sort = {};
+			sort [parameters.sort] = sortBy;
+
+			list = list.sort (sort);
+		}
+
+		list = await list.exec ();
 
 		list = list.map (element => {
 			if (asObject) {

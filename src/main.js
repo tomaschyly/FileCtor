@@ -207,11 +207,13 @@ setTimeout (async () => {
 	const RxSnippet = require ('./main/model/RxSnippet');
 
 	const model = new RxSnippet ();
-	//await model.Load ('54afbc1d-f5c4-4ce3-92cc-8123249cdd49');
-	//await model.Delete ();
+	/*await model.Load ('d8ef8a4a-e1fd-47fc-b6e6-fbc226239e55');
+	await model.Delete ();
+	await model.Load ('514a14c4-1184-4d9c-921d-99208d125fbb');
+	await model.Delete ();*/
 
 	/*model.data = {
-		name: 'test'
+		name: 'Tricerops'
 	};
 	await model.Save ();*/
 
@@ -220,5 +222,16 @@ setTimeout (async () => {
 
 	//console.log (model.id, model.data);
 
-	console.log (await model.List ({}, RxSnippet));
+	console.log (await model.List ({
+		sort: 'created',
+		sortBy: 1,
+		//limit: 1,
+		//page: 1
+		/*where: {
+			name: {
+				comparison: 'regex',
+				value: new RegExp ('s', 'i')
+			}
+		}*/
+	}));
 }, 2000);
