@@ -14,7 +14,6 @@ import CSSTransition from 'react-transition-group/CSSTransition';
 
 const uuidV4 = window.require ('uuid/v4');
 const {ipcRenderer} = window.require ('electron');
-const {WHERE_CONDITIONS} = window.require ('tch-database');
 
 const Grid_static = {
 	template: {
@@ -53,11 +52,11 @@ class Grid extends Component {
 			filter: typeof (props.filter) !== 'undefined' ? props.filter : {},
 			items: typeof (props.items) !== 'undefined' ? props.items : [],
 			count: typeof (props.count) !== 'undefined' ? props.count : 0,
-			page: typeof (props.page) !== 'undefined' ? props.page : 1,
+			page: typeof (props.page) !== 'undefined' ? props.page : 0,
 			pages: typeof (props.pages) !== 'undefined' ? props.pages : 0,
 			pageSize: typeof (props.pageSize) !== 'undefined' ? props.pageSize : 10,
-			sort: typeof (props.sort) !== 'undefined' ? props.sort : 'id',
-			sortDirection: typeof (props.sortDirection) !== 'undefined' ? props.sortDirection : 'ASC',
+			sort: typeof (props.sort) !== 'undefined' ? props.sort : 'created',
+			sortDirection: typeof (props.sortDirection) !== 'undefined' ? props.sortDirection : 1,
 			update: false
 		};
 	}
@@ -113,7 +112,7 @@ class Grid extends Component {
 			let sort = undefined;
 			if (typeof (this.columns [i].sort) !== 'undefined' && this.columns [i].sort) {
 				let icon = Grid_static.template.sortAsc;
-				if (this.columns [i].index === this.state.sort && this.state.sortDirection === 'ASC') {
+				if (this.columns [i].index === this.state.sort && this.state.sortDirection === 1) {
 					icon = Grid_static.template.sortDesc;
 				}
 
@@ -262,17 +261,17 @@ class Grid extends Component {
 
 		if (this.state.count > 0) {
 			let pageOptions = [];
-			for (let i = 1; i <= this.state.pages; i++) {
+			for (let i = 0; i < this.state.pages; i++) {
 				pageOptions.push ({
 					id: `${this.id}-footer-page-${i}`,
 					value: i,
-					label: i
+					label: i + 1
 				});
 			}
 
 			let page = <div className="tch-grid-page">
 				<span>{Grid_static.texts.page}</span>
-				<ButtonSelect options={pageOptions} value={this.state.page} onSelectItem={e => { this.ChangePage (parseInt (e.target.dataset.value)); }} />
+				<ButtonSelect options={pageOptions} value={this.state.page + 1} onSelectItem={e => { this.ChangePage (parseInt (e.target.dataset.value)); }} />
 			</div>;
 
 			let pageSizeOptions = [];
@@ -304,18 +303,22 @@ class Grid extends Component {
 	 * Request data update from API.
 	 */
 	UpdateData () {
+		const {filter, page, pageSize, sort, sortDirection} = this.state;
+
 		this.setState ({
 			loading: true
 		});
 
 		setTimeout (() => {
-			let parameters = {
+			const parameters = {
 				modelName: this.modelName,
-				filter: this.state.filter,
-				page: this.state.page,
-				pageSize: this.state.pageSize,
-				sort: this.state.sort,
-				sortDirection: this.state.sortDirection
+				parameters: {
+					where: filter,
+					limit: pageSize,
+					page: page,
+					sort: sort,
+					sortBy: sortDirection
+				}
 			};
 
 			ipcRenderer.send ('grid-update', parameters);
@@ -338,21 +341,21 @@ class Grid extends Component {
 	 * Change grid sort.
 	 */
 	ChangeSort (sort) {
-		let update = {
+		const update = {
 			sort: this.state.sort,
 			sortDirection: this.state.sortDirection,
 			update: true
 		};
 
 		if (sort === this.state.sort) {
-			if (this.state.sortDirection === 'ASC') {
-				update.sortDirection = 'DESC';
+			if (this.state.sortDirection === 1) {
+				update.sortDirection = -1;
 			} else {
-				update.sortDirection = 'ASC';
+				update.sortDirection = 1;
 			}
 		} else {
 			update.sort = sort;
-			update.sortDirection = 'ASC';
+			update.sortDirection = 1;
 		}
 
 		this.setState (update);
@@ -369,8 +372,8 @@ class Grid extends Component {
 
 		if (value.length > 0) {
 			update.filter [filter] = {
-				value: value,
-				condition: WHERE_CONDITIONS.Like
+				comparison: 'regex',
+				value: value
 			};
 		} else if (typeof (update.filter [filter]) !== 'undefined') {
 			delete update.filter [filter];

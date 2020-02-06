@@ -7,8 +7,7 @@ const readline = require ('readline');
 const extend = require ('extend');
 const ConsoleWindow = require ('../Console').Console;
 const ReferenceWindow = require ('../Reference').Reference;
-const Snippet = require ('../model/Snippet');
-const {WHERE_CONDITIONS} = require ('tch-database');
+const RxSnippet = require ('../model/RxSnippet');
 const tinify = require ('tinify');
 const axios = require ('axios');
 const sanitizeHtml = require ('sanitize-html');
@@ -131,9 +130,9 @@ class Console {
 	 * Load Snippet for id.
 	 */
 	static async LoadSnippet (event, message) {
-		let snippet = await new Snippet ().Load (message.id);
+		const snippet = await new RxSnippet ().Load (message.id);
 
-		if (snippet.id !== null) {
+		if (snippet.id) {
 			event.sender.send ('snippet-load', snippet.data);
 		} else {
 			event.sender.send ('snippet-load', {
@@ -147,13 +146,14 @@ class Console {
 	 * Save current script as Snippet.
 	 */
 	static async SaveScriptSnippet (event, message) {
-		let snippet = new Snippet ();
-		snippet.LoadFromData ({
-			id: typeof (message.id) !== 'undefined' ? message.id : null,
+		const snippet = new RxSnippet ();
+		snippet.data = {
+			id: message.id,
 			name: message.name,
 			description: message.description,
 			script: message.script
-		});
+		};
+		snippet.id = snippet.data.id;
 
 		await snippet.Save ();
 
@@ -166,10 +166,10 @@ class Console {
 	 * Delete Snippet by id.
 	 */
 	static async DeleteSnippet (event, message) {
-		let snippet = await new Snippet ().Load (message.id);
+		const snippet = await new RxSnippet ().Load (message.id);
 
-		if (snippet.id !== null) {
-			let deleted = await snippet.Delete ();
+		if (snippet.id) {
+			const deleted = await snippet.Delete ();
 
 			event.sender.send ('snippet-delete', {
 				deleted: deleted
@@ -186,22 +186,19 @@ class Console {
 	 * Load list of Snippets by name.
 	 */
 	static async SnippetsByName (event, message) {
-		let filter = {
-			name: {
-				value: message.name,
-				condition: WHERE_CONDITIONS.Like
-			}
-		};
-		let sort = {
-			index: 'name',
-			direction: 'ASC'
-		};
-		let limit = {
-			limit: typeof (message.limit) !== 'undefined' ? message.limit : -1,
-			offset: -1
+		const parameters = {
+			where: {
+				name: {
+					comparison: 'regex',
+					value: new RegExp (`${message.name}`, 'i')
+				}
+			},
+			limit: message.limit,
+			sort: 'name',
+			sortBy: 1
 		};
 
-		let list = await new Snippet ().Collection (filter, sort, limit);
+		const list = await new RxSnippet ().List (parameters);
 		event.sender.send ('snippet-list-name', {
 			list: list
 		});

@@ -1,6 +1,7 @@
 const RxDB = require ('rxdb');
 RxDB.plugin (require ('pouchdb-adapter-node-websql'));
 const uuidV4 = require ('uuid/v4');
+const extend = require ('extend');
 
 const Base_static = {
 	rxDB: undefined,
@@ -79,6 +80,12 @@ class Base {
 			this.data.id = this.id;
 
 			this.data.created = Base.NowTimestamp ();
+		} else {
+			const old = await collection.findOne (this.id).exec ();
+
+			if (old) {
+				this.data = extend (old.toJSON (), this.data);
+			}
 		}
 
 		this.data.updated = Base.NowTimestamp ();
@@ -110,13 +117,9 @@ class Base {
 	}
 
 	/**
-	 * Get all records from DB.
+	 * Process where selection parameters on query.
 	 */
-	async List (parameters = {}, asObject = undefined) {
-		const collection = await this.InitCollection ();
-
-		let list = collection.find ();
-
+	ProcessParametersWhere (query, parameters = {}) {
 		if (typeof parameters.where === 'object') {
 			const fields = Object.keys (parameters.where);
 
@@ -125,25 +128,53 @@ class Base {
 
 				switch (comparison) {
 					case 'eq':
-						list = list.where (field).eq (parameters.where [field].value);
+						query = query.where (field).eq (parameters.where [field].value);
 						break;
 					case 'and':
-						list = list.where (field).and (parameters.where [field].value);
+						query = query.where (field).and (parameters.where [field].value);
 						break;
 					case 'or':
-						list = list.where (field).or (parameters.where [field].value);
+						query = query.where (field).or (parameters.where [field].value);
 						break;
 					case 'in':
-						list = list.where (field).in (parameters.where [field].value);
+						query = query.where (field).in (parameters.where [field].value);
 						break;
 					case 'regex':
-						list = list.where (field).regex (parameters.where [field].value);
+						query = query.where (field).regex (parameters.where [field].value);
 						break;
 					default:
 						throw new Error ('Unsupported where condition comparison type');
 				}
 			}
 		}
+
+		return query;
+	}
+
+	/**
+	 * Get count of records in DB.
+	 */
+	async Count (parameters = {}) {
+		const collection = await this.InitCollection ();
+
+		let list = collection.find ();
+
+		list = this.ProcessParametersWhere (list, parameters);
+
+		list = await list.exec ();
+
+		return list.length;
+	}
+
+	/**
+	 * Get all records from DB.
+	 */
+	async List (parameters = {}, asObject = undefined) {
+		const collection = await this.InitCollection ();
+
+		let list = collection.find ();
+
+		list = this.ProcessParametersWhere (list, parameters);
 
 		if (parameters.limit) {
 			list = list.limit (parameters.limit);

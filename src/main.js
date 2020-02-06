@@ -203,35 +203,36 @@ if (singleAppLock) {
 }
 
 //TODo remove this testing
-setTimeout (async () => {
-	const RxSnippet = require ('./main/model/RxSnippet');
-
-	const model = new RxSnippet ();
-	/*await model.Load ('d8ef8a4a-e1fd-47fc-b6e6-fbc226239e55');
-	await model.Delete ();
-	await model.Load ('514a14c4-1184-4d9c-921d-99208d125fbb');
-	await model.Delete ();*/
-
-	/*model.data = {
-		name: 'Tricerops'
-	};
-	await model.Save ();*/
-
-	/*model.data.description = 'Lorem ipsum dolor sit amet';
-	await model.Save ();*/
-
-	//console.log (model.id, model.data);
-
-	console.log (await model.List ({
-		sort: 'created',
-		sortBy: 1,
-		//limit: 1,
-		//page: 1
-		/*where: {
-			name: {
-				comparison: 'regex',
-				value: new RegExp ('s', 'i')
-			}
-		}*/
-	}));
-}, 2000);
+// setTimeout (async () => {
+// 	const RxSnippet = require ('./main/model/RxSnippet');
+//
+// 	const model = new RxSnippet ();
+// 	/*await model.Load ('d8ef8a4a-e1fd-47fc-b6e6-fbc226239e55');
+// 	await model.Delete ();
+// 	await model.Load ('514a14c4-1184-4d9c-921d-99208d125fbb');
+// 	await model.Delete ();*/
+//
+// 	model.data = {
+// 		name: 'Delete test'
+// 	};
+// 	await model.Save ();
+//
+// 	/*model.data.description = 'Lorem ipsum dolor sit amet';
+// 	await model.Save ();*/
+//
+// 	//console.log (model.id, model.data);
+//
+// 	// console.log (await model.List ({
+// 	// 	sort: 'created',
+// 	// 	sortBy: 1,
+// 	// 	//limit: 1,
+// 	// 	//page: 1
+// 	// 	/*where: {
+// 	// 		name: {
+// 	// 			comparison: 'regex',
+// 	// 			value: new RegExp ('s', 'i')
+// 	// 		}
+// 	// 	}*/
+// 	// }));
+// 	console.log (await model.Count ());
+// }, 2000);

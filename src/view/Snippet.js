@@ -62,7 +62,7 @@ class Snippet extends Component {
 			return date.toLocaleDateString ();
 		};
 
-		let columns = [
+		const columns = [
 			{
 				index: 'name',
 				label: 'Name',
@@ -83,7 +83,7 @@ class Snippet extends Component {
 				renderer: dateRenderer
 			}
 		];
-		let actions = {
+		const actions = {
 			edit: {
 				index: 'id',
 				label: 'Edit Snippet',
@@ -109,7 +109,7 @@ class Snippet extends Component {
 					<div className="col-10">
 						<Button type="button" className="button f-right" onClick={this.NewSnippet.bind (this)}>New Snippet</Button>
 
-						<Grid ref={this.grid} modelName="Snippet" columns={columns} actions={actions}/>
+						<Grid ref={this.grid} modelName="RxSnippet" columns={columns} actions={actions}/>
 					</div>
 				</div>
 			</div>
