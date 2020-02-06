@@ -59,7 +59,7 @@ class Base {
 
 		const collection = await this.InitCollection ();
 
-		const record = await collection.findOne (this.id).exec ();
+		const record = await collection.findOne (id).exec ();
 
 		if (record) {
 			this.id = id;

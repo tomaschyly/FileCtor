@@ -225,9 +225,9 @@ class Grid extends Component {
 									throw Error ('Not supported Action type');
 							}
 
-							(action => {
-								actions.push (<Button key={`${this.id}-item-${item.id}-actions-${index}`} type="button" className="tch-grid-action icon" onClick={() => { this.ExecuteAction (item [action.index], action.action, (typeof (action.confirm) !== 'undefined' && action.confirm)); }}>{icon}</Button>);
-							}) (this.actions [index]);
+							((item, action) => {
+								actions.push (<Button key={`${this.id}-item-${item.id}-actions-${index}`} data-id={item.id} type="button" className="tch-grid-action icon" onClick={() => { this.ExecuteAction (item [action.index], action.action, (typeof (action.confirm) !== 'undefined' && action.confirm)); }}>{icon}</Button>);
+							}) (item, this.actions [index]);
 						}
 					}
 
@@ -398,7 +398,7 @@ class Grid extends Component {
 	 */
 	ExecuteAction (id, action, confirm = false) {
 		if (confirm) {
-			let confirmAction = () => {
+			const confirmAction = () => {
 				action (id);
 			};
 
