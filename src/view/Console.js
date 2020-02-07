@@ -35,7 +35,7 @@ class Console extends Component {
 			loadEnabled: true,
 			loadSnippetName: '',
 			snippetsByName: [],
-			selectedSnippetId: null,
+			selectedSnippetId: undefined,
 			script: '',
 			scriptExecuting: false,
 			log: '',
@@ -104,11 +104,11 @@ class Console extends Component {
 
 		this.snippetLoadListener = (event, message) => {
 			if (typeof (message.error) === 'undefined') {
-				this.editor.current.ChangeScript (message.script);
+				this.editor.current.ChangeScript (message.script || '');
 
 				this.setState ({
 					snippet: message,
-					script: message.script
+					script: message.script || ''
 				});
 			}
 		};
@@ -340,7 +340,7 @@ class Console extends Component {
 	 * Load selected Snippet.
 	 */
 	LoadSnippetAccept () {
-		if (this.state.selectedSnippetId !== null) {
+		if (typeof this.state.selectedSnippetId !== 'undefined') {
 			this.setState ({loadPopup: false});
 
 			ipcRenderer.send ('snippet-load', {
@@ -353,7 +353,7 @@ class Console extends Component {
 	 * Load a Snippet popup, list Snippets by name.
 	 */
 	SnippetsByName (value) {
-		this.setState ({loadSnippetName: value, selectedSnippetId: null});
+		this.setState ({loadSnippetName: value, selectedSnippetId: undefined});
 
 		ipcRenderer.send ('snippet-list-name', {
 			name: value,
@@ -376,7 +376,7 @@ class Console extends Component {
 
 		if (typeof (snippet) !== 'object') {
 			snippet = {
-				id: null,
+				id: undefined,
 				name: '',
 				description: ''
 			};
@@ -398,11 +398,13 @@ class Console extends Component {
 	 * Save current script as Snippet.
 	 */
 	SavePopupAccept () {
-		let parameters = {
-			id: this.state.snippet.id,
-			name: this.state.snippet.name,
-			description: this.state.snippet.description,
-			script: this.state.script
+		const {snippet} = this.state;
+
+		const parameters = {
+			id: snippet ? snippet.id : undefined,
+			name: snippet ? snippet.name : 'New Snippet',
+			description: snippet ? snippet.description : '',
+			script: snippet ? snippet.script : ''
 		};
 		ipcRenderer.send ('script-save', parameters);
 

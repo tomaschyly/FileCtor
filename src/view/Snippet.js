@@ -123,7 +123,7 @@ class Snippet extends Component {
 		let params = {
 			directory: window.TCH.mainParameters.directory.documents,
 			snippet: {
-				id: null,
+				id: undefined,
 				name: 'New Snippet',
 				description: ''
 			},
