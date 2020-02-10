@@ -1,5 +1,5 @@
 /*** Snippet styles ***/
-.snippet { display: flex; overflow: hidden; overflow-y: auto; max-height: calc(100% + 16px); padding-top: 16px; margin-top: -16px; }
+.snippet { display: flex; overflow: hidden; overflow-y: auto; height: calc(100% + 16px); padding-top: 16px; margin-top: -16px; }
 .snippet .container,
 .snippet .container > .row,
 .snippet .container > .row > div { display: flex; flex-direction: column; flex: 1 0 auto; max-height: 100%; }
