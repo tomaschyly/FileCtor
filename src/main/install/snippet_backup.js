@@ -1,45 +1,9 @@
 const Snippet = require ('../model/Snippet');
-const RxSnippet = require ('../model/RxSnippet');
 
 module.exports = async function (config) {
-	let version = config.Get ('install-snippet-version');
-	if (version === null) {
-		version = 0;
-	}
-	version = parseInt (version);
+	const installed = config.Get ('install-snippet');
 
-	if (version < 3) {
-		version = 4;
-	}
-
-	for (let index in updates) {
-		if (updates.hasOwnProperty (index)) {
-			if (index > version) {
-				if (await updates [index] (config)) {
-					config.Set ('install-snippet-version', index);
-				} else {
-					version = config.Get ('install-snippet-version');
-					version = parseInt (version);
-				}
-			}
-		}
-	}
-};
-
-const updates = {
-	4: async function (config) {
-		const existing = await new Snippet ().Collection ();
-		
-		for (const snippet of existing) {
-			snippet.id = undefined;
-
-			await new RxSnippet ().LoadFromData (snippet).Save ();
-		}
-
-		config.Set ('install-snippet-version', 5);
-		return false;
-	},
-	5: async function (config) {
+	if (installed === null || !installed) {
 		const simpleExampleSnippet = {
 			name: 'Simple Example',
 			description: 'This is just a basic script example that does almost nothing, but demonstrate that execution works.',
@@ -49,7 +13,7 @@ let variable = 2 * 3;
 console.log ('2 * 3 equals ' + variable);`
 		};
 
-		await new RxSnippet ().LoadFromData (simpleExampleSnippet).Save ();
+		await new Snippet ().LoadFromData (simpleExampleSnippet).Save ();
 
 		const renameExampleSnippet = {
 			name: 'Rename Files',
@@ -59,8 +23,30 @@ const files = await ReadDirectory (directory);
 result = '# files renamed ' + await RenameFiles (directory, files, newName);`
 		};
 
-		await new RxSnippet ().LoadFromData (renameExampleSnippet).Save ();
+		await new Snippet ().LoadFromData (renameExampleSnippet).Save ();
 
+		config.Set ('install-snippet', true);
+	}
+
+	let version = config.Get ('install-snippet-version');
+	if (version === null) {
+		version = 0;
+	}
+	version = parseInt (version);
+
+	for (let index in updates) {
+		if (updates.hasOwnProperty (index)) {
+			if (index > version) {
+				await updates [index] ();
+
+				config.Set ('install-snippet-version', index);
+			}
+		}
+	}
+};
+
+const updates = {
+	1: async function () {
 		const renameHostSql = {
 			name: 'Rename Host Sql',
 			description: 'Script for renaming host inside Sql query. E.g. rename host of WP website when migrating from Dev to Prod. Should work on large Sql files.',
@@ -109,8 +95,9 @@ await ProcessLineByLine ();
 result = 'Saved new file to: ' + destination;`
 		};
 
-		await new RxSnippet ().LoadFromData (renameHostSql).Save ();
-
+		await new Snippet ().LoadFromData (renameHostSql).Save ();
+	},
+	2: async function () {
 		const renameFilesPart = {
 			name: 'Rename Files (part of name)',
 			description: 'Rename files to a new name by changing part of name with provided new part.',
@@ -120,8 +107,9 @@ const files = await ReadDirectory (directory);
 result = '# files renamed ' + await RenameFilesPart (directory, files, removePart, newPart);`
 		};
 
-		await new RxSnippet ().LoadFromData (renameFilesPart).Save ();
-
+		await new Snippet ().LoadFromData (renameFilesPart).Save ();
+	},
+	3: async function () {
 		const compressImages = {
 			name: 'Compress Images (TinyPNG)',
 			description: 'Compress PNG & JPG images using TinyPNG API. You have to have TinyPNG API key set in settings.',
@@ -138,7 +126,7 @@ for (let i = 0; i < files.length; i++) {
 result = '# compressed images ' + files.length;`
 		};
 
-		await new RxSnippet ().LoadFromData (compressImages).Save ();
+		await new Snippet ().LoadFromData (compressImages).Save ();
 
 		const resizeCropImages = {
 			name: 'Resize/Crop Images (TinyPNG)',
@@ -160,8 +148,6 @@ for (let i = 0; i < files.length; i++) {
 result = '# resized/cropped images ' + files.length;`
 		};
 
-		await new RxSnippet ().LoadFromData (resizeCropImages).Save ();
-
-		return true;
+		await new Snippet ().LoadFromData (resizeCropImages).Save ();
 	}
 };

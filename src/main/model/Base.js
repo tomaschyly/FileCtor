@@ -70,6 +70,16 @@ class Base {
 	}
 
 	/**
+	 * Load data from object.
+	 */
+	LoadFromData (data) {
+		this.data = data;
+		this.id = data.id;
+
+		return this;
+	}
+
+	/**
 	 * Save data to DB, insert/update is used depending on ID.
 	 */
 	async Save () {
@@ -196,10 +206,7 @@ class Base {
 
 		list = list.map (element => {
 			if (asObject) {
-				const object = new asObject ();
-				object.data = element.toJSON ();
-				object.id = object.data.id;
-				return object;
+				return new asObject ().LoadFromData (element.toJSON ());
 			} else {
 				return element.toJSON ();
 			}
