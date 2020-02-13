@@ -96,6 +96,7 @@ Two scripts for images (PNG & JPG), one can compress them, the other can resize 
 
 ## Roadmap
 
+* Import/Export code
 * Localization - **However I know only limited number of languages**
 * Dark Mode
 * More files explorer like actions - **LOW PRIORITY**
@@ -103,5 +104,3 @@ Two scripts for images (PNG & JPG), one can compress them, the other can resize 
 
 * MacOS touchbar - **TBD**
 * Simple GUI for snippets - **TBD**
-
-* Monaco Editor - **DISTANT FUTURE POSSIBILITY**
