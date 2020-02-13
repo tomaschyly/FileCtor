@@ -116,7 +116,7 @@ class Console {
 			error = `${e.name}: ${e.message}`;
 		}
 
-		let response = {
+		const response = {
 			/*log: sandbox.log,*/
 			log: sandbox._log.join ('\n'),
 			error: error,

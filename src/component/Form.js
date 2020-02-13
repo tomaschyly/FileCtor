@@ -6,6 +6,7 @@ import TextInput from './form/TextInput';
 import EmailInput from './form/EmailInput';
 import Textarea from './form/Textarea';
 import Checkbox from './form/Checkbox';
+import Select from './form/Select';
 
 const uuidV4 = window.require ('uuid/v4');
 const emailValidator = window.require ('email-validator');
@@ -68,6 +69,9 @@ class Form extends Component {
 							break;
 						case 'checkbox':
 							children.push (<Checkbox key={`${id}-${index}`} id={`${id}-${index}`} {...input}/>);
+							break;
+						case 'select':
+							children.push (<Select key={`${id}-${index}`} id={`${id}-${index}`} {...input}/>);
 							break;
 						default:
 							throw Error ('Unsupported form input type');

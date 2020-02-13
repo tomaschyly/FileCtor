@@ -4,6 +4,7 @@ import React, {Component} from 'react';
 import Form from '../component/Form';
 import Button from '../component/Button';
 import Popup from '../component/Popup';
+import {THEMES_AS_OPTIONS} from '../component/CodeMirrorEditor';
 
 const {ipcRenderer} = window.require ('electron');
 const extend = window.require ('extend');
@@ -15,6 +16,7 @@ const defaults = {
 		snippetSave: 'ctrl+s'
 	},
 	console: {
+		theme: 'default',
 		executeConfirm: true,
 		tinypngApiKey: ''
 	},
@@ -94,6 +96,12 @@ class Settings extends Component {
 							<h2>Console</h2>
 
 							<Form ref={this.formConsole} inputs={{
+								theme: {
+									label: 'Editor Theme',
+									type: 'select',
+									value: current.console.theme,
+									options: THEMES_AS_OPTIONS
+								},
 								executeConfirm: {
 									label: 'Confirm Execute',
 									type: 'checkbox',

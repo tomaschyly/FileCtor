@@ -7,6 +7,7 @@ import Popups from './component/Popups';
 import Settings from './view/Settings';
 
 const { ipcRenderer } = window.require ('electron');
+const extend = window.require ('extend');
 
 window.App_static = {
 	Instance: null
@@ -36,7 +37,7 @@ class App extends Component {
 		this.mainParametersListener = (event, message) => {
 			window.TCH.mainParameters = message;
 
-			window.TCH.mainParameters.settings = window.TCH.mainParameters.settings !== null ? window.TCH.mainParameters.settings : Settings.Defaults ();
+			window.TCH.mainParameters.settings = window.TCH.mainParameters.settings !== null ? extend (true, {}, Settings.Defaults (), window.TCH.mainParameters.settings) : Settings.Defaults ();
 
 			let classes = this.state.classes;
 			if (typeof (message.platform) !== 'undefined') {
@@ -54,7 +55,7 @@ class App extends Component {
 		ipcRenderer.send ('main-parameters');
 
 		this.appSettingsSaveListener = (event, message) => {
-			window.TCH.mainParameters.settings = message !== null ? message : Settings.Defaults ();
+			window.TCH.mainParameters.settings = message !== null ? extend (true, {}, Settings.Defaults (), message) : Settings.Defaults ();
 
 			this.ClassesBySettings ();
 		};

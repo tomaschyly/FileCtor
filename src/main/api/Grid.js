@@ -21,7 +21,7 @@ class Grid {
 			}
 		}
 
-		let response = {};
+		const response = {};
 		response.count = await model.Count (message.parameters);
 		response.pages = Math.ceil (response.count / message.parameters.limit);
 
