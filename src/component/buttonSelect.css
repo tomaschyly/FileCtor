@@ -1,5 +1,6 @@
 /*** ButtonSelect styles ***/
-.button-select-container { display: block; }
+.button-select-container { display: block; margin-bottom: 16px; }
+.button-select-container button { margin-bottom: 0; }
 .button-select-list { display: none; position: absolute; overflow: hidden; overflow-y: auto; width: auto; max-width: 162px; height: auto; max-height: 162px; left: 0; top: 0; z-index: 10; border: 2px solid black; border-radius: 8px; background: white; }
 .button-select-list.visible { display: block; }
 .button-select-list.general-fade { display: none; }

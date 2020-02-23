@@ -171,6 +171,7 @@ img { max-width: 100%; }
 .tch-grid-pagesize span { padding-right: 8px; }
 .tch-grid-page .button-select-list,
 .tch-grid-pagesize .button-select-list { min-width: 60px; }
+.tch-grid .button-select-container { margin-bottom: 0; }
 
 /*** Responsive styles ***/
 @media (min-width: 576px) {

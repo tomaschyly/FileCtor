@@ -49,6 +49,8 @@ class Settings extends Component {
 	 */
 	componentDidMount () {
 		window.TCH.Main.SetTitle ('Settings');
+
+		document.querySelector ('#content .settings').addEventListener ('scroll', window.ButtonSelect_static.globalHideOptionsListener);
 	}
 
 	/**
