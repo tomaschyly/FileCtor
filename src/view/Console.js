@@ -398,13 +398,13 @@ class Console extends Component {
 	 * Save current script as Snippet.
 	 */
 	SavePopupAccept () {
-		const {snippet} = this.state;
+		const {snippet, script} = this.state;
 
 		const parameters = {
 			id: snippet ? snippet.id : undefined,
 			name: snippet ? snippet.name : 'New Snippet',
 			description: snippet ? snippet.description : '',
-			script: snippet ? snippet.script : ''
+			script: script
 		};
 		ipcRenderer.send ('script-save', parameters);
 

@@ -146,14 +146,12 @@ class Console {
 	 * Save current script as Snippet.
 	 */
 	static async SaveScriptSnippet (event, message) {
-		const snippet = new RxSnippet ();
-		snippet.data = {
+		const snippet = new RxSnippet ().LoadFromData ({
 			id: message.id,
 			name: message.name,
 			description: message.description,
 			script: message.script
-		};
-		snippet.id = snippet.data.id;
+		});
 
 		await snippet.Save ();
 
