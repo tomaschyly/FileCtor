@@ -1,4 +1,4 @@
-const { app, ipcMain, shell } = require ('electron');
+const { app, ipcMain, shell, nativeTheme } = require ('electron');
 const { promisify } = require ('util');
 const fs = require ('fs');
 const path = require ('path');
@@ -33,6 +33,8 @@ class Api {
 		Api_static.main = main;
 
 		ipcMain.on ('main-parameters', Api.MainParameters);
+
+		nativeTheme.on ('updated', Api.NativeThemeUpdated);
 
 		ipcMain.on ('directory-contents', Api.ReadDirectory);
 
@@ -91,7 +93,30 @@ class Api {
 				break;
 		}
 
+		parameters.osDarkMode = nativeTheme.shouldUseDarkColors;
+
 		event.sender.send ('main-parameters', parameters);
+	}
+
+	/**
+	 * Notify renderers about OS theme update.
+	 */
+	static NativeThemeUpdated () {
+		const data = {
+			osDarkMode: nativeTheme.shouldUseDarkColors
+		};
+
+		if (Api_static.main.window !== null) {
+			Api_static.main.window.send ('native-theme-updated', data);
+		}
+
+		if (ConsoleWindow_static.window !== null) {
+			ConsoleWindow_static.window.send ('native-theme-updated', data);
+		}
+
+		if (ReferenceWindow_static.window !== null) {
+			ReferenceWindow_static.window.send ('native-theme-updated', data);
+		}
 	}
 
 	/**

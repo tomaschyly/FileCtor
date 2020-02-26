@@ -54,6 +54,17 @@ class App extends Component {
 		ipcRenderer.on ('main-parameters', this.mainParametersListener);
 		ipcRenderer.send ('main-parameters');
 
+		this.nativeThemeUpdatedListener = (event, message) => {
+			if (typeof window.TCH.mainParameters !== 'undefined') {
+				window.TCH.mainParameters.osDarkMode = message.osDarkMode;
+
+				setTimeout (() => {
+					this.ClassesBySettings ();
+				}, 1);
+			}
+		};
+		ipcRenderer.on ('native-theme-updated', this.nativeThemeUpdatedListener);
+
 		this.appSettingsSaveListener = (event, message) => {
 			window.TCH.mainParameters.settings = message !== null ? extend (true, {}, Settings.Defaults (), message) : Settings.Defaults ();
 
@@ -81,6 +92,9 @@ class App extends Component {
 	componentWillUnmount () {
 		ipcRenderer.removeListener ('main-parameters', this.mainParametersListener);
 		delete this.mainParametersListener;
+
+		ipcRenderer.removeListener ('native-theme-updated', this.nativeThemeUpdatedListener);
+		delete this.nativeThemeUpdatedListener;
 		
 		ipcRenderer.removeListener ('app-settings-save', this.appSettingsSaveListener);
 		delete this.appSettingsSaveListener;
@@ -138,6 +152,8 @@ class App extends Component {
 		} else if (!classes.includes ('fancy-font-disabled') && !settings.theme.fancyFont) {
 			this.ToggleClass ('fancy-font-disabled');
 		}
+
+		console.log (window.TCH.mainParameters); //TODO remove
 	}
 }
 
