@@ -93,7 +93,7 @@ class Settings extends Component {
 								darkMode: {
 									label: 'Dark Mode',
 									type: 'checkbox',
-									value: current.theme.darkMode !== null ? current.theme.darkMode : false
+									value: current.theme.darkMode !== null ? current.theme.darkMode : window.TCH.mainParameters.osDarkMode
 								}
 							}} onSubmit={values => this.formsValues.theme = values}/>
 						</div>
