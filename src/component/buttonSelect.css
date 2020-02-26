@@ -14,3 +14,7 @@
 .button-select-list::-webkit-scrollbar { width: 8px; }
 .button-select-list button { display: block; width: 100%; min-height: 32px; border: 0; border-bottom: 2px solid black; border-radius: 0; margin: 0; font-size: 14px; }
 .button-select-list button:last-child { min-height: 30px; border-bottom: 0; }
+
+/*** Dark Mode styles ***/
+.dark-mode .button-select-list { border-color: #666666; background: #1a1a1a; }
+.dark-mode .button-select-list button { border-bottom-color: #666666; }

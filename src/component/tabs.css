@@ -31,3 +31,12 @@
 .tch-tabs-navigation .general-fade-appear-active.button-select-container,
 .tch-tabs-navigation .general-fade-exit.button-select-container,
 .tch-tabs-navigation .general-fade-exit-active.button-select-container { display: block; }
+
+/*** Dark Mode styles ***/
+.dark-mode .tch-tabs-navigation .button svg { border-color: #999999; }
+.dark-mode .tch-tabs-navigation .button:hover svg,
+.dark-mode .tch-tabs-navigation .button:focus svg { border-color: #e6e6e6; color: #e6e6e6; }
+.dark-mode .tch-tabs-navigation .button svg:hover,
+.dark-mode .tch-tabs-navigation .button svg:focus { border-color: red; color: red; }
+.dark-mode .tch-tabs-navigation .button.icon svg:hover,
+.dark-mode .tch-tabs-navigation .button.icon svg:focus { color: #e6e6e6; }

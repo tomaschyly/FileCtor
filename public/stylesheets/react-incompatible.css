@@ -1,3 +1,7 @@
 ::-webkit-scrollbar { width: 16px; border: 2px solid black; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; }
 ::-webkit-scrollbar-thumb { background: black; }
 ::-webkit-scrollbar-trac { background: white; }
+
+/*** Dark Mode styles ***/
+.dark-mode ::-webkit-scrollbar { border-color: #666666; }
+.dark-mode ::-webkit-scrollbar-thumb { background: #666666; }

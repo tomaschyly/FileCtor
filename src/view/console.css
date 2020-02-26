@@ -47,3 +47,16 @@
 .current-console-info-enlarge .current-console-info-actions-container .enlarge { display: none; }
 .snippet-load-button { width: 100%; border: 0; border-bottom: 2px solid black; border-radius: 0; margin: 0; }
 .snippet-load-button:last-child { border-bottom: 0; }
+
+/*** Dark Mode styles ***/
+.dark-mode .console .current-script-actions-container .panel { background: #1a1a1a; }
+.dark-mode .console .current-script-actions-top-container .button,
+.dark-mode .console .current-console-log-actions-container .button,
+.dark-mode .console .current-console-info-actions-container .button { background: #1a1a1a; }
+.dark-mode .console .current-script-actions-top-container .button:hover,
+.dark-mode .console .current-console-log-actions-container .button:hover,
+.dark-mode .console .current-console-info-actions-container .button:hover,
+.dark-mode .console .current-script-actions-top-container .button:focus,
+.dark-mode .console .current-console-log-actions-container .button:focus,
+.dark-mode .console .current-console-info-actions-container .button:focus { background: #666666; }
+.dark-mode #current-console-info { border-color: #666666; }

@@ -2,7 +2,7 @@
 .general-popup-container { /*display: none;*/ position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: 100; align-items: center; justify-content: center; background: rgba(0, 0, 0, 0.6); }
 /*.general-popup-container.visible,
 .general-popup-container.animating { display: flex; }*/
-.general-popup { display: flex; width: 90%; max-width: 480px; height: calc(90% - 32px); max-height: 320px; flex-direction: column; padding: 0; border: 2px solid black; border-radius: 8px; background: white; }
+.general-popup { display: flex; overflow: hidden; width: 90%; max-width: 480px; height: calc(90% - 32px); max-height: 320px; flex-direction: column; padding: 0; border: 2px solid black; border-radius: 8px; background: white; }
 .general-popup.auto,
 .auto .general-popup { height: auto; }
 .red .general-popup { border-color: red; }
@@ -15,3 +15,10 @@
 .red .general-popup-footer { border-top-color: red; }
 .general-popup-footer button { margin-bottom: 0; }
 .general-popup-footer button svg { width: 20px; height: 20px; }
+
+/*** Dark Mode styles ***/
+.dark-mode .general-popup { background: #1a1a1a; }
+.dark-mode .general-popup-header { background: #666666; }
+.dark-mode .red .general-popup-header { background: red; }
+.dark-mode .general-popup-header h2 { color: #e6e6e6; }
+.dark-mode .general-popup-footer { border-top-color: #666666; }
