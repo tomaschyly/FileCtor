@@ -21,7 +21,8 @@ const defaults = {
 		tinypngApiKey: ''
 	},
 	theme: {
-		fancyFont: false
+		fancyFont: false,
+		darkMode: null
 	}
 };
 
@@ -88,6 +89,11 @@ class Settings extends Component {
 									label: 'Fancy Font',
 									type: 'checkbox',
 									value: current.theme.fancyFont
+								},
+								darkMode: {
+									label: 'Dark Mode',
+									type: 'checkbox',
+									value: current.theme.darkMode !== null ? current.theme.darkMode : false
 								}
 							}} onSubmit={values => this.formsValues.theme = values}/>
 						</div>

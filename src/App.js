@@ -107,13 +107,13 @@ class App extends Component {
 	 * Render the component into html.
 	 */
 	render () {
-		const {updateAvailable} = this.state;
+		const {classes, updateAvailable} = this.state;
 
 		if (typeof (window.TCH.mainParameters) === 'undefined') {
 			return '';
 		} else {
 			return <HashRouter>
-				<div id="app" className={this.state.classes.join (' ')}>
+				<div id="app" className={classes.join (' ')}>
 					<TitleBar />
 					<Navigation />
 					<div id="content">
@@ -129,13 +129,16 @@ class App extends Component {
 	 * Toggle class on app.
 	 */
 	ToggleClass (className) {
-		let classes = this.state.classes;
+		const classes = this.state.classes;
+
 		if (classes.includes (className)) {
 			const index = classes.indexOf (className);
 			classes.splice (index, 1);
 		} else {
 			classes.push (className);
 		}
+
+		document.querySelector ('body').classList.toggle (className);
 
 		this.setState ({classes: classes});
 	}
@@ -146,14 +149,20 @@ class App extends Component {
 	ClassesBySettings () {
 		const {settings} = window.TCH.mainParameters;
 
-		let classes = this.state.classes;
+		const classes = this.state.classes;
+
 		if (classes.includes ('fancy-font-disabled') && settings.theme.fancyFont) {
 			this.ToggleClass ('fancy-font-disabled');
 		} else if (!classes.includes ('fancy-font-disabled') && !settings.theme.fancyFont) {
 			this.ToggleClass ('fancy-font-disabled');
 		}
 
-		console.log (window.TCH.mainParameters); //TODO remove
+		const darkMode = settings.theme.darkMode !== null ? settings.theme.darkMode : window.TCH.mainParameters.osDarkMode;
+		if (classes.includes ('dark-mode') && !darkMode) {
+			this.ToggleClass ('dark-mode');
+		} else if (!classes.includes ('dark-mode') && darkMode) {
+			this.ToggleClass ('dark-mode');
+		}
 	}
 }
 
