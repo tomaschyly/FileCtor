@@ -69,6 +69,10 @@ class Reference extends Component {
 						label: 'ReadDirectory ()',
 						description: 'async\nParameters: string[, RegExp]\nFirst parameter is directory path, second is optional filter. Can be awaited. Lists files inside directory.'
 					},
+					'ReadDirectoryRecursive': {
+						label: 'ReadDirectoryRecursive ()',
+						description: 'async\nParameters: string[, Object]\nFirst parameter is directory path.\nSecond parameter is optional Object of parameters: {fullFilePath: boolean, filterFile: RegExp, filterFileContents: RegExp}'
+					},
 					'readline-createInterface': {
 						label: 'readline.createInterface ()',
 						description: 'Parameter: object\nUse this function like you would join Node\'s readline.createInterface ().'
@@ -80,6 +84,14 @@ class Reference extends Component {
 					'RenameFilesPart': {
 						label: 'RenameFilesPart ()',
 						description: 'async\nParameters: string, array, string, string\nFirst parameter is directory containing the files, second is array of file names, third is part to be removed and fourth is new part instead of old one. Can be awaited. Rename files to a new name by changing part of name with provided new part.'
+					},
+					'ReadFileContents': {
+						label: 'ReadFileContents ()',
+						description: 'async\nParameter: string\nParameter is file path for the file that you want to get contents of.\nContents is read using UTF-8 encoding.'
+					},
+					'WriteFileContents': {
+						label: 'WriteFileContents ()',
+						description: 'async\nParameters: string, string\nFirst parameter is file path to save the file contents to. Second parameter is data to be saved.\nContents are written using UTF-8 encoding.'
 					},
 					'TinyPNGCompressFile': {
 						label: 'TinyPNGCompressFile ()',
