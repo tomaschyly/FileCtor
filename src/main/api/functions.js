@@ -98,6 +98,10 @@ async function ReadFileContents (filePath) {
 	return await readFilePromise (filePath, 'utf8');
 }
 
+async function WriteFileContents (filePath, contents) {
+	await writeFileAtomic (filePath, contents);
+}
+
 async function TinyPNGCompressFile (file) {
 	let extension = file.split ('.');
 	extension = extension.length > 1 ? `.${extension.pop ()}` : '';
@@ -146,6 +150,7 @@ module.exports = {
 	RenameFiles,
 	RenameFilesPart,
 	ReadFileContents,
+	WriteFileContents,
 	TinyPNGCompressFile,
 	TinyPNGResizeCropFile,
 	Fetch,

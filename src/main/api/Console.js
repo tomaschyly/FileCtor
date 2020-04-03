@@ -84,6 +84,7 @@ class Console {
 			},
 			renameFilePromise: promisify (fs.rename),
 			readFilePromise: promisify (fs.readFile),
+			writeFileAtomic: require ('write-file-atomic'),
 			tinify: tinify,
 			axios: {
 				get: axios.get,
