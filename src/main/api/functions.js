@@ -26,6 +26,23 @@ async function ReadDirectory (directory, filter = null) {
 	return files;
 }
 
+async function ReadDirectoryRecursive (directory, filter = {}) {
+	let files = [];
+
+	for (let file of await readDirPromise (directory)) {
+		const filePath = path.join (directory, file);
+		let stat = await statPromise (filePath);
+
+		if (stat.isDirectory ()) {
+			files.push (...await ReadDirectoryRecursive (filePath, filter));
+		} else {
+			files.push (file);
+		}
+	}
+
+	return files;
+}
+
 async function RenameFiles (directory, files, newName) {
 	for (let i = 0; i < files.length; i++) {
 		let extension = files [i].split ('.');
@@ -97,6 +114,7 @@ async function Sleep (ms) {
 module.exports = {
 	Init,
 	ReadDirectory,
+	ReadDirectoryRecursive,
 	RenameFiles,
 	RenameFilesPart,
 	TinyPNGCompressFile,

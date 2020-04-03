@@ -78,6 +78,7 @@ class Console {
 				join: path.join
 			},
 			readDirPromise: promisify (fs.readdir),
+			statPromise: promisify (fs.stat),
 			readline: {
 				createInterface: readline.createInterface
 			},
