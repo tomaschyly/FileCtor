@@ -163,5 +163,23 @@ result = '# resized/cropped images ' + files.length;`
 		await new RxSnippet ().LoadFromData (resizeCropImages).Save ();
 
 		return true;
+	},
+	6: async function (config) {
+		const filterFilesWriteResultSnippet = {
+			name: 'Filter Files & Write Result',
+			description: 'Filter files in directory by name and contests, write result to file.',
+			script: `const filterFileName = REGEXP_FILTER_FILENAME;
+const filterFileContents = REGEXP_FILTER_FILE_CONTENTS;
+
+const files = await ReadDirectoryRecursive (directory, {fullFilePath: true, filterFile: filterFileName, filterFileContents: filterFileContents});
+
+await WriteFileContents (path.join (directory, 'result.txt'), files.join ('\\n'));
+
+result = 'Result contains ' + files.length + ' files';`
+		};
+
+		await new RxSnippet ().LoadFromData (filterFilesWriteResultSnippet).Save ();
+
+		return true;
 	}
 };
