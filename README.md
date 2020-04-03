@@ -99,7 +99,6 @@ Two scripts for images (PNG & JPG), one can compress them, the other can resize 
 * Import/Export code
 * Localization - **However I know only limited number of languages**
 * More files explorer like actions - **LOW PRIORITY**
-* More script capabilities - an ongoing process/dependant also on requests
+* More script capabilities - **an ongoing process/dependant on requests**
 
-* MacOS touchbar - **TBD**
 * Simple GUI for snippets - **TBD**
