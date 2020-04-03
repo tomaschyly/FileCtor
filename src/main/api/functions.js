@@ -44,6 +44,26 @@ async function ReadDirectoryRecursive (directory, params = {}) {
 		}
 	}
 
+	if (params.filterFile) {
+		files = files.filter (file => {
+			return params.filterFile.test (file);
+		});
+	}
+
+	if (params.fullFilePath && params.filterFileContents) {
+		const filtered = [];
+
+		for (let file of files) {
+			const contents = await ReadFileContents (file);
+
+			if (params.filterFileContents.test (contents)) {
+				filtered.push (file);
+			}
+		}
+
+		files = filtered;
+	}
+
 	return files;
 }
 
