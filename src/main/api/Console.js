@@ -83,6 +83,7 @@ class Console {
 				createInterface: readline.createInterface
 			},
 			renameFilePromise: promisify (fs.rename),
+			readFilePromise: promisify (fs.readFile),
 			tinify: tinify,
 			axios: {
 				get: axios.get,
