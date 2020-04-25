@@ -1,3 +1,4 @@
 /*** General form styles ***/
 .general-form label { min-height: 1px; margin-bottom: 8px; }
+.general-form-description { margin-top: -8px; margin-bottom: 16px; font-style: italic; }
 .general-form-error { /*display: block;*/ margin-top: -16px; margin-bottom: 16px; color: red; }

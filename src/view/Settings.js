@@ -18,7 +18,8 @@ const defaults = {
 	console: {
 		theme: 'default',
 		executeConfirm: true,
-		tinypngApiKey: ''
+		tinypngApiKey: '',
+		pro: false
 	},
 	theme: {
 		fancyFont: false,
@@ -119,6 +120,16 @@ class Settings extends Component {
 									label: 'TinyPNG API Key',
 									type: 'text',
 									value: current.console.tinypngApiKey
+								},
+								pro: {
+									label: 'Pro Mode',
+									type: 'checkbox',
+									value: current.console.pro,
+									description: (
+										<span>
+											Normally you are limited to sandbox with limited functionality. Enabling <strong>Pro Mode</strong> adds <strong>require</strong> to the sandbox, this gives you ability to use any <strong>Node</strong> and included <strong>packages</strong> functionality.
+										</span>
+									)
 								}
 							}} onSubmit={values => this.formsValues.console = values}/>
 						</div>

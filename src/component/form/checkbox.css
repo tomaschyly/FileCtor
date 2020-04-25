@@ -4,4 +4,5 @@
 .general-form-checkbox .button svg { display: none; }
 .general-form-checkbox.checked .button svg { display: block; }
 .general-form-checkbox label { flex-basis: calc(100% - 46px); margin-bottom: 0; }
+.general-form-checkbox .general-form-description { margin-top: 8px; margin-bottom: 0; }
 .general-form-checkbox .general-form-error { flex-basis: 100%; max-width: 100%; margin-top: 0; }
