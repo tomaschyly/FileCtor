@@ -127,7 +127,7 @@ class Settings extends Component {
 									value: current.console.pro,
 									description: (
 										<span>
-											Normally you are limited to sandbox with limited functionality. Enabling <strong>Pro Mode</strong> adds <strong>require</strong> to the sandbox, this gives you ability to use any <strong>Node</strong> and included <strong>packages</strong> functionality.
+											Normally you are limited to sandbox with limited functionality. Enabling <strong>Pro Mode</strong> adds <strong>require</strong> to the sandbox, this gives you ability to use any <strong>Node</strong> and included <strong>packages</strong> functionality.<br/>It is preferable for you to <strong>request</strong> additional functionality instead of using the <strong>Pro Mode</strong>.
 										</span>
 									)
 								}

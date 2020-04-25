@@ -65,6 +65,7 @@ class Console {
 	static async ExecuteScript (event, message) {
 		let settings = Console_static.main.config.Get ('app-settings');
 		tinify.key = settings !== null ? settings.console.tinypngApiKey : null;
+		const proMode = settings !== null ? (settings.console.pro || false) : false;
 
 		let sandbox = {
 			fs: {
@@ -94,6 +95,10 @@ class Console {
 			setTimeout: setTimeout,
 			setInterval: setInterval
 		};
+
+		if (proMode) {
+			sandbox.require = require;
+		}
 
 		sandbox = extend (sandbox, message.parameters);
 
