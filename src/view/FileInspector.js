@@ -14,6 +14,7 @@ import ButtonSelect from '../component/ButtonSelect';
 
 const { ipcRenderer } = window.require ('electron');
 const path = window.require ('path');
+const extend = window.require ('extend');
 
 class FileInspector extends Component {
 	/**
@@ -150,7 +151,13 @@ class FileInspector extends Component {
 	 * Save Tabs to config.
 	 */
 	TabsSave (tabs, selectedTab) {
-		ipcRenderer.send ('config-set', {key: 'file-inspector-tabs', value: tabs});
+		ipcRenderer.send ('config-set', {key: 'file-inspector-tabs', value: tabs.map(function (tab) {
+			const theTab = extend (true, {}, tab);
+
+			theTab.content = '';
+
+			return theTab;
+		})});
 		ipcRenderer.send ('config-set', {key: 'file-inspector-tab-selected', value: selectedTab});
 
 		let bottom = document.querySelector ('.container.bottom');

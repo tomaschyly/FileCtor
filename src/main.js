@@ -4,7 +4,7 @@ const path = require ('path');
 const Api = require ('./main/Api');
 const Config = require ('./main/Config');
 const installSnippet = require ('./main/install/snippet');
-const uuidV4 = require ('uuid/v4');
+const uuid = require ('uuid');
 
 const singleAppLock = app.requestSingleInstanceLock ();
 
@@ -43,7 +43,7 @@ const Main = {
 		const width = windowParameters !== null && typeof (windowParameters.size) !== 'undefined' ? windowParameters.size.width : this.default.width;
 		const height = windowParameters !== null && typeof (windowParameters.size) !== 'undefined' ? windowParameters.size.height : this.default.height;
 
-		this.uuid = uuidV4 ();
+		this.uuid = uuid.v4 ();
 
 		windowParameters = {
 			width: width,

@@ -1,6 +1,6 @@
 const RxDB = require ('rxdb');
-RxDB.plugin (require ('pouchdb-adapter-node-websql'));
-const uuidV4 = require ('uuid/v4');
+RxDB.addRxPlugin (require ('pouchdb-adapter-node-websql'));
+const uuid = require ('uuid');
 const extend = require ('extend');
 
 const Base_static = {
@@ -86,7 +86,7 @@ class Base {
 		const collection = await this.InitCollection ();
 
 		if (typeof this.id === 'undefined') {
-			this.id = uuidV4 ();
+			this.id = uuid.v4 ();
 			this.data.id = this.id;
 
 			this.data.created = Base.NowTimestamp ();

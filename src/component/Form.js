@@ -8,7 +8,7 @@ import Textarea from './form/Textarea';
 import Checkbox from './form/Checkbox';
 import Select from './form/Select';
 
-const uuidV4 = window.require ('uuid/v4');
+const uuid = window.require ('uuid');
 const emailValidator = window.require ('email-validator');
 
 class Form extends Component {
@@ -21,7 +21,7 @@ class Form extends Component {
 		let {id} = this.props;
 
 		if (typeof (id) === 'undefined') {
-			id = `form-${uuidV4 ()}`;
+			id = `form-${uuid.v4 ()}`;
 		}
 
 		this.state = {

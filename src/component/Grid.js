@@ -12,7 +12,7 @@ import ButtonSelect from './ButtonSelect';
 import TransitionGroup from 'react-transition-group/TransitionGroup';
 import CSSTransition from 'react-transition-group/CSSTransition';
 
-const uuidV4 = window.require ('uuid/v4');
+const uuid = window.require ('uuid');
 const {ipcRenderer} = window.require ('electron');
 
 const Grid_static = {
@@ -37,7 +37,7 @@ class Grid extends Component {
 	constructor (props) {
 		super (props);
 
-		this.id = typeof (props.id) !== 'undefined' ? props.id : `tch-grid-${uuidV4 ()}`;
+		this.id = typeof (props.id) !== 'undefined' ? props.id : `tch-grid-${uuid.v4 ()}`;
 		this.modelName = typeof (props.modelName) !== 'undefined' ? props.modelName : null;
 		this.columns = typeof (props.columns) !== 'undefined' ? props.columns : [];
 		this.actions = typeof (props.actions) !== 'undefined' ? props.actions : {};

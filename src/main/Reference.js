@@ -1,6 +1,6 @@
 const {BrowserWindow} = require ('electron');
 const path = require ('path');
-const uuidV4 = require ('uuid/v4');
+const uuid = require ('uuid');
 
 const Reference_static = {
 	IDENTIFIER: 'reference',
@@ -28,7 +28,7 @@ class Reference {
 		const width = windowParameters !== null && typeof (windowParameters.size) !== 'undefined' ? windowParameters.size.width : Reference_static.default.width;
 		const height = windowParameters !== null && typeof (windowParameters.size) !== 'undefined' ? windowParameters.size.height : Reference_static.default.height;
 
-		Reference_static.uuid = uuidV4 ();
+		Reference_static.uuid = uuid.v4 ();
 
 		windowParameters = {
 			width: width,

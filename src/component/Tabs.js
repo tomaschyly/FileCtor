@@ -11,7 +11,7 @@ import ButtonSelect from './ButtonSelect';
 import TransitionGroup from 'react-transition-group/TransitionGroup';
 import CSSTransition from 'react-transition-group/CSSTransition';
 
-const uuidV4 = window.require ('uuid/v4');
+const uuid = window.require ('uuid');
 const extend = window.require ('extend');
 
 class Tabs extends Component {
@@ -238,7 +238,7 @@ class Tabs extends Component {
 	 */
 	AddTab (startParams = null) {
 		let params = startParams !== null ? startParams : {
-			id: uuidV4 (),
+			id: uuid.v4 (),
 			tag: undefined,
 			title: undefined,
 			content: undefined

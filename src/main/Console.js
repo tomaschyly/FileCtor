@@ -1,6 +1,6 @@
 const {BrowserWindow} = require ('electron');
 const path = require ('path');
-const uuidV4 = require ('uuid/v4');
+const uuid = require ('uuid');
 
 const Console_static = {
 	IDENTIFIER: 'console',
@@ -28,7 +28,7 @@ class Console {
 		const width = windowParameters !== null && typeof (windowParameters.size) !== 'undefined' ? windowParameters.size.width : Console_static.default.width;
 		const height = windowParameters !== null && typeof (windowParameters.size) !== 'undefined' ? windowParameters.size.height : Console_static.default.height;
 
-		Console_static.uuid = uuidV4 ();
+		Console_static.uuid = uuid.v4 ();
 
 		windowParameters = {
 			width: width,
