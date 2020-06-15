@@ -19,8 +19,7 @@ class RxSnippet extends Base {
 					primary: true
 				},
 				name: {
-					type: 'string',
-					index: true
+					type: 'string'
 				},
 				description: {
 					type: 'string'
@@ -30,13 +29,16 @@ class RxSnippet extends Base {
 				},
 				created: {
 					type: 'number',
-					final: true,
-					index: true
+					final: true
 				},
 				updated: {
 					type: 'number'
 				}
-			}
+			},
+			indexes: [
+				'name',
+				'created'
+			]
 		};
 	}
 }

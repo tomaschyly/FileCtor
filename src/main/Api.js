@@ -246,7 +246,7 @@ class Api {
 				let stat = await statPromise (filePath);
 
 				if (stat.isFile ()) {
-					shell.openItem (filePath);
+					shell.openPath (filePath);
 				}
 			}
 		} catch (error) {

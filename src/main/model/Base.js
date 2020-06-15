@@ -35,7 +35,7 @@ class Base {
 	 */
 	async InitCollection () {
 		if (typeof Base_static.rxDB === 'undefined') {
-			Base_static.rxDB = await RxDB.create ({
+			Base_static.rxDB = await RxDB.createRxDatabase ({
 				name: this.config.rxDB.name,
 				adapter: 'websql'
 			});
