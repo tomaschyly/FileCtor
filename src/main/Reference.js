@@ -46,13 +46,13 @@ class Reference {
 
 		switch (process.platform) {
 			case 'linux':
-				windowParameters.icon = path.join (__dirname, 'icon.png');
+				windowParameters.icon = path.join (__dirname, '..', '..', 'icon.png');
 				break;
 			case 'darwin':
-				windowParameters.icon = path.join (__dirname, 'icon.icns');
+				windowParameters.icon = path.join (__dirname, '..', '..', 'icon.icns');
 				break;
 			default:
-				windowParameters.icon = path.join (__dirname, 'icon.ico');
+				windowParameters.icon = path.join (__dirname, '..', '..', 'icon.ico');
 		}
 
 		Reference_static.window = new BrowserWindow (windowParameters);
