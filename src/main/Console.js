@@ -49,7 +49,8 @@ class Console {
 				windowParameters.icon = path.join (__dirname, '..', '..', 'icon.png');
 				break;
 			case 'darwin':
-				windowParameters.icon = path.join (__dirname, '..', '..', 'icon.icns');
+				//windowParameters.icon = path.join (__dirname, '..', '..', 'icon.icns');
+				windowParameters.icon = path.join (__dirname, '..', '..', 'icon.png');
 				break;
 			default:
 				windowParameters.icon = path.join (__dirname, '..', '..', 'icon.ico');

@@ -61,13 +61,14 @@ const Main = {
 
 		switch (process.platform) {
 			case 'linux':
-				windowParameters.icon = path.join (__dirname, '../icon.png');
+				windowParameters.icon = path.join (__dirname, '..', 'icon.png');
 				break;
 			case 'darwin':
-				windowParameters.icon = path.join (__dirname, '../icon.icns');
+				//windowParameters.icon = path.join (__dirname, '..', 'icon.icns');
+				windowParameters.icon = path.join (__dirname, '..', 'icon.png');
 				break;
 			default:
-				windowParameters.icon = path.join (__dirname, '../icon.ico');
+				windowParameters.icon = path.join (__dirname, '..', 'icon.ico');
 		}
 
 		this.window = new BrowserWindow (windowParameters);
