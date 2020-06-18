@@ -2,6 +2,8 @@
 import {ReactComponent as Cog} from '../icon/cog.svg';
 import {ReactComponent as ChevronCircleUp} from '../icon/chevron-circle-up.svg';
 import {ReactComponent as ChevronCirceDown} from '../icon/chevron-circle-down.svg';
+import {ReactComponent as ChevronLeft} from '../icon/chevron-left-solid.svg';
+import {ReactComponent as ChevronRight} from '../icon/chevron-right-solid.svg';
 import {ReactComponent as Eye} from '../icon/eye.svg';
 import {ReactComponent as Edit} from '../icon/edit.svg';
 import {ReactComponent as Trash} from '../icon/trash-alt.svg';
@@ -257,11 +259,13 @@ class Grid extends Component {
 	 * Render Grid footer.
 	 */
 	RenderFooter () {
+		const {page, pages} = this.state;
+
 		let footer = undefined;
 
 		if (this.state.count > 0) {
 			let pageOptions = [];
-			for (let i = 0; i < this.state.pages; i++) {
+			for (let i = 0; i < pages; i++) {
 				pageOptions.push ({
 					id: `${this.id}-footer-page-${i}`,
 					value: i,
@@ -269,9 +273,14 @@ class Grid extends Component {
 				});
 			}
 
-			let page = <div className="tch-grid-page">
+			const prevPage = page > 0 ? <Button className="tch-grid-page-prev icon" type="button" onClick={() => { this.ChangePage (page - 1); }}><ChevronLeft/></Button> : null;
+			const nextPage = page < (pages - 1) ? <Button className="tch-grid-page-next icon" type="button" onClick={() => { this.ChangePage (page + 1); }}><ChevronRight/></Button> : null;
+
+			const pageSelect = <div className="tch-grid-page">
 				<span>{Grid_static.texts.page}</span>
+				{prevPage}
 				<ButtonSelect options={pageOptions} value={this.state.page + 1} onSelectItem={e => { this.ChangePage (parseInt (e.target.dataset.value)); }} />
+				{nextPage}
 			</div>;
 
 			let pageSizeOptions = [];
@@ -283,14 +292,14 @@ class Grid extends Component {
 				});
 			}
 
-			let pageSize = <div className="tch-grid-pagesize">
+			const pageSize = <div className="tch-grid-pagesize">
 				<span>{Grid_static.texts.pageSize}</span>
 				<ButtonSelect options={pageSizeOptions} value={this.state.pageSize} onSelectItem={e => { this.ChangePageSize (parseInt (e.target.dataset.value)); }} />
 			</div>;
 
 			footer = <div className="tch-grid-row">
 				<div className="tch-grid-col center">
-					{page}
+					{pageSelect}
 					{pageSize}
 				</div>
 			</div>;

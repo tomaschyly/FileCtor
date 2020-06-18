@@ -166,6 +166,8 @@ img { max-width: 100%; }
 .tch-grid label { margin: 0; }
 .tch-grid-filter-search { margin: 0; }
 .tch-grid-page { display: flex; align-items: center; padding: 0 8px; }
+.tch-grid .tch-grid-page-prev { margin-right: 4px; }
+.tch-grid .tch-grid-page-next { margin-left: 4px; }
 .tch-grid-pagesize { display: flex; align-items: center; padding: 0 8px; }
 .tch-grid-page span,
 .tch-grid-pagesize span { padding-right: 8px; }
