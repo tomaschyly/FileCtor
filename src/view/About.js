@@ -4,6 +4,7 @@ import {ReactComponent as Github} from '../icon/github.svg';
 import {ReactComponent as Npm} from '../icon/npm.svg';
 import {ReactComponent as StackOverflow} from '../icon/stack-overflow.svg';
 import {ReactComponent as Twitter} from '../icon/twitter.svg';
+import {ReactComponent as LinkedIn} from "../icon/linkedin.svg";
 
 import React, { Component } from 'react';
 import Button from '../component/Button';
@@ -74,8 +75,10 @@ class About extends Component {
 						</div>
 
 						<div className="socials">
+							<Button type="button" className="button icon icon-larger" onClick={this.LinkedIn.bind (this)}><LinkedIn/></Button>
 							<Button type="button" className="button icon icon-larger" onClick={this.Twitter.bind (this)}><Twitter/></Button>
-							<Button type="button" className="button icon icon-larger" onClick={this.Github.bind (this)}><Github/></Button>
+							<Button type="button" className="button icon icon-larger last-row" onClick={this.Github.bind (this)}><Github/></Button>
+							<div className="flex-break"/>
 							<Button type="button" className="button icon icon-larger" onClick={this.Npm.bind (this)}><Npm/></Button>
 							<Button type="button" className="button icon icon-larger" onClick={this.StackOverflow.bind (this)}><StackOverflow/></Button>
 						</div>
@@ -177,6 +180,13 @@ class About extends Component {
 		} else {
 			window.TCH.Main.Alert ('I am sorry, but I have failed to send the message. Are you connected to the Internet? Do you want to try again?', 'Message Failed');
 		}
+	}
+
+	/**
+	 * Open LinkedIn in default browser.
+	 */
+	LinkedIn () {
+		ipcRenderer.send ('url-open', {url: 'https://www.linkedin.com/in/tomas-chyly/'});
 	}
 
 	/**

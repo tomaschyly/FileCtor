@@ -11,7 +11,10 @@
 .about .socials { display: flex; flex-wrap: wrap; padding: 16px 0 0 0; }
 .about .actions button { flex-grow: 1; margin-right: 8px; }
 .about .actions button:last-child { margin-right: 0; }
-.about .socials { justify-content: center; padding: 0 0 16px 0; }
-.about .socials button { margin-right: 8px; }
+.about .socials { justify-content: center; padding: 0 0 8px 0; }
+.about .socials button { margin-bottom: 8px; margin-right: 8px; }
+.about .socials button.last-row { margin-right: 0; }
 .about .socials button:last-child { margin-right: 0; }
 .about .contact-form .general-popup { max-height: 640px; }
+
+.flex-break { flex-basis: 100%; height: 0; }
