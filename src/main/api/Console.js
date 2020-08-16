@@ -128,7 +128,7 @@ class Console {
 			/*log: sandbox.log,*/
 			log: sandbox._log.join ('\n'),
 			error: error,
-			result: sandbox.result
+			result: sanitizeHtml (sandbox.result, {allowedTags: []})
 		};
 
 		event.sender.send ('script-execute', response);

@@ -5,7 +5,9 @@ function Init () {
 			if (arguments.length > 0) {
 				let output = [];
 				for (let i = 0; i < arguments.length; i++) {
-					output.push (arguments [i].toString ());
+					output.push (sanitizeHtml (arguments [i].toString (), {
+						allowedTags: [],
+					}));
 				}
 
 				_log.push (output.join (', '));
