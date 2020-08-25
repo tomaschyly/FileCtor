@@ -8,7 +8,7 @@ The idea is to have something similar to other file system managers, e.g. [Total
 
 ![Files & directory view](/screenshots/FileCtor-Files.png)
 
-There are multiple script Snippets installed with the app. They will give you some functionality right away, without having to write your own first. Then you can ofcourse write and save your own.
+There are multiple script Snippets installed with the app. They will give you some functionality right away, without having to write your own first. Then you can of course write and save your own.
 
 ![Saved code snippets](/screenshots/FileCtor-Snippets.png)
 
