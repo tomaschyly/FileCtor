@@ -2,6 +2,8 @@
 
 File inspector with interactive javascript console.
 
+**Notice:** MacOS version is not compatible with Apple Silicon (ARM)
+
 ![Javascript console](/screenshots/FileCtor-Console.png)
 
 The idea is to have something similar to other file system managers, e.g. [TotalCommander](https://www.ghisler.com/). But this app is intended for Developers as it allows to run various JS scripts against files and directories.
