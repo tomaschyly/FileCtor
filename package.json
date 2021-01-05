@@ -33,7 +33,7 @@
 		"wait-on": "^5.0.1"
 	},
 	"dependencies": {
-		"axios": "^0.19.2",
+		"axios": "^0.21.1",
 		"codemirror": "^5.56.0",
 		"email-validator": "^2.0.4",
 		"extend": "^3.0.2",
