@@ -19,7 +19,7 @@
 	"devDependencies": {
 		"concurrently": "^5.2.0",
 		"cross-env": "^7.0.2",
-		"electron": "^9.2.0",
+		"electron": "^9.4.0",
 		"electron-rebuild": "^1.11.0",
 		"find-free-port": "^2.0.0",
 		"react": "^16.13.1",
